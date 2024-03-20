@@ -1,0 +1,114 @@
+<header id="header">
+  <nav class="navbar navbar-expand-lg navbar-header">
+    <div class="container-fluid">
+      <a class="navbar-brand brandMenu" routerLink="/">
+        <img src="assets/imagens/logo-marca-2.png" alt="logo">
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
+        aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbarMenu">
+        <ul class="nav navbar-nav mb-2 mb-lg-0 navbar-nav-edit">
+
+          <li class="nav-item dropdown">
+            <i class="fas fa-angle-down" data-bs-toggle="dropdown" aria-expanded="false"></i><!--fas fa-angle-down-->
+            <div>
+              <a class="nav-link" [routerLink]="['/quemsomos/apresentacao']">Apresentação </a>
+            </div>
+            <ul class="dropdown-menu sub-menu">
+              <li><a [routerLink]="['/quemsomos/apresentacao']">APRESENTAÇÃO</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']" style="display: none;">CERTIFICADOS E LICENÇAS</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']" style="display: none;">PLATAFORMA TECNOLOGIA</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']" style="display: none;">PRÊMIOS E RECONHECIMENTOS</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']" style="display: none;">NOSSAS UNIDADES</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']" style="display: none;">LGPD</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']" style="display: none;">POLÍTICA DE PRIVACIDADE</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown" style="display: none;">
+            <i class="fas fa-angle-down" data-bs-toggle="dropdown" aria-expanded="false"></i><!--dropdown-toggle-->
+            <div>
+              <a class="nav-link" routerLink="/pcp">Constitucional </a>
+            </div>
+            <ul class="dropdown-menu sub-menu">
+              <li><a [routerLink]="['/quemsomos/apresentacao']">ARMAZENAGEM</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']">REFURBISHMENT</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']">GESTÃO DE TRANSPORTE</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']">INVENTÁRIO</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']">INSPEÇÃO DE MATERIAIS</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown" style="display: none;">
+            <i class="fas fa-angle-down" data-bs-toggle="dropdown" aria-expanded="false"></i>
+            <div>
+              <a class="nav-link" routerLink="/pcp">Administrativo </a>
+            </div>
+            <ul class="dropdown-menu sub-menu">
+              <li><a [routerLink]="['/quemsomos/apresentacao']">COMPROMISSO SUSTENTÁVEL</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']">POLITICAS AMBIENTAL E QUALIDADE</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']">RECICLAGEM</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']">LOGISTICA REVERSA</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']">DESENVOLVIMENTO AMBIENTAL</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown" style="display: none;">
+            <i class="fas fa-angle-down" data-bs-toggle="dropdown" aria-expanded="false"></i>
+            <div>
+              <a class="nav-link" routerLink="/pcp">Tributário </a>
+            </div>
+            <ul class="dropdown-menu sub-menu">
+              <li><a [routerLink]="['/quemsomos/apresentacao']">COMPROMISSO SUSTENTÁVEL</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']">POLITICAS AMBIENTAL E QUALIDADE</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']">RECICLAGEM</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']">LOGISTICA REVERSA</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']">DESENVOLVIMENTO AMBIENTAL</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown" style="display: none;">
+            <i class="fas fa-angle-down" data-bs-toggle="dropdown" aria-expanded="false"></i>
+            <div>
+              <a class="nav-link" routerLink="/pcp">Penal </a>
+            </div>
+            <ul class="dropdown-menu sub-menu">
+              <li><a [routerLink]="['/quemsomos/apresentacao']">Processo Penal</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <i class="fas fa-angle-down" data-bs-toggle="dropdown" aria-expanded="false"></i>
+            <div>
+              <a class="nav-link" [routerLink]="['/civil']">Civil </a>
+            </div>
+            <ul class="dropdown-menu sub-menu">
+              <li><a [routerLink]="['/civil/civil']">Processo Civil</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown" style="display: none;">
+            <i class="fas fa-angle-down" data-bs-toggle="dropdown" aria-expanded="false"></i>
+            <div>
+              <a class="nav-link" routerLink="/pcp">Trabalho </a>
+            </div>
+            <ul class="dropdown-menu sub-menu">
+              <li><a [routerLink]="['/quemsomos/apresentacao']">Processo Civil</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']">Trabalho</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown" style="display: none;">
+            <i class="fas fa-angle-down" data-bs-toggle="dropdown" aria-expanded="false"></i>
+            <div>
+              <a class="nav-link" routerLink="/pcp">ÉTICA </a>
+            </div>
+            <ul class="dropdown-menu sub-menu">
+              <li><a [routerLink]="['/quemsomos/apresentacao']">Processo Civil</a></li>
+              <li><a [routerLink]="['/quemsomos/apresentacao']">Trabalho</a></li>
+            </ul>
+          </li>
+        </ul>
+        
+      </div>
+    </div>
+  </nav>
+</header>

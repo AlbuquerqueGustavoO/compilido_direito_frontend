@@ -1,0 +1,158 @@
+$background-color_1: #004995;
+
+
+.highlight {
+    background-color: red !important;
+}
+
+#carouselExampleIndicators {
+    img {
+        object-fit: cover;
+        object-position: center;
+        min-height: 350px;
+    }
+    .carousel-inner {
+        max-height: 630px;
+    }
+}
+#carouselIndicatorsProjeto {
+    img {
+        object-fit: cover;
+        object-position: center;
+        min-height: 350px;
+    }
+    .imgSocial2 {
+        margin-top: 0 !important;
+        margin-top: -210px;
+    }
+    .imgSocial3 {
+        margin-top: 0 !important;
+        margin-top: -90px;
+    }
+    .carousel-inner {
+        max-height: 630px;
+    }
+}
+.action {
+    height: 255px;
+    background-image: url(../../assets/imagens/tour-bg.png);
+    background-color: #fbfafa;
+    background-repeat: repeat;
+    height: 157px;
+    background-position: center;
+    display: table;
+    position: static;
+    width: 100%;
+    padding-top: 40px;
+    span{
+        color: #00aeef;
+        // font-weight: 700;
+        font-size: 2.7rem;
+        line-height: 2.6rem;
+        letter-spacing: -0.025em;
+    }
+    h3{
+        margin-top: 5px;
+        font-size: 18px;
+    }
+}
+.carosousel-home {
+    img{
+        min-height: 550px !important;
+        object-fit: cover;
+        object-position: center;
+    }
+    .carousel-inner {
+        max-height: 580px;
+    }
+}
+.carousel-indicators {
+    button {
+        width: 15px !important;
+        height: 15px !important;
+        border-radius: 50%;
+    }
+    .active {
+        background-color: $background-color_1;
+    }
+}
+.carousel-control-prev-icon {
+    background-color: $background-color_1;
+    border-radius: 15px;
+    background-size: 70%;
+    background-position: 45%;
+}
+.carousel-control-next-icon {
+    background-color: $background-color_1;
+    border-radius: 15px;
+    background-size: 70%;
+    background-position: 45%;
+}
+// .variacao-desktop {
+//     display: block;
+//     .img-apresentacao {
+//         margin-top: -180px;
+//     }
+// }
+
+// .variacao-mobile {
+//     display: none;
+// }
+
+/*VERAO DESK SEM MEDIAQUERY*/
+.carosousel-home .carousel-inner {
+    max-height: 580px;
+}
+
+.carousel-indicators button {
+    width: 15px !important;
+    height: 15px !important;
+    border-radius: 50%;
+}
+
+.carousel-indicators .active {
+    background-color: #004995; /*#e3f2fd*/
+}
+
+.carousel-control-prev-icon {
+    background-color: #004995;
+    border-radius: 15px;
+    background-size: 70%;
+    background-position: 45%;
+}
+
+.carousel-control-next-icon {
+    background-color: #004995;
+    border-radius: 15px;
+    background-size: 70%;
+    background-position: 45%;
+}
+
+// .variacao-desktop {
+//     display: block;
+
+//     .img-apresentacao {
+//         margin-top: -180px;
+//     }
+// }
+
+// .variacao-mobile {
+//     display: none;
+// }
+
+@media only screen and (max-width: 768px) {
+    .carosousel-home img {
+        min-height: 300px !important;
+        max-height: 300px;
+        object-fit: cover;
+        object-position: bottom;
+    }
+
+    // .variacao-mobile {
+    //     display: block !important;
+    // }
+
+    // .variacao-desktop {
+    //     display: none !important;
+    // }
+}

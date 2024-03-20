@@ -1,0 +1,108 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
+
+body{
+    background: rgba(246, 249, 252, 0.8) !important;
+    line-height: 22px;
+    color: #000 !important;
+}
+
+.highlight {
+    background-color: yellow ;
+}
+
+.component-primary{
+    padding-top: 90px;   
+}
+
+.spinner-container{
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.32);
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    bottom: 0;
+    z-index: 10001;
+}
+
+.component{
+    padding-top: 70px;
+    h1{
+        font-family: sans-serif;
+        color: #00aeef;
+        font-weight: 700;
+        font-size: 2.7rem;
+        line-height: 2.6rem;
+        letter-spacing: -0.025em;
+    }
+    h2{
+        font-family: sans-serif;
+        opacity: 0.8;
+        color: #00aeef;
+        font-weight: 700;
+        font-size: 22px;
+        line-height: 2.6rem;
+        letter-spacing: -0.025em;
+        margin-top: 40px;
+        // @media (max-width: 768px){
+        //     line-height: 1.9rem;
+        // }
+    }
+    p{
+        font-family: cursive;
+        // font-family: -webkit-pictograph;
+        margin-bottom: 30px;
+        font-size: 16px;
+        line-height: 24px;
+    }
+    .component-body{
+        p{
+            font-family: cursive;
+            // font-family: -webkit-pictograph;
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 24px;
+        }
+    }
+    .component-titulo{
+        color: #00aeef;
+        font-weight: 700;
+        font-size: 2.7rem;
+        line-height: 2.6rem;
+        letter-spacing: -0.025em;
+    }
+    .titulo-component{
+        padding-top: 70px;
+    }
+}
+
+.component-body-top {
+    margin-top: 0 !important;
+}
+
+@media (min-width: 576px){
+.component .card-body {
+    min-height: 255px;
+    }
+}
+
+
+.single-service  {
+    i{
+        margin: 35px;
+        font-size: 60px;
+        color: #2e5a72;
+    }
+    svg{
+        margin: 35px;
+        font-size: 60px;
+        color: #2e5a72;
+    }
+}
