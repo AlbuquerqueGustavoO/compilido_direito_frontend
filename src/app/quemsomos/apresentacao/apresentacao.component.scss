@@ -1,6 +1,9 @@
 .component-quemsomos {
     position: relative;
     .component-quemsomos-body {
+        @media only screen and (max-width: 768px) {
+            margin-top: 90px;
+        }
         &::before {
             content: "";
             background: rgba(0, 0, 0, 0.5);
@@ -34,7 +37,8 @@
                 line-height: 2.9rem;
                 letter-spacing: -0.025em;
                 @media only screen and (max-width: 768px) {
-                    font-size: 2rem;
+                    font-size: 1.7rem;
+                    text-align: center;
                 }
             }
         }

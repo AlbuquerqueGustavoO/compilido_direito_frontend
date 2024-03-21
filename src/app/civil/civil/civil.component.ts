@@ -1,4 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, skip, tap } from 'rxjs/operators';
 import { CivilService } from 'src/app/service/civil.service';
 
 @Component({
@@ -13,10 +15,17 @@ export class CivilComponent implements OnInit {
   ocorrenciaAtual: number = -1;
   isSearchVisible = false;
   loading = false;
+  private termoPesquisaSubject = new Subject<string>();
+  private termoPesquisaDebounced = new Subject<string>();
 
 
   constructor(private apiService: CivilService, private elementRef: ElementRef) { }
 
+
+  onTermoPesquisaChange(termo: string) {
+    this.termoPesquisaSubject.next(termo); // Envie o termo de pesquisa para o subject
+  }
+  
   ngOnInit(): void {
     this.loading = true;
     this.apiService.getTexto().subscribe((data: any) => {
@@ -24,35 +33,35 @@ export class CivilComponent implements OnInit {
       if (data !== undefined && typeof data === 'object') {
         if (data.hasOwnProperty('text') && typeof data.text === 'string') {
           let paragrafosComArt: string[] = data.text.split(/(?=Art)/);
-          
+
           // Remover os 3 primeiros caracteres do primeiro parágrafo
           if (paragrafosComArt.length > 0) {
             paragrafosComArt[0] = paragrafosComArt[0].substring(3);
           }
-          
+
           let paragrafos = paragrafosComArt.map(paragrafo => {
             // Remover texto dentro de parênteses
             paragrafo = paragrafo.replace(/\([^)]+\)/g, ''); // Remover texto dentro de parênteses
-    
+
             // Aplicar outras transformações apenas se o ponto não estiver dentro de parênteses
             if (!paragrafo.includes('(') || !paragrafo.includes(')')) {
-                paragrafo = paragrafo.replace(/\\n/g, ''); // Substituir \n por espaço
+              paragrafo = paragrafo.replace(/\\n/g, ''); // Substituir \n por espaço
             }
             paragrafo = paragrafo.replace(/ +/g, ' '); // Remover espaços duplicados
             paragrafo = paragrafo.replace(/\\+/g, ' '); // Remover espaços duplicados
-    
+
             if (paragrafo.startsWith('Art')) {
-                // Remover o ponto (.) antes de adicionar "Artigo"
-                let formattedParagrafo = this.formatarParagrafo(paragrafo.replace(/^Art\s*/, '')).replace('.', '');
-                return 'Artigo ' + formattedParagrafo.replace('<br>', '');
+              // Remover o ponto (.) antes de adicionar "Artigo"
+              let formattedParagrafo = this.formatarParagrafo(paragrafo.replace(/^Art\s*/, '')).replace('.', '');
+              return 'Artigo ' + formattedParagrafo.replace('<br>', '');
             } else {
-                return this.formatarParagrafo(paragrafo);
+              return this.formatarParagrafo(paragrafo);
             }
           });
-    
+
           // Remover quebras de linha extras
           paragrafos = paragrafos.map(paragrafo => paragrafo.trim()).filter(paragrafo => paragrafo !== '');
-    
+
           this.paragrafos = paragrafos;
           this.atualizarOcorrencias();
           this.loading = false;
@@ -62,6 +71,24 @@ export class CivilComponent implements OnInit {
       } else {
         console.error('Dados inválidos recebidos da API: Resposta não é um objeto válido');
       }
+    });
+
+    // Aplicar debounce à função highlightWord
+    this.termoPesquisaDebounced.pipe(
+      debounceTime(300),
+    ).subscribe(termo => {
+      this.termoPesquisa = termo;
+      this.atualizarOcorrencias();
+    });
+
+    // Aplicar debounceTime, distinctUntilChanged e filter ao termo de pesquisa
+    this.termoPesquisaSubject.pipe(
+      debounceTime(300),
+      filter(termo => termo.trim() !== ''),
+      filter(termo => termo.length > 5),
+      distinctUntilChanged(),
+    ).subscribe(termo => {
+      this.termoPesquisaDebounced.next(termo);
     });
   }
 
@@ -101,19 +128,6 @@ export class CivilComponent implements OnInit {
     this.scrollToParagrafo('paragrafo-' + this.ocorrencias[this.ocorrenciaAtual]);
   }
 
-  pesquisar() {
-    const termo = this.termoPesquisa.trim().toLowerCase();
-    if (termo !== '') {
-      this.atualizarOcorrencias();
-      if (this.ocorrencias.length === 0) {
-        alert('Palavra-chave não encontrada nos parágrafos.');
-      } else {
-        this.ocorrenciaAtual = 0;
-        this.scrollToParagrafo('paragrafo-' + this.ocorrencias[this.ocorrenciaAtual]);
-      }
-    }
-  }
-
   atualizarOcorrencias() {
     this.ocorrencias = [];
     const termo = this.termoPesquisa.trim().toLowerCase();
@@ -127,19 +141,31 @@ export class CivilComponent implements OnInit {
     }
   }
 
+  highlightWord(paragrafo: string, termo: string): string {
+    if (!termo || termo.trim() === '' || termo.length <= 5) {
+      return paragrafo; // Não destaca a palavra se o termo não atender aos critérios do filtro
+    }
+  
+    const regex = new RegExp('(' + termo + ')', 'gi');
+    return paragrafo.replace(regex, '<span class="highlight">$1</span>');
+  }
+
+  pesquisar() {
+    const termo = this.termoPesquisa.trim().toLowerCase();
+    if (termo !== '') {
+      this.atualizarOcorrencias();
+      if (this.ocorrencias.length === 0) {
+        alert('Palavra-chave não encontrada nos parágrafos.');
+      } else {
+        this.ocorrenciaAtual = 0;
+        this.scrollToParagrafo('paragrafo-' + this.ocorrencias[this.ocorrenciaAtual]);
+      }
+    } 
+  }
+
   formatarParagrafo(paragrafo: string): string {
     return paragrafo.split(/([.;:])/).map(frase => {
       return frase.trim() + (frase.trim() && /[.;:]$/.test(frase.trim()) ? '<br>' : '');
     }).join('');
   }
-
-  highlightWord(paragrafo: string, termo: string): string {
-    if (!termo || termo.trim() === '') {
-      return paragrafo;
-    }
-
-    const regex = new RegExp('(' + termo + ')', 'gi');
-    return paragrafo.replace(regex, '<span class="highlight">$1</span>');
-  }
-
 }
