@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { MenuComponent } from '../menu/menu.component';
 import { FooterComponent } from '../footer/footer.component';
 import { RouterModule } from '@angular/router';
+import { ButtontotopComponent } from '../buttontotop/buttontotop.component';
+
 
 
 
@@ -10,6 +12,7 @@ import { RouterModule } from '@angular/router';
   declarations: [
         MenuComponent,
         FooterComponent,
+        ButtontotopComponent,
       ],
   imports: [
     CommonModule,
@@ -18,6 +21,7 @@ import { RouterModule } from '@angular/router';
   exports: [
     MenuComponent,
     FooterComponent,
+    ButtontotopComponent,
   ],
 })
 export class SharedModule { }
