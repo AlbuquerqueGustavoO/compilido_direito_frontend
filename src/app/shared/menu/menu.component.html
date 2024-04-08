@@ -29,17 +29,13 @@
             </ul>
           </li>
 
-          <li class="nav-item dropdown" style="display: none;">
+          <li class="nav-item dropdown">
             <i class="fas fa-angle-down" data-bs-toggle="dropdown" aria-expanded="false"></i><!--dropdown-toggle-->
             <div>
-              <a class="nav-link" routerLink="/pcp">Constitucional </a>
+              <a class="nav-link" [routerLink]="['/constitucional']">Constitucional </a>
             </div>
             <ul class="dropdown-menu sub-menu">
-              <li><a [routerLink]="['/quemsomos/apresentacao']">ARMAZENAGEM</a></li>
-              <li><a [routerLink]="['/quemsomos/apresentacao']">REFURBISHMENT</a></li>
-              <li><a [routerLink]="['/quemsomos/apresentacao']">GESTÃO DE TRANSPORTE</a></li>
-              <li><a [routerLink]="['/quemsomos/apresentacao']">INVENTÁRIO</a></li>
-              <li><a [routerLink]="['/quemsomos/apresentacao']">INSPEÇÃO DE MATERIAIS</a></li>
+              <li><a [routerLink]="['/constitucional/constitucional-estado-sp']">Constitucional Estado SP</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown" style="display: none;">
@@ -83,7 +79,8 @@
               <a class="nav-link" [routerLink]="['/civil']">Civil </a>
             </div>
             <ul class="dropdown-menu sub-menu">
-              <li><a [routerLink]="['/civil/civil']">Processo Civil</a></li>
+              <li><a [routerLink]="['/civil/civil-codigo-processo']">Processo Civil</a></li>
+              <li><a [routerLink]="['/civil/civil-normas-direito-brasileiro']">Direito brasileiro</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown" style="display: none;">

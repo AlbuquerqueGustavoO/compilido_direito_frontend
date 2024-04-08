@@ -11,6 +11,7 @@ import { ErrorComponent } from './error/error.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CivilModule } from './civil/civil.module';
+import { ConstitucionalModule } from './constitucional/constitucional.module';
 
 @NgModule({
   declarations: [
@@ -20,11 +21,12 @@ import { CivilModule } from './civil/civil.module';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
+    FormsModule,
     AppRoutingModule,
     SharedModule,
     CivilModule,
-    HttpClientModule,
-    FormsModule
+    ConstitucionalModule
     
   ],
   providers: [],

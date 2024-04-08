@@ -41,6 +41,12 @@ const routes: Routes = [
     // canLoad: [AuthGuard],
     // data: {roles: ['quemsomos']}
   },
+  { 
+    path: 'constitucional',
+    loadChildren: () => import("./constitucional/constitucional.module").then(m => m.ConstitucionalModule),
+    // canLoad: [AuthGuard],
+    // data: {roles: ['quemsomos']}
+  },
   { path: '**', component: ErrorComponent}
   
 ];
