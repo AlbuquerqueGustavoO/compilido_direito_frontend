@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { QuemSomosRoutingModule } from './quemsomos-routing.module';
 import { SharedModule } from '../shared/shared-module/shared-module';
 import { ApresentacaoComponent } from './apresentacao/apresentacao.component';
+import { ReferenciasComponent } from './referencias/referencias.component';
 
 
 
@@ -13,7 +14,8 @@ import { ApresentacaoComponent } from './apresentacao/apresentacao.component';
 
 @NgModule({
   declarations: [
-    ApresentacaoComponent
+    ApresentacaoComponent,
+    ReferenciasComponent
   ],
   imports: [
     CommonModule,

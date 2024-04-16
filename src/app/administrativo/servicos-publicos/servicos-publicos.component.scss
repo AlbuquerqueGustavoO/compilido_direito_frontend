@@ -1,0 +1,56 @@
+.search-container-parent{
+    position: fixed;
+    margin-top: 80px;
+    .search-container-body{
+        display: flex;
+    }
+    .toggle-search-button{
+        background-color: #00aeef;
+        color: white;
+        border-radius: 30px;
+        height: 42px;
+    }
+}
+
+.containerFind {
+    position: fixed;
+}
+
+.componentSection{
+    padding-top: 150px;
+}
+
+.search-container {
+    display: none;
+    align-items: center;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards; /* Mantém o último quadro após a animação */
+    width: -webkit-fill-available;
+    .search-input{
+        margin-left: 3px;
+    }
+
+}
+
+.search-button{
+    padding: 4px;
+}
+
+.visible {
+    display: flex;
+    animation-name: slideInRight;
+}
+
+.form-control:focus{
+    box-shadow: 0 0 0 0.1rem rgba(13, 110, 253, 0.25);
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}

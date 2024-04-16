@@ -47,6 +47,12 @@ const routes: Routes = [
     // canLoad: [AuthGuard],
     // data: {roles: ['quemsomos']}
   },
+  { 
+    path: 'administrativo',
+    loadChildren: () => import("./administrativo/administrativo.module").then(m => m.AdministrativoModule),
+    // canLoad: [AuthGuard],
+    // data: {roles: ['quemsomos']}
+  },
   { path: '**', component: ErrorComponent}
   
 ];

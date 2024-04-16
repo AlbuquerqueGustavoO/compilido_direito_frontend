@@ -1,0 +1,56 @@
+<div class="spinner-container" *ngIf="loading">
+    <div class="spinner-border text-light" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+
+<div class="container containerFind mt-3">
+    <div class="row" style="position: relative;">
+        <div class="col-sm-12 search-container-parent">
+            <div class="search-container-body">
+                <button class="btn toggle-search-button" (click)="toggleSearch()"><i class="fas fa-search"></i></button>
+                <div class="search-container" [ngClass]="{'visible': isSearchVisible}">
+                    <input type="text" class="form-control search-input" [(ngModel)]="termoPesquisa"
+                        placeholder="Pesquisar" (keyup.enter)="pesquisar()" (ngModelChange)="onTermoPesquisaChange($event)">
+                    <button class="btn search-button" (click)="pesquisar()"><i class="fas fa-search"></i></button>
+                    <button class="btn search-button" (click)="pesquisarProximaOcorrencia()"><i
+                            class="fas fa-chevron-up"></i></button>
+                    <button class="btn search-button" (click)="pesquisarOcorrenciaAnterior()"><i
+                            class="fas fa-chevron-down"></i></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col search-container" style="display: flex;">
+            <input type="text" class="form-control search-input" [(ngModel)]="termoPesquisa" placeholder="Digite sua pesquisa aqui" (keyup.enter)="pesquisar()">
+            <button class="btn search-button" (click)="pesquisar()">Pesquisar</button>
+            <button class="btn search-button" (click)="pesquisarProximaOcorrencia()"><i class="fas fa-chevron-up"></i></button>
+            <button class="btn search-button" (click)="pesquisarOcorrenciaAnterior()"><i class="fas fa-chevron-down"></i></button>
+        </div>
+    </div>
+</div>
+
+
+<section class="component componentSection">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <h1>Servicos Públicos</h1>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-sm-12">
+                <div *ngFor="let paragrafo of paragrafos; let i = index" [attr.id]="'paragrafo-' + i">
+                    <p [innerHTML]="highlightWord(paragrafo, termoPesquisa)"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

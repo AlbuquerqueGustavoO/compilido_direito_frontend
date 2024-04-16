@@ -10,7 +10,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse justify-content-end" id="navbarMenu">
+      <div class="collapse navbar-collapse" id="navbarMenu"><!--justify-content-end-->
         <ul class="nav navbar-nav mb-2 mb-lg-0 navbar-nav-edit">
 
           <li class="nav-item dropdown">
@@ -19,13 +19,7 @@
               <a class="nav-link" [routerLink]="['/quemsomos/apresentacao']">Apresentação </a>
             </div>
             <ul class="dropdown-menu sub-menu">
-              <li><a [routerLink]="['/quemsomos/apresentacao']">Sobre Nós</a></li>
-              <li><a [routerLink]="['/quemsomos/apresentacao']" style="display: none;">CERTIFICADOS E LICENÇAS</a></li>
-              <li><a [routerLink]="['/quemsomos/apresentacao']" style="display: none;">PLATAFORMA TECNOLOGIA</a></li>
-              <li><a [routerLink]="['/quemsomos/apresentacao']" style="display: none;">PRÊMIOS E RECONHECIMENTOS</a></li>
-              <li><a [routerLink]="['/quemsomos/apresentacao']" style="display: none;">NOSSAS UNIDADES</a></li>
-              <li><a [routerLink]="['/quemsomos/apresentacao']" style="display: none;">LGPD</a></li>
-              <li><a [routerLink]="['/quemsomos/apresentacao']" style="display: none;">POLÍTICA DE PRIVACIDADE</a></li>
+              <li><a [routerLink]="['/quemsomos/referencias']">Referências</a></li>
             </ul>
           </li>
 
@@ -38,17 +32,14 @@
               <li><a [routerLink]="['/constitucional/constitucional-estado-sp']">Constitucional Estado SP</a></li>
             </ul>
           </li>
-          <li class="nav-item dropdown" style="display: none;">
+          <li class="nav-item dropdown">
             <i class="fas fa-angle-down" data-bs-toggle="dropdown" aria-expanded="false"></i>
             <div>
-              <a class="nav-link" routerLink="/pcp">Administrativo </a>
+              <a class="nav-link" [routerLink]="['/administrativo']">Administrativo </a>
             </div>
             <ul class="dropdown-menu sub-menu">
-              <li><a [routerLink]="['/quemsomos/apresentacao']">COMPROMISSO SUSTENTÁVEL</a></li>
-              <li><a [routerLink]="['/quemsomos/apresentacao']">POLITICAS AMBIENTAL E QUALIDADE</a></li>
-              <li><a [routerLink]="['/quemsomos/apresentacao']">RECICLAGEM</a></li>
-              <li><a [routerLink]="['/quemsomos/apresentacao']">LOGISTICA REVERSA</a></li>
-              <li><a [routerLink]="['/quemsomos/apresentacao']">DESENVOLVIMENTO AMBIENTAL</a></li>
+              <li><a [routerLink]="['/administrativo/administrativo-improbidade']">Improbidade Administrativo</a></li>
+              <li><a [routerLink]="['/administrativo/administrativo-servicosPublicos']">Serviços Públicos</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown" style="display: none;">
