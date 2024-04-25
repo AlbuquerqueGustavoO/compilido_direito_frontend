@@ -12,6 +12,9 @@ export class PenalService {
   private urlCodigoPenalProcesso = environment.apiLink + 'penalCodigoProcesso';
   private urlCrimesHediondos = environment.apiLink + 'penalCrimesHediondos';
   private urlMariaPenha = environment.apiLink + 'penalMariaPenha';
+  private urlDrogas = environment.apiLink + 'penalDrogas';
+  private urlOrganizacaoCriminosa = environment.apiLink + 'penalOrganizacaoCriminosa';
+  private urlOcultacaoBens = environment.apiLink + 'penalOcultacaoBens';
 
 
   constructor(private http: HttpClient) { }
@@ -30,6 +33,18 @@ export class PenalService {
 
   getMariaPenha(): Observable<any> {
     return this.http.get<any>(this.urlMariaPenha);
+  }
+
+  getDrogas(): Observable<any> {
+    return this.http.get<any>(this.urlDrogas);
+  }
+
+  getOrganizacaoCriminosa(): Observable<any> {
+    return this.http.get<any>(this.urlOrganizacaoCriminosa);
+  }
+
+  getOcultacaoBens(): Observable<any> {
+    return this.http.get<any>(this.urlOcultacaoBens);
   }
 
 }
