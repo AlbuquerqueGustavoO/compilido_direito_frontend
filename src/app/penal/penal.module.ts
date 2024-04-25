@@ -10,6 +10,9 @@ import { CodigoPenalComponent } from './codigo-penal/codigo-penal.component';
 import { CodigoProcessoPenalComponent } from './codigo-processo-penal/codigo-processo-penal.component';
 import { CrimesHediondosComponent } from './crimes-hediondos/crimes-hediondos.component';
 import { MariaPenhaComponent } from './maria-penha/maria-penha.component';
+import { LeiDrogasComponent } from './lei-drogas/lei-drogas.component';
+import { OrganizacaoCriminosaComponent } from './organizacao-criminosa/organizacao-criminosa.component';
+import { OcultacaoBensComponent } from './ocultacao-bens/ocultacao-bens.component';
 
 
 
@@ -19,7 +22,10 @@ import { MariaPenhaComponent } from './maria-penha/maria-penha.component';
     CodigoPenalComponent,
     CodigoProcessoPenalComponent,
     CrimesHediondosComponent,
-    MariaPenhaComponent
+    MariaPenhaComponent,
+    LeiDrogasComponent,
+    OrganizacaoCriminosaComponent,
+    OcultacaoBensComponent
   ],
   imports: [
     CommonModule,
