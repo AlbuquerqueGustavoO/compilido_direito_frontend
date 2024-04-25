@@ -10,8 +10,6 @@ import { HomeComponent } from './home/home.component';
 import { ErrorComponent } from './error/error.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { CivilModule } from './civil/civil.module';
-import { ConstitucionalModule } from './constitucional/constitucional.module';
 
 
 
@@ -26,10 +24,7 @@ import { ConstitucionalModule } from './constitucional/constitucional.module';
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
-    SharedModule,
-    CivilModule,
-    ConstitucionalModule
-    
+    SharedModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

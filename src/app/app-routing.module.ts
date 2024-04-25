@@ -53,6 +53,18 @@ const routes: Routes = [
     // canLoad: [AuthGuard],
     // data: {roles: ['quemsomos']}
   },
+  { 
+    path: 'tributario',
+    loadChildren: () => import("./tributario/tributario.module").then(m => m.TributarioModule),
+    // canLoad: [AuthGuard],
+    // data: {roles: ['quemsomos']}
+  },
+  { 
+    path: 'penal',
+    loadChildren: () => import("./penal/penal.module").then(m => m.PenalModule),
+    // canLoad: [AuthGuard],
+    // data: {roles: ['quemsomos']}
+  },
   { path: '**', component: ErrorComponent}
   
 ];

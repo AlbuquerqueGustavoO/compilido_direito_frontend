@@ -45,12 +45,12 @@
               <li><a [routerLink]="['/administrativo/administrativo-parceriaPublico']">Parceria Públicos</a></li>
             </ul>
           </li>
-          <li class="nav-item dropdown" style="display: none;">
-            <i class="fas fa-angle-down" data-bs-toggle="dropdown" aria-expanded="false"></i>
+          <li class="nav-item dropdown">
+            <i class="fas fa-angle-down" data-bs-toggle="dropdown" aria-expanded="false" style="display: none;"></i>
             <div>
-              <a class="nav-link" routerLink="/pcp">Tributário </a>
+              <a class="nav-link" [routerLink]="['/tributario']">Tributário </a>
             </div>
-            <ul class="dropdown-menu sub-menu">
+            <ul class="dropdown-menu sub-menu" style="display: none;">
               <li><a [routerLink]="['/quemsomos/apresentacao']">COMPROMISSO SUSTENTÁVEL</a></li>
               <li><a [routerLink]="['/quemsomos/apresentacao']">POLITICAS AMBIENTAL E QUALIDADE</a></li>
               <li><a [routerLink]="['/quemsomos/apresentacao']">RECICLAGEM</a></li>
@@ -58,13 +58,15 @@
               <li><a [routerLink]="['/quemsomos/apresentacao']">DESENVOLVIMENTO AMBIENTAL</a></li>
             </ul>
           </li>
-          <li class="nav-item dropdown" style="display: none;">
+          <li class="nav-item dropdown">
             <i class="fas fa-angle-down" data-bs-toggle="dropdown" aria-expanded="false"></i>
             <div>
-              <a class="nav-link" routerLink="/pcp">Penal </a>
+              <a class="nav-link" [routerLink]="['/penal']">Código Penal </a>
             </div>
             <ul class="dropdown-menu sub-menu">
-              <li><a [routerLink]="['/quemsomos/apresentacao']">Processo Penal</a></li>
+              <li><a [routerLink]="['/penal/processo-penal']">Código Processo Penal</a></li>
+              <li><a [routerLink]="['/penal/crimes-hediondos']">Crimes hediondos</a></li>
+              <li><a [routerLink]="['/penal/lei-maria-penha']">Lei Maria da Penha</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
