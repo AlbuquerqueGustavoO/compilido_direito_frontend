@@ -41,8 +41,6 @@ export class LeiLicitacoesContratosAdministrativosComponent implements OnInit {
 
           let paragrafos = paragrafosComArt.map(paragrafo => {
             // Remover texto dentro de parênteses
-
-            // Remover texto dentro de parênteses
             paragrafo = paragrafo.replace(/\([^)]+\)/g, (match) => {
               // Substituir quebras de linha dentro dos parênteses por um espaço em branco
               return match.replace(/\\n/g, ' ');
@@ -56,7 +54,6 @@ export class LeiLicitacoesContratosAdministrativosComponent implements OnInit {
 
             // Remover espaços em branco extras no início e no final
             paragrafo = paragrafo.trim();
-            //paragrafo = paragrafo.replace(/\([^)]+\)/g, ''); // Remover texto dentro de parênteses
 
             // // Aplicar outras transformações apenas se o ponto não estiver dentro de parênteses
             // if (!paragrafo.includes('(') || !paragrafo.includes(')')) {
@@ -191,12 +188,6 @@ export class LeiLicitacoesContratosAdministrativosComponent implements OnInit {
       }
     } 
   }
-
-  // formatarParagrafo(paragrafo: string): string {
-  //   return paragrafo.split(/([.;:])/).map(frase => {
-  //     return frase.trim() + (frase.trim() && /[.;:]$/.test(frase.trim()) ? '<br>' : '');
-  //   }).join('');
-  // }
 
   formatarParagrafo(paragrafo: string): string {
     let shouldBreakLine = false;
