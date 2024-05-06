@@ -24,7 +24,7 @@ export class ProcessoAdministrativoComponent implements OnInit {
   onTermoPesquisaChange(termo: string) {
     this.termoPesquisaSubject.next(termo); // Envie o termo de pesquisa para o subject
   }
-  
+
   ngOnInit(): void {
     this.loading = true;
     this.apiService.getAdminProcesso().subscribe((data: any) => {
@@ -35,20 +35,19 @@ export class ProcessoAdministrativoComponent implements OnInit {
 
           // Remover os 3 primeiros caracteres do primeiro parágrafo
           if (paragrafosComArt.length > 0) {
-            paragrafosComArt[0] = paragrafosComArt[0].substring(3);
+            paragrafosComArt[0] = paragrafosComArt[0].substring(6);
           }
 
           let paragrafos = paragrafosComArt.map(paragrafo => {
-            // Remover texto dentro de parênteses
-            paragrafo = paragrafo.replace(/\([^)]+\)/g, ''); // Remover texto dentro de parênteses
-
-            // Aplicar outras transformações apenas se o ponto não estiver dentro de parênteses
-            if (!paragrafo.includes('(') || !paragrafo.includes(')')) {
-              paragrafo = paragrafo.replace(/\\n/g, ''); // Substituir \n por espaço
-            }
+            // Substituir quebras de linha por um espaço em branco e remover múltiplas quebras de linha
+            paragrafo = paragrafo.replace(/\\n+/g, ' ');
+            paragrafo = paragrafo.replace(/  /g, ' ');
+            paragrafo = paragrafo.trim();
             paragrafo = paragrafo.replace(/ +/g, ' '); // Remover espaços duplicados
             paragrafo = paragrafo.replace(/\\+/g, ' '); // Remover espaços duplicados
-
+            paragrafo = paragrafo.replace("    Presidência da República  Casa Civil  Subchefia para Assuntos Jurídicos    ", '');// Remover texto dentro de parênteses
+            paragrafo = paragrafo.replace("  t    ", '');
+            console.log(paragrafo)
             if (paragrafo.startsWith('Art')) {
               // Remover o ponto (.) antes de adicionar "Artigo"
               let formattedParagrafo = this.formatarParagrafo(paragrafo.replace(/^Art\s*/, '')).replace('.', '');
@@ -144,7 +143,7 @@ export class ProcessoAdministrativoComponent implements OnInit {
     if (!termo || termo.trim() === '' || termo.length <= 5) {
       return paragrafo; // Não destaca a palavra se o termo não atender aos critérios do filtro
     }
-  
+
     const regex = new RegExp('(' + termo + ')', 'gi');
     return paragrafo.replace(regex, '<span class="highlight">$1</span>');
   }
@@ -159,12 +158,45 @@ export class ProcessoAdministrativoComponent implements OnInit {
         this.ocorrenciaAtual = 0;
         this.scrollToParagrafo('paragrafo-' + this.ocorrencias[this.ocorrenciaAtual]);
       }
-    } 
+    }
   }
 
   formatarParagrafo(paragrafo: string): string {
-    return paragrafo.split(/([.;:])/).map(frase => {
-      return frase.trim() + (frase.trim() && /[.;:]$/.test(frase.trim()) ? '<br>' : '');
-    }).join('');
+    let shouldBreakLine = false;
+    let resultado = '';
+    paragrafo.split(/([.;:])/).forEach((frase, index, array) => {
+      if (/[.;:]$/.test(frase.trim())) {
+        resultado += frase.trim();
+        shouldBreakLine = true;
+      } else {
+        if (shouldBreakLine && !frase.trim().match(/^Lei nº|\d+/i)) {
+          resultado += '<br>';
+        }
+        resultado += frase.trim();
+        shouldBreakLine = false;
+      }
+    });
+    resultado = resultado.replace(/(LEI Nº 9.784 , DE 29 DE JANEIRO DE 1999.)/g, '<h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(O PRESIDENTE DA REPÚBLICA Faço saber que o Congresso Nacional decreta e eu sanciono a seguinte Lei:)/g, '<h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(Regula o processo administrativo no âmbito da Administração Pública Federal.)/g, '<h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO I  DAS DISPOSIÇÕES GERAIS)/g, '<h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO II  DOS DIREITOS DOS ADMINISTRADOS)/g, '</br><h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO III  DOS DEVERES DO ADMINISTRADO)/g, '</br><h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO IV  DO INÍCIO DO PROCESSO)/g, '</br><h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO V  DOS INTERESSADOS)/g, '</br><h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO VI  DA COMPETÊNCIA)/g, '</br><h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO VII  DOS IMPEDIMENTOS E DA SUSPEIÇÃO)/g, '</br><h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO VIII  DA FORMA, TEMPO E LUGAR DOS ATOS DO PROCESSO)/g, '</br><h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO IX  DA COMUNICAÇÃO DOS ATOS)/g, '</br><h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO X  DA INSTRUÇÃO)/g, '</br><h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO XI  DO DEVER DE DECIDIR)/g, '</br><h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO XII  DA MOTIVAÇÃO)/g, '</br><h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO XIII  DA DESISTÊNCIA E OUTROS CASOS DE EXTINÇÃO DO PROCESSO)/g, '</br><h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO XIV  DA ANULAÇÃO, REVOGAÇÃO E CONVALIDAÇÃO)/g, '</br><h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO XV  DO RECURSO ADMINISTRATIVO E DA REVISÃO)/g, '</br><h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO XVI  DOS PRAZOS)/g, '</br><h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO XVII  DAS SANÇÕES)/g, '</br><h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(CAPÍTULO XVIII  DAS DISPOSIÇÕES FINAIS)/g, '</br><h6 class="leiClass">$1</h6>');
+    return resultado;
   }
 }
