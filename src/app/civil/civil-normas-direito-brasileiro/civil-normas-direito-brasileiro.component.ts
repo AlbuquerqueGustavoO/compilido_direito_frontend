@@ -37,19 +37,23 @@ export class CivilNormasDireitoBrasileiroComponent implements OnInit {
   
             // Remover os 3 primeiros caracteres do primeiro parágrafo
             if (paragrafosComArt.length > 0) {
-              paragrafosComArt[0] = paragrafosComArt[0].substring(3);
+              paragrafosComArt[0] = paragrafosComArt[0].substring(6);
             }
   
             let paragrafos = paragrafosComArt.map(paragrafo => {
-              // Remover texto dentro de parênteses
-              paragrafo = paragrafo.replace(/\([^)]+\)/g, ''); // Remover texto dentro de parênteses
-  
-              // Aplicar outras transformações apenas se o ponto não estiver dentro de parênteses
-              if (!paragrafo.includes('(') || !paragrafo.includes(')')) {
-                paragrafo = paragrafo.replace(/\\n/g, ''); // Substituir \n por espaço
-              }
+              paragrafo = paragrafo.replace(/\\n+/g, ' ');
+              paragrafo = paragrafo.replace(/  /g, ' ');
+              paragrafo = paragrafo.trim();
               paragrafo = paragrafo.replace(/ +/g, ' '); // Remover espaços duplicados
               paragrafo = paragrafo.replace(/\\+/g, ' '); // Remover espaços duplicados
+              paragrafo = paragrafo.replace("Presidência da República  Casa Civil  Subchefia para Assuntos Jurídicos", '');// Remover texto dentro de parênteses
+              paragrafo = paragrafo.replace("     t    ", ' ');
+              paragrafo = paragrafo.replace("    Texto compilado    ", '');
+              paragrafo = paragrafo.replace("    Vigência    (Regulamento) ", '');
+              paragrafo = paragrafo.replace("(Redação dada pela Lei nº 12.376, de 2010)    O PRESIDENTE DA REPÚBLICA, usando da atribuição que lhe confere o artigo 180 da Constituição, decreta:", '(Redação dada pela Lei nº 12.376, de 2010)</br>O PRESIDENTE DA REPÚBLICA, usando da atribuição que lhe confere o artigo 180 da Constituição, decreta:');
+              paragrafo = paragrafo.replace(`    *           ""`, '');
+              console.log(paragrafo);
+  
   
               if (paragrafo.startsWith('Art')) {
                 // Remover o ponto (.) antes de adicionar "Artigo"
@@ -165,9 +169,24 @@ export class CivilNormasDireitoBrasileiroComponent implements OnInit {
     }
   
     formatarParagrafo(paragrafo: string): string {
-      return paragrafo.split(/([.;:])/).map(frase => {
-        return frase.trim() + (frase.trim() && /[.;:]$/.test(frase.trim()) ? '<br>' : '');
-      }).join('');
+      let shouldBreakLine = false;
+      let resultado = '';
+      paragrafo.split(/([.;:])/).forEach((frase, index, array) => {
+        if (/[.;:]$/.test(frase.trim())) {
+          resultado += frase.trim();
+          shouldBreakLine = true;
+        } else {
+          if (shouldBreakLine && !frase.trim().match(/^Lei nº|\d+/i)) {
+            resultado += '<br>';
+          }
+          resultado += frase.trim();
+          shouldBreakLine = false;
+        }
+      });
+      resultado = resultado.replace(/(DECRETO-LEI Nº 4.657, DE 4 DE SETEMBRO DE 1942.)/g, '<h6 class="leiClass">$1</h6>');
+
+      return resultado;
     }
+
 
 }
