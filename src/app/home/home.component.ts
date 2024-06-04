@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AnalyticsService } from '../service/analytics.service';
 
 @Component({
     selector: 'app-home',
@@ -9,9 +10,11 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
 
-    constructor() { }
+    constructor(private analyticsService: AnalyticsService) { }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.analyticsService.trackEvent('Home', 'Home into view');
+    }
 
 
 }

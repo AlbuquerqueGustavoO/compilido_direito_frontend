@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Subject, debounceTime, distinctUntilChanged, filter } from 'rxjs';
+import { AnalyticsService } from 'src/app/service/analytics.service';
 import { CivilService } from 'src/app/service/civil.service';
 
 @Component({
@@ -21,13 +22,16 @@ export class CivilNormasDireitoBrasileiroComponent implements OnInit {
 
 
 
-  constructor(private apiService: CivilService, private elementRef: ElementRef) { }
+  constructor(private apiService: CivilService,
+    private elementRef: ElementRef,
+    private analyticsService: AnalyticsService) { }
 
     onTermoPesquisaChange(termo: string) {
       this.termoPesquisaSubject.next(termo); // Envie o termo de pesquisa para o subject
     }
     
     ngOnInit(): void {
+      this.analyticsService.trackEvent('civil normas direito','civil normas direito into view');
       this.loading = true;
       this.apiService.getNormasCivil().subscribe((data: any) => {
         console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API

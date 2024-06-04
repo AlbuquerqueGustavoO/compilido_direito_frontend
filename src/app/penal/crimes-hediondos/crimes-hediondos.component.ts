@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Subject, debounceTime, distinctUntilChanged, filter } from 'rxjs';
+import { AnalyticsService } from 'src/app/service/analytics.service';
 import { PenalService } from 'src/app/service/penal.service';
 
 @Component({
@@ -20,13 +21,16 @@ export class CrimesHediondosComponent implements OnInit {
 
 
 
-  constructor(private apiService: PenalService, private elementRef: ElementRef) { }
+  constructor(private apiService: PenalService,
+    private elementRef: ElementRef,
+    private analyticsService: AnalyticsService) { }
 
   onTermoPesquisaChange(termo: string) {
     this.termoPesquisaSubject.next(termo); // Envie o termo de pesquisa para o subject
   }
 
   ngOnInit(): void {
+    this.analyticsService.trackEvent('CodigoPenal-Crimes-Hediondos', 'CodigoPenal-Crimes-Hediondos into view');
     this.loading = true;
     this.apiService.getCrimesHediondosPenal().subscribe((data: any) => {
       console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API

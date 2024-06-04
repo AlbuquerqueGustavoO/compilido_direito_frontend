@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Subject, debounceTime, distinctUntilChanged, filter } from 'rxjs';
+import { AnalyticsService } from 'src/app/service/analytics.service';
 import { ConstituicaoService } from 'src/app/service/constituicao.service';
 
 @Component({
@@ -20,13 +21,16 @@ export class ConstitucionalEstadoSpComponent implements OnInit {
 
 
 
-  constructor(private apiService: ConstituicaoService, private elementRef: ElementRef) { }
+  constructor(private apiService: ConstituicaoService,
+    private elementRef: ElementRef,
+    private analyticsService: AnalyticsService) { }
 
   onTermoPesquisaChange(termo: string) {
     this.termoPesquisaSubject.next(termo); // Envie o termo de pesquisa para o subject
   }
 
   ngOnInit(): void {
+    this.analyticsService.trackEvent('Constitucional-Estado-SP','Constitucional-Estado-SP into view');
     this.loading = true;
     this.apiService.getConstituicaoEstadoSP().subscribe((data: any) => {
       console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API

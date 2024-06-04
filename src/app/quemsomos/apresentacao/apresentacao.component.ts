@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AnalyticsService } from 'src/app/service/analytics.service';
 
 @Component({
   selector: 'app-apresentacao',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ApresentacaoComponent implements OnInit {
 
-  constructor() { }
+  constructor(private analyticsService: AnalyticsService) { }
 
   ngOnInit(): void {
+    this.analyticsService.trackEvent('QuemSomos-Apresentacao', 'QuemSomos-Apresentacao into view');
   }
 
 }

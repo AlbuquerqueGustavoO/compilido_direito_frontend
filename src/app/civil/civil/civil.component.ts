@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, skip, tap } from 'rxjs/operators';
+import { AnalyticsService } from 'src/app/service/analytics.service';
 import { CivilService } from 'src/app/service/civil.service';
 
 @Component({
@@ -19,7 +20,9 @@ export class CivilComponent implements OnInit {
   private termoPesquisaDebounced = new Subject<string>();
 
 
-  constructor(private apiService: CivilService, private elementRef: ElementRef) { }
+  constructor(private apiService: CivilService,
+    private elementRef: ElementRef,
+    private analyticsService: AnalyticsService) { }
 
 
   onTermoPesquisaChange(termo: string) {
@@ -27,6 +30,7 @@ export class CivilComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.analyticsService.trackEvent('Página civil','civil into view');
     this.loading = true;
     this.apiService.getTexto().subscribe((data: any) => {
       console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API

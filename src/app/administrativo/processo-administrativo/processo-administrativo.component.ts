@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Subject, debounceTime, distinctUntilChanged, filter } from 'rxjs';
 import { AdministrativoService } from 'src/app/service/administrativo.service';
+import { AnalyticsService } from 'src/app/service/analytics.service';
 
 @Component({
   selector: 'app-processo-administrativo',
@@ -18,7 +19,9 @@ export class ProcessoAdministrativoComponent implements OnInit {
   private termoPesquisaDebounced = new Subject<string>();
 
 
-  constructor(private apiService: AdministrativoService, private elementRef: ElementRef) { }
+  constructor(private apiService: AdministrativoService,
+    private elementRef: ElementRef,
+    private analyticsService: AnalyticsService) { }
 
 
   onTermoPesquisaChange(termo: string) {
@@ -26,6 +29,7 @@ export class ProcessoAdministrativoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.analyticsService.trackEvent('Administrativo-Processo-Admin','Administrativo-Processo-Admin into view');
     this.loading = true;
     this.apiService.getAdminProcesso().subscribe((data: any) => {
       console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
