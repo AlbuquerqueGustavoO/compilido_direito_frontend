@@ -32,7 +32,7 @@ export class ProcessoAdministrativoComponent implements OnInit {
     this.analyticsService.trackEvent('Administrativo-Processo-Admin','Administrativo-Processo-Admin into view');
     this.loading = true;
     this.apiService.getAdminProcesso().subscribe((data: any) => {
-      console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
+      //console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
       if (data !== undefined && typeof data === 'object') {
         if (data.hasOwnProperty('text') && typeof data.text === 'string') {
           let paragrafosComArt: string[] = data.text.split(/(?=Art)/);
@@ -51,7 +51,7 @@ export class ProcessoAdministrativoComponent implements OnInit {
             paragrafo = paragrafo.replace(/\\+/g, ' '); // Remover espaços duplicados
             paragrafo = paragrafo.replace("    Presidência da República  Casa Civil  Subchefia para Assuntos Jurídicos    ", '');// Remover texto dentro de parênteses
             paragrafo = paragrafo.replace("  t    ", '');
-            console.log(paragrafo)
+            //console.log(paragrafo)
             if (paragrafo.startsWith('Art')) {
               // Remover o ponto (.) antes de adicionar "Artigo"
               let formattedParagrafo = this.formatarParagrafo(paragrafo.replace(/^Art\s*/, '')).replace('.', '');
@@ -166,23 +166,50 @@ export class ProcessoAdministrativoComponent implements OnInit {
   }
 
   formatarParagrafo(paragrafo: string): string {
-    let shouldBreakLine = false;
     let resultado = '';
-    paragrafo.split(/([.;:])/).forEach((frase, index, array) => {
-      if (/[.;:]$/.test(frase.trim())) {
-        resultado += frase.trim();
-        shouldBreakLine = true;
-      } else {
-        if (shouldBreakLine && !frase.trim().match(/^Lei nº|\d+/i)) {
-          resultado += '<br>';
+    const regex = /([.;:]|\§\d+|Artigo\s+\d+\.)/g;
+    let numeroParagrafo = '';
+    let novoParagrafo = true;
+
+    paragrafo.split(regex).forEach((frase, index, array) => {
+        frase = frase.trim().replace(/\(NR\)\s*-\s*/, ''); // Remove "(NR) -"
+
+        if (/^§\d+$/.test(frase)) { // Se for um parágrafo iniciado com "§" mantém a numeração original
+            numeroParagrafo = frase;
+            novoParagrafo = true;
+        } else if (/[;:]$/.test(frase) || /^Artigo\s+\d+\.$/.test(frase)) { // Verifica se é o final de uma frase ou "Artigo [número]."
+            resultado += frase + `<br>`;
+            if (/[;:]$/.test(frase) && array[index + 1] && array[index + 1].trim() !== '') {
+                resultado += '<br>';
+            }
+        } else if (frase.length > 0) { // Adiciona o texto se não estiver vazio
+            if (novoParagrafo) {
+                resultado += `${numeroParagrafo} ${frase}`;
+                novoParagrafo = false;
+            } else {
+                resultado += ` ${frase}`;
+            }
+            numeroParagrafo = ''; // Limpa o número do parágrafo depois de usá-lo
         }
-        resultado += frase.trim();
-        shouldBreakLine = false;
-      }
     });
-    resultado = resultado.replace(/(LEI Nº 9.784 , DE 29 DE JANEIRO DE 1999.)/g, '<h6 class="leiClass">$1</h6>');
+
+    // Ajustar textos dentro de parênteses
+    resultado = resultado.replace(/\(\s*([^)]*)\s*\)/g, (match, p1) => {
+      return `(${p1.replace(/\s*\n\s*/g, ' ').replace(/\s+/g, ' ')})`;
+    });
+
+    // Adicionar quebra de linha após "Artigo [número]."
+    resultado = resultado.replace(/(Artigo\s+\d+\.)\s*/g, '$1<br>');
+
+    // Adicionar quebra de linha após ponto final, ponto de exclamação e ponto de interrogação seguidos de letra maiúscula
+    resultado = resultado.replace(/([.!?])\s*(?=[A-Z])/g, "$1<br>");
+
+    // Adicionar quebra de linha após qualquer texto dentro de parênteses
+    resultado = resultado.replace(/\(([^):]+)\)\s*/g, '($1)<br><br>');
+
+    resultado = resultado.replace(/(LEI Nº 9 . 784 , DE 29 DE JANEIRO DE 1999 .)/g, '<h6 class="leiClass">$1</h6>');
     resultado = resultado.replace(/(O PRESIDENTE DA REPÚBLICA Faço saber que o Congresso Nacional decreta e eu sanciono a seguinte Lei:)/g, '<h6 class="leiClass">$1</h6>');
-    resultado = resultado.replace(/(Regula o processo administrativo no âmbito da Administração Pública Federal.)/g, '<h6 class="leiClass">$1</h6>');
+    resultado = resultado.replace(/(Regula o processo administrativo no âmbito da Administração Pública Federal .)/g, '<h6 class="leiClass">$1</h6>');
     resultado = resultado.replace(/(CAPÍTULO I  DAS DISPOSIÇÕES GERAIS)/g, '<h6 class="leiClass">$1</h6>');
     resultado = resultado.replace(/(CAPÍTULO II  DOS DIREITOS DOS ADMINISTRADOS)/g, '</br><h6 class="leiClass">$1</h6>');
     resultado = resultado.replace(/(CAPÍTULO III  DOS DEVERES DO ADMINISTRADO)/g, '</br><h6 class="leiClass">$1</h6>');

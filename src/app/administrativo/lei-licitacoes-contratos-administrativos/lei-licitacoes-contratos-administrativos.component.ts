@@ -33,7 +33,7 @@ export class LeiLicitacoesContratosAdministrativosComponent implements OnInit {
     this.analyticsService.trackEvent('Administrativo-Licitacoes','Administrativo-Licitacoes into view');
     this.loading = true;
     this.apiService.getAdminContratos().subscribe((data: any) => {
-      console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
+      //console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
       if (data !== undefined && typeof data === 'object') {
         if (data.hasOwnProperty('text') && typeof data.text === 'string') {
           let paragrafosComArt: string[] = data.text.split(/(?=Art)/);
@@ -93,7 +93,7 @@ export class LeiLicitacoesContratosAdministrativosComponent implements OnInit {
             paragrafo = paragrafo.replace("Art. 191. Até o decurso do prazo de que trata o inciso II do caput do art. 193, a Administração poderá optar por licitar ou contratar diretamente de acordo com esta Lei ou de acordo com as leis citadas no referido inciso, desde que:    (Redação dada pela Medida Provisória nº 1.167, de 2023)    Vigência encerrada    I - a publicação do edital ou do ato autorizativo da contratação direta ocorra até 29 de dezembro de 2023; e        (Incluído pela Medida Provisória nº 1.167, de 2023)     Vigência encerrada    II -a opção escolhida seja expressamente indicada no edital ou no ato autorizativo da contratação direta.       (Incluído pela Medida Provisória nº 1.167, de 2023)    Vigência encerrada    § 1º Na hipótese do caput, se a Administração optar por licitar de acordo com as leis citadas no inciso II do caput do art. 193, o respectivo contrato será regido pelas regras nelas previstas durante toda a sua vigência.    (Incluído pela Medida Provisória nº 1.167, de 2023)    Vigência encerrada    § 2º É vedada a aplicação combinada desta Lei com as citadas no inciso II do caput do art. 193.      (Incluído pela Medida Provisória nº 1.167, de 2023)     Vigência encerrada", '');
             paragrafo = paragrafo.replace("II - a Lei nº 8.666, de 21 de junho de 1993, a Lei nº 10.520, de 17 de julho de 2002, e os arts. 1º a 47-A da Lei nº 12.462, de 4 de agosto de 2011, após decorridos 2 (dois) anos da publicação oficial desta Lei.    ", '');
             paragrafo = paragrafo.replace("II - em 30 de dezembro de 2023:       (Redação dada pela Medida Provisória nº 1.167, de 2023)       Vigência encerrada    a) a Lei nº 8.666, de 1993;      (Incluído pela Medida Provisória nº 1.167, de 2023)      Vigência encerrada    b) a Lei nº 10.520, de 2002; e      (Incluído pela Medida Provisória nº 1.167, de 2023)      Vigência encerrada    c) os art. 1º a art. 47-A da Lei nº 12.462, de 2011.       (Incluído pela Medida Provisória nº 1.167, de 2023)      Vigência encerrada    ", '');
-            console.log(paragrafo)
+            //console.log(paragrafo)
             if (paragrafo.startsWith('Art')) {
               // Remover o ponto (.) antes de adicionar "Artigo"
               let formattedParagrafo = this.formatarParagrafo(paragrafo.replace(/^Art\s*/, '')).replace('.', '');
@@ -208,22 +208,49 @@ export class LeiLicitacoesContratosAdministrativosComponent implements OnInit {
   }
 
   formatarParagrafo(paragrafo: string): string {
-    let shouldBreakLine = false;
     let resultado = '';
-    paragrafo.split(/([.;:])/).forEach((frase, index, array) => {
-      if (/[.;:]$/.test(frase.trim())) {
-        resultado += frase.trim();
-        shouldBreakLine = true;
-      } else {
-        if (shouldBreakLine && !frase.trim().match(/^Lei nº|\d+/i)) {
-          resultado += '<br>';
+    const regex = /([.;:]|\§\d+|Artigo\s+\d+\.)/g;
+    let numeroParagrafo = '';
+    let novoParagrafo = true;
+
+    paragrafo.split(regex).forEach((frase, index, array) => {
+        frase = frase.trim().replace(/\(NR\)\s*-\s*/, ''); // Remove "(NR) -"
+
+        if (/^§\d+$/.test(frase)) { // Se for um parágrafo iniciado com "§" mantém a numeração original
+            numeroParagrafo = frase;
+            novoParagrafo = true;
+        } else if (/[;:]$/.test(frase) || /^Artigo\s+\d+\.$/.test(frase)) { // Verifica se é o final de uma frase ou "Artigo [número]."
+            resultado += frase + `<br>`;
+            if (/[;:]$/.test(frase) && array[index + 1] && array[index + 1].trim() !== '') {
+                resultado += '<br>';
+            }
+        } else if (frase.length > 0) { // Adiciona o texto se não estiver vazio
+            if (novoParagrafo) {
+                resultado += `${numeroParagrafo} ${frase}`;
+                novoParagrafo = false;
+            } else {
+                resultado += ` ${frase}`;
+            }
+            numeroParagrafo = ''; // Limpa o número do parágrafo depois de usá-lo
         }
-        resultado += frase.trim();
-        shouldBreakLine = false;
-      }
     });
-    resultado = resultado.replace(/(LEI Nº 14.133, DE 1º DE ABRIL DE 2021)/g, '<h6 class="leiClass">$1</h6><br>');
-    resultado = resultado.replace(/(Lei de Licitações e Contratos Administrativos.)/g, '<h6 class="leiClass">$1</h6>');
+
+    // Ajustar textos dentro de parênteses
+    resultado = resultado.replace(/\(\s*([^)]*)\s*\)/g, (match, p1) => {
+      return `(${p1.replace(/\s*\n\s*/g, ' ').replace(/\s+/g, ' ')})`;
+    });
+
+    // Adicionar quebra de linha após "Artigo [número]."
+    resultado = resultado.replace(/(Artigo\s+\d+\.)\s*/g, '$1<br>');
+
+    // Adicionar quebra de linha após ponto final, ponto de exclamação e ponto de interrogação seguidos de letra maiúscula
+    resultado = resultado.replace(/([.!?])\s*(?=[A-Z])/g, "$1<br>");
+
+    // Adicionar quebra de linha após qualquer texto dentro de parênteses
+    resultado = resultado.replace(/\(([^):]+)\)\s*/g, '($1)<br><br>');
+
+    resultado = resultado.replace(/(LEI Nº 14 . 133, DE 1º DE ABRIL DE 2021)/g, '<h6 class="leiClass">$1</h6><br>');
+    resultado = resultado.replace(/(Lei de Licitações e Contratos Administrativos .)/g, '<h6 class="leiClass">$1</h6>');
     resultado = resultado.replace(/(O PRESIDENTE DA REPÚBLICA Faço saber que o Congresso Nacional decreta e eu sanciono a seguinte Lei:)/g, '<h6 class="leiClass">$1</h6>');
     resultado = resultado.replace(/(TÍTULO I )/g, '<h6 class="leiClass">$1</h6><br>');
     resultado = resultado.replace(/(DISPOSIÇÕES PRELIMINARES )/g, '<h6 class="leiClass">$1</h6><br>');

@@ -34,7 +34,7 @@ export class ConstituicaoComponent implements OnInit {
       this.analyticsService.trackEvent('Constitucional','Constitucional into view');
       this.loading = true;
       this.apiService.getConstituicao().subscribe((data: any) => {
-        console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
+        //console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
         if (data !== undefined && typeof data === 'object') {
           if (data.hasOwnProperty('text') && typeof data.text === 'string') {
             let paragrafosComArt: string[] = data.text.split(/(?=Art)/);
@@ -458,7 +458,7 @@ export class ConstituicaoComponent implements OnInit {
               // paragrafo = paragrafo.replace("", ' ');
               // paragrafo = paragrafo.replace("", ' ');
               // paragrafo = paragrafo.replace("", ' ');
-              console.log(paragrafo)
+              //console.log(paragrafo)
   
               if (paragrafo.startsWith('Art')) {
                 // Remover o ponto (.) antes de adicionar "Artigo"

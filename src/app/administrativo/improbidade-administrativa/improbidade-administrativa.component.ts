@@ -32,7 +32,7 @@ export class ImprobidadeAdministrativaComponent implements OnInit {
     this.analyticsService.trackEvent('Administrativo-Improbidade','Administrativo-Improbidade into view');
     this.loading = true;
     this.apiService.getAdminImprobidade().subscribe((data: any) => {
-      console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
+      //console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
       if (data !== undefined && typeof data === 'object') {
         if (data.hasOwnProperty('text') && typeof data.text === 'string') {
           let paragrafosComArt: string[] = data.text.split(/(?=Art)/);
@@ -98,7 +98,7 @@ export class ImprobidadeAdministrativaComponent implements OnInit {
             paragrafo = paragrafo.replace("I - da efetiva ocorrência de dano ao patrimônio público;    I - da efetiva ocorrência de dano ao patrimônio público, salvo quanto à pena de ressarcimento;         (Redação dada pela Lei nº 12.120, de 2009).    ", ' ');
             paragrafo = paragrafo.replace("Art. 22. Para apurar qualquer ilícito previsto nesta lei, o Ministério Público, de ofício, a requerimento de autoridade administrativa ou mediante representação formulada de acordo com o disposto no art. 14, poderá requisitar a instauração de inquérito policial ou procedimento administrativo.", ' ');
             paragrafo = paragrafo.replace("Art. 23. As ações destinadas a levar a efeitos as sanções previstas nesta lei podem ser propostas:    I - até cinco anos após o término do exercício de mandato, de cargo em comissão ou de função de confiança;    II - dentro do prazo prescricional previsto em lei específica para faltas disciplinares puníveis com demissão a bem do serviço público, nos casos de exercício de cargo efetivo ou emprego.    III - até cinco anos da data da apresentação à administração pública da prestação de contas final pelas entidades referidas no parágrafo único do art. 1o desta Lei.         (Incluído pela Lei nº 13.019, de 2014)       (Vigência)", ' ');
-            console.log(paragrafo)
+            //console.log(paragrafo)
             
             if (paragrafo.startsWith('Art')) {
               // Remover o ponto (.) antes de adicionar "Artigo"
@@ -214,21 +214,48 @@ export class ImprobidadeAdministrativaComponent implements OnInit {
   }
 
   formatarParagrafo(paragrafo: string): string {
-    let shouldBreakLine = false;
     let resultado = '';
-    paragrafo.split(/([.;:])/).forEach((frase, index, array) => {
-      if (/[.;:]$/.test(frase.trim())) {
-        resultado += frase.trim();
-        shouldBreakLine = true;
-      } else {
-        if (shouldBreakLine && !frase.trim().match(/^Lei nº|\d+/i)) {
-          resultado += '<br>';
+    const regex = /([.;:]|\§\d+|Artigo\s+\d+\.)/g;
+    let numeroParagrafo = '';
+    let novoParagrafo = true;
+
+    paragrafo.split(regex).forEach((frase, index, array) => {
+        frase = frase.trim().replace(/\(NR\)\s*-\s*/, ''); // Remove "(NR) -"
+
+        if (/^§\d+$/.test(frase)) { // Se for um parágrafo iniciado com "§" mantém a numeração original
+            numeroParagrafo = frase;
+            novoParagrafo = true;
+        } else if (/[;:]$/.test(frase) || /^Artigo\s+\d+\.$/.test(frase)) { // Verifica se é o final de uma frase ou "Artigo [número]."
+            resultado += frase + `<br>`;
+            if (/[;:]$/.test(frase) && array[index + 1] && array[index + 1].trim() !== '') {
+                resultado += '<br>';
+            }
+        } else if (frase.length > 0) { // Adiciona o texto se não estiver vazio
+            if (novoParagrafo) {
+                resultado += `${numeroParagrafo} ${frase}`;
+                novoParagrafo = false;
+            } else {
+                resultado += ` ${frase}`;
+            }
+            numeroParagrafo = ''; // Limpa o número do parágrafo depois de usá-lo
         }
-        resultado += frase.trim();
-        shouldBreakLine = false;
-      }
     });
-    resultado = resultado.replace(/(LEI Nº 8.429, DE 2 DE JUNHO DE 1992)/g, '<h6 class="leiClass">$1</h6><br>');
+
+    // Ajustar textos dentro de parênteses
+    resultado = resultado.replace(/\(\s*([^)]*)\s*\)/g, (match, p1) => {
+      return `(${p1.replace(/\s*\n\s*/g, ' ').replace(/\s+/g, ' ')})`;
+    });
+
+    // Adicionar quebra de linha após "Artigo [número]."
+    resultado = resultado.replace(/(Artigo\s+\d+\.)\s*/g, '$1<br>');
+
+    // Adicionar quebra de linha após ponto final, ponto de exclamação e ponto de interrogação seguidos de letra maiúscula
+    resultado = resultado.replace(/([.!?])\s*(?=[A-Z])/g, "$1<br>");
+
+    // Adicionar quebra de linha após qualquer texto dentro de parênteses
+    resultado = resultado.replace(/\(([^):]+)\)\s*/g, '($1)<br><br>');
+
+    resultado = resultado.replace(/(LEI Nº 8 . 429, DE 2 DE JUNHO DE 1992)/g, '<h6 class="leiClass">$1</h6><br>');
     resultado = resultado.replace(/(CAPÍTULO I  Das Disposições Gerais)/g, '<br><h6 class="leiClass">$1</h6>');
     resultado = resultado.replace(/(CAPÍTULO II  Dos Atos de Improbidade Administrativa)/g, '<br><br><h6 class="leiClass">$1</h6>');
     resultado = resultado.replace(/(Seção I  Dos Atos de Improbidade Administrativa que Importam Enriquecimento Ilícito)/g, '<h6 class="leiClass">$1</h6>');

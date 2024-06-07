@@ -33,7 +33,7 @@ export class ConstitucionalEstadoSpComponent implements OnInit {
     this.analyticsService.trackEvent('Constitucional-Estado-SP','Constitucional-Estado-SP into view');
     this.loading = true;
     this.apiService.getConstituicaoEstadoSP().subscribe((data: any) => {
-      console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
+      //console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
       if (data !== undefined && typeof data === 'object') {
         if (data.hasOwnProperty('text') && typeof data.text === 'string') {
           let paragrafosComArt: string[] = data.text.split(/(?=Art)/);
@@ -54,7 +54,7 @@ export class ConstitucionalEstadoSpComponent implements OnInit {
             paragrafo = paragrafo.replace("Ficha informativa  Texto com alterações  ", '');
             paragrafo = paragrafo.replace("(Última atualização: Emenda Constitucional n° 53, de 19/12/2023)", '<h6 class="leiClass">Última atualização: Emenda Constitucional n° 53, de 19/12/2023</h6>');
             paragrafo = paragrafo.replace("SEÇÃO II  Da Competência do Tribunal de Justiça (NR)", 'SEÇÃO II  Da Competência do Tribunal de Justiça - NR');
-            console.log(paragrafo)
+            //console.log(paragrafo)
 
             if (paragrafo.startsWith('Art')) {
               // Remover o ponto (.) antes de adicionar "Artigo"
