@@ -574,20 +574,47 @@ export class ConstituicaoComponent implements OnInit {
     }
   
     formatarParagrafo(paragrafo: string): string {
-      let shouldBreakLine = false;
       let resultado = '';
-      paragrafo.split(/([.;:])/).forEach((frase, index, array) => {
-        if (/[.;:]$/.test(frase.trim())) {
-          resultado += frase.trim();
-          shouldBreakLine = true;
-        } else {
-          if (shouldBreakLine && !frase.trim().match(/^Lei nº|\d+/i)) {
-            resultado += '<br>';
+      const regex = /([.;:]|\§\d+|Artigo\s+\d+\.)/g;
+      let numeroParagrafo = '';
+      let novoParagrafo = true;
+  
+      paragrafo.split(regex).forEach((frase, index, array) => {
+          frase = frase.trim().replace(/\(NR\)\s*-\s*/, ''); // Remove "(NR) -"
+  
+          if (/^§\d+$/.test(frase)) { // Se for um parágrafo iniciado com "§" mantém a numeração original
+              numeroParagrafo = frase;
+              novoParagrafo = true;
+          } else if (/[;:]$/.test(frase) || /^Artigo\s+\d+\.$/.test(frase)) { // Verifica se é o final de uma frase ou "Artigo [número]."
+              resultado += frase + `<br>`;
+              if (/[;:]$/.test(frase) && array[index + 1] && array[index + 1].trim() !== '') {
+                  resultado += '<br>';
+              }
+          } else if (frase.length > 0) { // Adiciona o texto se não estiver vazio
+              if (novoParagrafo) {
+                  resultado += `${numeroParagrafo} ${frase}`;
+                  novoParagrafo = false;
+              } else {
+                  resultado += ` ${frase}`;
+              }
+              numeroParagrafo = ''; // Limpa o número do parágrafo depois de usá-lo
           }
-          resultado += frase.trim();
-          shouldBreakLine = false;
-        }
       });
+  
+      // Ajustar textos dentro de parênteses
+      resultado = resultado.replace(/\(\s*([^)]*)\s*\)/g, (match, p1) => {
+        return `(${p1.replace(/\s*\n\s*/g, ' ').replace(/\s+/g, ' ')})`;
+      });
+
+      // Adicionar quebra de linha após "Artigo [número]."
+      resultado = resultado.replace(/(Artigo\s+\d+\.)\s*/g, '$1<br>');
+
+      // Adicionar quebra de linha após ponto final, ponto de exclamação e ponto de interrogação seguidos de letra maiúscula
+      resultado = resultado.replace(/([.!?])\s*(?=[A-Z])/g, "$1<br>");
+
+      // Adicionar quebra de linha após qualquer texto dentro de parênteses
+      resultado = resultado.replace(/\(([^):]+)\)\s*/g, '($1)<br><br>');
+      
       resultado = resultado.replace(/(TÍTULO I    DOS PRINCÍPIOS FUNDAMENTAIS)/g, '</br><h6 class="leiClass">$1</h6>');
       resultado = resultado.replace(/(TÍTULO II    DOS DIREITOS E GARANTIAS FUNDAMENTAIS)/g, '</br><h6 class="leiClass">$1</h6>');
       resultado = resultado.replace(/(CAPÍTULO I    DOS DIREITOS E DEVERES INDIVIDUAIS E COLETIVOS)/g, '<h6 class="leiClass">$1</h6>');

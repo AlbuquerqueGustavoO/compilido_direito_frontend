@@ -170,18 +170,28 @@ export class ConstitucionalEstadoSpComponent implements OnInit {
   }
 
   formatarParagrafo(paragrafo: string): string {
-    let shouldBreakLine = false;
     let resultado = '';
-    paragrafo.split(/([.;:])/).forEach((frase, index, array) => {
-      if (/[.;:]$/.test(frase.trim())) {
-        resultado += frase.trim();
-        shouldBreakLine = true;
-      } else {
-        if (shouldBreakLine && !frase.trim().match(/^Lei nº|\d+/i)) {
-          resultado += '<br>';
+    const regex = /([.;:]|\§\d+)/g;
+    let numeroParagrafo = '';
+    let novoParagrafo = true;
+
+    paragrafo.split(regex).forEach((frase, index, array) => {
+      frase = frase.trim().replace(/\(NR\)\s*-\s*/, ''); // Remove "(NR) -"
+      if (/^§\d+$/.test(frase)) { // Se for um parágrafo iniciado com "§" mantém a numeração original
+        numeroParagrafo = frase;
+        novoParagrafo = true;
+      } else if (/[.;:]$/.test(frase)) { // Verifica se é o final de uma frase
+        resultado += frase + `<br>`;
+      } else if (frase.length > 0) { // Adiciona o texto se não estiver vazio
+        if (novoParagrafo) {
+          resultado += `<br>${numeroParagrafo} ${frase}`;
+          novoParagrafo = false;
+        } else if (!/Artigo/i.test(frase)) { // Verifica se não é a palavra "artigo"
+          resultado += `<br>${frase}`;
+        } else { // Se for a palavra "artigo", adiciona sem <br><br>
+          resultado += ` ${frase}`;
         }
-        resultado += frase.trim();
-        shouldBreakLine = false;
+        numeroParagrafo = ''; // Limpa o número do parágrafo depois de usá-lo
       }
     });
     resultado = resultado.replace(/(Assembleia Legislativa do Estado de São Paulo)/g, '<h6 class="leiClass">$1</h6>');

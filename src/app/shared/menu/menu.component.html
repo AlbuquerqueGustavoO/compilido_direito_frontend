@@ -38,6 +38,7 @@
               <a class="nav-link" [routerLink]="['/administrativo']">Administrativo </a>
             </div>
             <ul class="dropdown-menu sub-menu">
+              <li><a [routerLink]="['/administrativo']">LLICA</a></li>
               <li><a [routerLink]="['/administrativo/administrativo-improbidade']">Improbidade Administrativo</a></li>
               <li><a [routerLink]="['/administrativo/administrativo-servicosPublicos']">Serviços Públicos</a></li>
               <li><a [routerLink]="['/administrativo/administrativo-processo']">Processo Administrativo</a></li>
@@ -61,7 +62,7 @@
           <li class="nav-item dropdown">
             <i class="fas fa-angle-down" data-bs-toggle="dropdown" aria-expanded="false"></i>
             <div>
-              <a class="nav-link" [routerLink]="['/penal']">Código Penal </a>
+              <a class="nav-link" [routerLink]="['/penal']">Penal </a>
             </div>
             <ul class="dropdown-menu sub-menu">
               <li><a [routerLink]="['/penal/processo-penal']">Código Processo Penal</a></li>
@@ -78,8 +79,8 @@
               <a class="nav-link" [routerLink]="['/civil']">Civil </a>
             </div>
             <ul class="dropdown-menu sub-menu">
-              <li><a [routerLink]="['/civil/civil-codigo-processo']">Processo Civil</a></li>
-              <li><a [routerLink]="['/civil/civil-normas-direito-brasileiro']">Direito brasileiro</a></li>
+              <li><a [routerLink]="['/civil/civil-codigo-processo']">Código Processo Civil</a></li>
+              <li><a [routerLink]="['/civil/civil-normas-direito-brasileiro']">LINDB</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown" style="display: none;">

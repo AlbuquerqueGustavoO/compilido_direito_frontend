@@ -125,6 +125,7 @@
             padding: 5px !important;
         }
         i {
+            bottom: -9px !important;
             margin-top: 0;
             // font-size: 50px;
             margin-right: 0;
@@ -217,10 +218,10 @@
     }
 
     .sub-menu {
-        left: -65px; /*35px*/
+        left: -45px; /*-35px,-65px*/
         top: 43px;
         position: absolute;
-        width: 240px;
+        width: 260px;/*240*/
         margin-top: -7px;
         display: none;
         &:hover {
