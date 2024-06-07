@@ -53,6 +53,23 @@ export class ServicosPublicosComponent implements OnInit {
             paragrafo = paragrafo.replace("Mensagem de veto    ", '');
             paragrafo = paragrafo.replace("(Vide Lei nº 9.074, de 1995)    (Vide Lei nº 14.133, de 2021)    (Vide Lei nº 14.273, de 2021)", '');
             paragrafo = paragrafo.replace("Vigência     t    Dispõe sobre o regime de concessão e permissão da prestação de serviços públicos previsto no art. 175 da Constituição Federal, e dá outras providências.", ' ');
+            paragrafo = paragrafo.replace("), ", ')');
+            paragrafo = paragrafo.replace("),", ')');
+            paragrafo = paragrafo.replace(").                         ", ')');
+            paragrafo = paragrafo.replace(").                       ", ')');
+            paragrafo = paragrafo.replace(").", ')');
+            paragrafo = paragrafo.replace(").   ", ')');
+            paragrafo = paragrafo.replace(") . ", ')');
+            paragrafo = paragrafo.replace("):", ')');
+            paragrafo = paragrafo.replace(");", ')');
+            paragrafo = paragrafo.replace(") ;", ')');
+            paragrafo = paragrafo.replace(") ; ", ')');
+            paragrafo = paragrafo.replace(");                    ", ')');
+            paragrafo = paragrafo.replace(");                ", ')');
+            paragrafo = paragrafo.replace(");                     ", ')');
+            paragrafo = paragrafo.replace(");                    ", ')');
+            paragrafo = paragrafo.replace(");                   ", ')');
+            paragrafo = paragrafo.replace(");                   ", ')');
             //console.log(paragrafo)
 
             if (paragrafo.startsWith('Art')) {

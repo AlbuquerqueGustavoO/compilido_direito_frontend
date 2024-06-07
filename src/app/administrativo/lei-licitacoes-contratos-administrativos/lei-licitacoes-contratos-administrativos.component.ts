@@ -93,6 +93,23 @@ export class LeiLicitacoesContratosAdministrativosComponent implements OnInit {
             paragrafo = paragrafo.replace("Art. 191. Até o decurso do prazo de que trata o inciso II do caput do art. 193, a Administração poderá optar por licitar ou contratar diretamente de acordo com esta Lei ou de acordo com as leis citadas no referido inciso, desde que:    (Redação dada pela Medida Provisória nº 1.167, de 2023)    Vigência encerrada    I - a publicação do edital ou do ato autorizativo da contratação direta ocorra até 29 de dezembro de 2023; e        (Incluído pela Medida Provisória nº 1.167, de 2023)     Vigência encerrada    II -a opção escolhida seja expressamente indicada no edital ou no ato autorizativo da contratação direta.       (Incluído pela Medida Provisória nº 1.167, de 2023)    Vigência encerrada    § 1º Na hipótese do caput, se a Administração optar por licitar de acordo com as leis citadas no inciso II do caput do art. 193, o respectivo contrato será regido pelas regras nelas previstas durante toda a sua vigência.    (Incluído pela Medida Provisória nº 1.167, de 2023)    Vigência encerrada    § 2º É vedada a aplicação combinada desta Lei com as citadas no inciso II do caput do art. 193.      (Incluído pela Medida Provisória nº 1.167, de 2023)     Vigência encerrada", '');
             paragrafo = paragrafo.replace("II - a Lei nº 8.666, de 21 de junho de 1993, a Lei nº 10.520, de 17 de julho de 2002, e os arts. 1º a 47-A da Lei nº 12.462, de 4 de agosto de 2011, após decorridos 2 (dois) anos da publicação oficial desta Lei.    ", '');
             paragrafo = paragrafo.replace("II - em 30 de dezembro de 2023:       (Redação dada pela Medida Provisória nº 1.167, de 2023)       Vigência encerrada    a) a Lei nº 8.666, de 1993;      (Incluído pela Medida Provisória nº 1.167, de 2023)      Vigência encerrada    b) a Lei nº 10.520, de 2002; e      (Incluído pela Medida Provisória nº 1.167, de 2023)      Vigência encerrada    c) os art. 1º a art. 47-A da Lei nº 12.462, de 2011.       (Incluído pela Medida Provisória nº 1.167, de 2023)      Vigência encerrada    ", '');
+            paragrafo = paragrafo.replace("), ", ')');
+            paragrafo = paragrafo.replace("),", ')');
+            paragrafo = paragrafo.replace(").                         ", ')');
+            paragrafo = paragrafo.replace(").                       ", ')');
+            paragrafo = paragrafo.replace(").", ')');
+            paragrafo = paragrafo.replace(").   ", ')');
+            paragrafo = paragrafo.replace(") . ", ')');
+            paragrafo = paragrafo.replace("):", ')');
+            paragrafo = paragrafo.replace(");", ')');
+            paragrafo = paragrafo.replace(") ;", ')');
+            paragrafo = paragrafo.replace(") ; ", ')');
+            paragrafo = paragrafo.replace(");                    ", ')');
+            paragrafo = paragrafo.replace(");                ", ')');
+            paragrafo = paragrafo.replace(");                     ", ')');
+            paragrafo = paragrafo.replace(");                    ", ')');
+            paragrafo = paragrafo.replace(");                   ", ')');
+            paragrafo = paragrafo.replace(");                   ", ')');
             //console.log(paragrafo)
             if (paragrafo.startsWith('Art')) {
               // Remover o ponto (.) antes de adicionar "Artigo"

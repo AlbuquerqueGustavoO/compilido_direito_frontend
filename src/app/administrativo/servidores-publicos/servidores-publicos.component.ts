@@ -61,6 +61,23 @@ export class ServidoresPublicosComponent implements OnInit {
             paragrafo = paragrafo.replace("...........................................................................................................................", '');
             paragrafo = paragrafo.replace("....................................................................................................................................", '');
             paragrafo = paragrafo.replace("           t", '');
+            paragrafo = paragrafo.replace("), ", ')');
+            paragrafo = paragrafo.replace("),", ')');
+            paragrafo = paragrafo.replace(").                         ", ')');
+            paragrafo = paragrafo.replace(").                       ", ')');
+            paragrafo = paragrafo.replace(").", ')');
+            paragrafo = paragrafo.replace(").   ", ')');
+            paragrafo = paragrafo.replace(") . ", ')');
+            paragrafo = paragrafo.replace("):", ')');
+            paragrafo = paragrafo.replace(");", ')');
+            paragrafo = paragrafo.replace(") ;", ')');
+            paragrafo = paragrafo.replace(") ; ", ')');
+            paragrafo = paragrafo.replace(");                    ", ')');
+            paragrafo = paragrafo.replace(");                ", ')');
+            paragrafo = paragrafo.replace(");                     ", ')');
+            paragrafo = paragrafo.replace(");                    ", ')');
+            paragrafo = paragrafo.replace(");                   ", ')');
+            paragrafo = paragrafo.replace(");                   ", ')');
             //console.log(paragrafo)
             if (paragrafo.startsWith('Art')) {
               // Remover o ponto (.) antes de adicionar "Artigo"

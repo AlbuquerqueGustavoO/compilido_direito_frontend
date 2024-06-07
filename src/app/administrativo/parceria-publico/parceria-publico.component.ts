@@ -81,6 +81,23 @@ export class ParceriaPublicoComponent implements OnInit {
             paragrafo = paragrafo.replace("Art. 28. A União não poderá conceder garantia e realizar transferência voluntária aos Estados, Distrito Federal e Municípios se a soma das despesas de caráter continuado derivadas do conjunto das parcerias já contratadas por esses entes tiver excedido, no ano anterior, a 3% (três por cento) da receita corrente líquida do exercício ou se as despesas anuais dos contratos vigentes nos 10 (dez) anos subsequentes excederem a 3% (três por cento) da receita corrente líquida projetada para os respectivos exercícios.         (Redação dada pela Lei nº 12.024, de 2009)", ' ');
             paragrafo = paragrafo.replace("Art. 28. A União não poderá conceder garantia ou realizar transferência voluntária aos Estados, Distrito Federal e Municípios se a soma das despesas de caráter continuado derivadas do conjunto das parcerias já contratadas por esses entes tiver excedido, no ano anterior, a cinco por cento da receita corrente líquida do exercício ou se as despesas anuais dos contratos vigentes nos dez anos subsequentes excederem a cinco por cento da receita corrente líquida projetada para os respectivos exercícios.         (Redação dada pela Medida Provisória nº 575, de 2012)", ' ');
             paragrafo = paragrafo.replace("§ 2º Na aplicação do limite previsto no caput deste artigo, serão computadas as despesas derivadas de contratos de parceria celebrados pela Administração Pública direta, autarquias, fundações públicas, empresas públicas, sociedades de economia mista e demais entidades controladas, direta ou indiretamente, pelo respectivo ente.", ' ');
+            paragrafo = paragrafo.replace("), ", ')');
+            paragrafo = paragrafo.replace("),", ')');
+            paragrafo = paragrafo.replace(").                         ", ')');
+            paragrafo = paragrafo.replace(").                       ", ')');
+            paragrafo = paragrafo.replace(").", ')');
+            paragrafo = paragrafo.replace(").   ", ')');
+            paragrafo = paragrafo.replace(") . ", ')');
+            paragrafo = paragrafo.replace("):", ')');
+            paragrafo = paragrafo.replace(");", ')');
+            paragrafo = paragrafo.replace(") ;", ')');
+            paragrafo = paragrafo.replace(") ; ", ')');
+            paragrafo = paragrafo.replace(");                    ", ')');
+            paragrafo = paragrafo.replace(");                ", ')');
+            paragrafo = paragrafo.replace(");                     ", ')');
+            paragrafo = paragrafo.replace(");                    ", ')');
+            paragrafo = paragrafo.replace(");                   ", ')');
+            paragrafo = paragrafo.replace(");                   ", ')');
             // console.log(paragrafo)
 
             if (paragrafo.startsWith('Art')) {

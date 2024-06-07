@@ -98,6 +98,28 @@ export class ImprobidadeAdministrativaComponent implements OnInit {
             paragrafo = paragrafo.replace("I - da efetiva ocorrência de dano ao patrimônio público;    I - da efetiva ocorrência de dano ao patrimônio público, salvo quanto à pena de ressarcimento;         (Redação dada pela Lei nº 12.120, de 2009).    ", ' ');
             paragrafo = paragrafo.replace("Art. 22. Para apurar qualquer ilícito previsto nesta lei, o Ministério Público, de ofício, a requerimento de autoridade administrativa ou mediante representação formulada de acordo com o disposto no art. 14, poderá requisitar a instauração de inquérito policial ou procedimento administrativo.", ' ');
             paragrafo = paragrafo.replace("Art. 23. As ações destinadas a levar a efeitos as sanções previstas nesta lei podem ser propostas:    I - até cinco anos após o término do exercício de mandato, de cargo em comissão ou de função de confiança;    II - dentro do prazo prescricional previsto em lei específica para faltas disciplinares puníveis com demissão a bem do serviço público, nos casos de exercício de cargo efetivo ou emprego.    III - até cinco anos da data da apresentação à administração pública da prestação de contas final pelas entidades referidas no parágrafo único do art. 1o desta Lei.         (Incluído pela Lei nº 13.019, de 2014)       (Vigência)", ' ');
+            paragrafo = paragrafo.replace("), ", ')');
+            paragrafo = paragrafo.replace("),", ')');
+            paragrafo = paragrafo.replace(").                         ", ')');
+            paragrafo = paragrafo.replace(").                       ", ')');
+            paragrafo = paragrafo.replace(").", ')');
+            paragrafo = paragrafo.replace(").   ", ')');
+            paragrafo = paragrafo.replace(") . ", ')');
+            paragrafo = paragrafo.replace("):", ')');
+            paragrafo = paragrafo.replace(");        ", ')');
+            paragrafo = paragrafo.replace(");", ')');
+            paragrafo = paragrafo.replace(")     ;", ')');
+            paragrafo = paragrafo.replace(") ;", ')');
+            paragrafo = paragrafo.replace(") ; ", ')');
+            paragrafo = paragrafo.replace(");                    ", ')');
+            paragrafo = paragrafo.replace(");                ", ')');
+            paragrafo = paragrafo.replace(");                     ", ')');
+            paragrafo = paragrafo.replace(");                    ", ')');
+            paragrafo = paragrafo.replace(");                   ", ')');
+            paragrafo = paragrafo.replace(");                   ", ')');
+            paragrafo = paragrafo.replace(");        ", ')');
+            paragrafo = paragrafo.replace(");         ", ')');
+            paragrafo = paragrafo.replace(");     ", ')');
             //console.log(paragrafo)
             
             if (paragrafo.startsWith('Art')) {
