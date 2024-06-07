@@ -33,7 +33,7 @@ export class OcultacaoBensComponent implements OnInit {
     this.analyticsService.trackEvent('CodigoPenal-Ocultacao-Bens', 'CodigoPenal-Ocultacao-Bens into view');
     this.loading = true;
     this.apiService.getOcultacaoBens().subscribe((data: any) => {
-      console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
+      //console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
       if (data !== undefined && typeof data === 'object') {
         if (data.hasOwnProperty('text') && typeof data.text === 'string') {
           let paragrafosComArt: string[] = data.text.split(/(?=Art)/);
@@ -102,9 +102,19 @@ export class OcultacaoBensComponent implements OnInit {
             paragrafo = paragrafo.replace("Art. 14.  Fica criado, no âmbito do Ministério da Economia, o Conselho de Controle de Atividades Financeiras - Coaf, com a finalidade de disciplinar, aplicar penas administrativas, receber, examinar e identificar as ocorrências suspeitas de atividades ilícitas previstas nesta Lei, sem prejuízo das competências de outros órgãos e entidades.           (Redação dada pela Medida Provisória nº 886, de 2019)", '');
             paragrafo = paragrafo.replace("Art. 17-F.  O tratamento de dados pessoais pelo Coaf:        (Incluído pela Medida Provisória nº 1.158, de 2023)  Vigência encerrada    I - será realizado de forma estritamente necessária para o atendimento às suas finalidades legais;       (Incluído pela Medida Provisória nº 1.158, de 2023)  Vigência encerrada    II - garantirá a exatidão e a atualização dos dados, respeitadas as medidas adequadas para a eliminação ou a retificação de dados inexatos;      (Incluído pela Medida Provisória nº 1.158, de 2023)  Vigência encerrada    III - não superará o período necessário para o atendimento às suas finalidades legais;     (Incluído pela Medida Provisória nº 1.158, de 2023)  Vigência encerrada    IV - considerará, na hipótese de compartilhamento, a sua realização por intermédio de comunicação formal, com garantia de sigilo, certificação do destinatário e estabelecimento de instrumentos efetivos de apuração e correção de eventuais desvios cometidos em seus procedimentos internos;     (Incluído pela Medida Provisória nº 1.158, de 2023)   Vigência encerrada    V - garantirá níveis adequados de segurança, respeitadas as medidas técnicas e administrativas para impedir acessos, destruição, perda, alteração, comunicação, compartilhamento, transferência ou difusão não autorizadas ou ilícitas;    (Incluído pela Medida Provisória nº 1.158, de 2023)   Vigência encerrada    VI - será dotado de medidas especiais de segurança quando se tratar de dados:     (Incluído pela Medida Provisória nº 1.158, de 2023)   Vigência encerrada    a) sensíveis, nos termos do disposto no inciso II do caput do art. 5º da Lei nº 13.709, de 14 de agosto de 2018; e        (Incluído pela Medida Provisória nº 1.158, de 2023)    Vigência encerrada    b) protegidos por sigilo; e      (Incluído pela Medida Provisória nº 1.158, de 2023)   Vigência encerrada    VII - não será utilizado para fins discriminatórios, ilícitos ou abusivos.      (Incluído pela Medida Provisória nº 1.158, de 2023)   Vigência encerrada", '');
             paragrafo = paragrafo.replace(`    *                                         ""`, '');
-            // paragrafo = paragrafo.replace(`    “ `, '');
-            // paragrafo = paragrafo.replace(`” `, '');
-            // paragrafo = paragrafo.replace(`    “`, '');
+            paragrafo = paragrafo.replace("), ", ')');
+            paragrafo = paragrafo.replace("),", ')');
+            paragrafo = paragrafo.replace(").", ')');
+            paragrafo = paragrafo.replace(").", ')');
+            paragrafo = paragrafo.replace(").", ')');
+            paragrafo = paragrafo.replace("):", ')');
+            paragrafo = paragrafo.replace(");", ')');
+            paragrafo = paragrafo.replace(");                    ", ')');
+            paragrafo = paragrafo.replace(");                ", ')');
+            paragrafo = paragrafo.replace(");                     ", ')');
+            paragrafo = paragrafo.replace(");                    ", ')');
+            paragrafo = paragrafo.replace(");                   ", ')');
+            paragrafo = paragrafo.replace(");                   ", ')');
             console.log(paragrafo)
             if (paragrafo.startsWith('Art')) {
               // Remover o ponto (.) antes de adicionar "Artigo"
@@ -220,21 +230,48 @@ export class OcultacaoBensComponent implements OnInit {
   }
 
   formatarParagrafo(paragrafo: string): string {
-    let shouldBreakLine = false;
     let resultado = '';
-    paragrafo.split(/([.;:])/).forEach((frase, index, array) => {
-      if (/[.;:]$/.test(frase.trim())) {
-        resultado += frase.trim();
-        shouldBreakLine = true;
-      } else {
-        if (shouldBreakLine && !frase.trim().match(/^Lei nº|\d+/i)) {
-          resultado += '<br>';
+    const regex = /([.;:]|\§\d+|Artigo\s+\d+\.)/g;
+    let numeroParagrafo = '';
+    let novoParagrafo = true;
+
+    paragrafo.split(regex).forEach((frase, index, array) => {
+        frase = frase.trim().replace(/\(NR\)\s*-\s*/, ''); // Remove "(NR) -"
+
+        if (/^§\d+$/.test(frase)) { // Se for um parágrafo iniciado com "§" mantém a numeração original
+            numeroParagrafo = frase;
+            novoParagrafo = true;
+        } else if (/[;:]$/.test(frase) || /^Artigo\s+\d+\.$/.test(frase)) { // Verifica se é o final de uma frase ou "Artigo [número]."
+            resultado += frase + `<br>`;
+            if (/[;:]$/.test(frase) && array[index + 1] && array[index + 1].trim() !== '') {
+                resultado += '<br>';
+            }
+        } else if (frase.length > 0) { // Adiciona o texto se não estiver vazio
+            if (novoParagrafo) {
+                resultado += `${numeroParagrafo} ${frase}`;
+                novoParagrafo = false;
+            } else {
+                resultado += ` ${frase}`;
+            }
+            numeroParagrafo = ''; // Limpa o número do parágrafo depois de usá-lo
         }
-        resultado += frase.trim();
-        shouldBreakLine = false;
-      }
     });
-    resultado = resultado.replace(/(LEI Nº 9.613, DE 3 DE MARÇO DE 1998.)/g, '<h6 class="leiClass">$1</h6></br>');
+
+    // Ajustar textos dentro de parênteses
+    resultado = resultado.replace(/\(\s*([^)]*)\s*\)/g, (match, p1) => {
+      return `(${p1.replace(/\s*\n\s*/g, ' ').replace(/\s+/g, ' ')})`;
+    });
+
+    // Adicionar quebra de linha após "Artigo [número]."
+    resultado = resultado.replace(/(Artigo\s+\d+\.)\s*/g, '$1<br>');
+
+    // Adicionar quebra de linha após ponto final, ponto de exclamação e ponto de interrogação seguidos de letra maiúscula
+    resultado = resultado.replace(/([.!?])\s*(?=[A-Z])/g, "$1<br>");
+
+    // Adicionar quebra de linha após qualquer texto dentro de parênteses
+    resultado = resultado.replace(/\(([^);]+)\)\s*/g, '($1)<br><br>');
+
+    resultado = resultado.replace(/(LEI Nº 9 . 613, DE 3 DE MARÇO DE 1998 .)/g, '<h6 class="leiClass">$1</h6></br>');
     resultado = resultado.replace(/(CAPÍTULO I    Dos Crimes de  "Lavagem " ou Ocultação de Bens, Direitos e Valores)/g, '</br><h6 class="leiClass">$1</h6>');
     resultado = resultado.replace(/(CAPÍTULO II    Disposições Processuais Especiais)/g, '</br></br><h6 class="leiClass">$1</h6>');
     resultado = resultado.replace(/(CAPÍTULO III    Dos Efeitos da Condenação)/g, '</br></br><h6 class="leiClass">$1</h6>');

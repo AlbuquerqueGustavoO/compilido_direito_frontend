@@ -33,7 +33,7 @@ export class LeiDrogasComponent implements OnInit {
     this.analyticsService.trackEvent('CodigoPenal-Lei-Drogas', 'CodigoPenal-Lei-Drogas into view');
     this.loading = true;
     this.apiService.getDrogas().subscribe((data: any) => {
-      console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
+      //console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
       if (data !== undefined && typeof data === 'object') {
         if (data.hasOwnProperty('text') && typeof data.text === 'string') {
           let paragrafosComArt: string[] = data.text.split(/(?=Art)/);
@@ -86,7 +86,15 @@ export class LeiDrogasComponent implements OnInit {
             paragrafo = paragrafo.replace("Art. 72. Encerrado o processo penal ou arquivado o inquérito policial, o juiz, de ofício, mediante representação do delegado de polícia ou a requerimento do Ministério Público, determinará a destruição das amostras guardadas para contraprova, certificando isso nos autos.             (Redação dada pela Lei nº 12.961, de 2014)", '');
             paragrafo = paragrafo.replace("Art. 73. A União poderá celebrar convênios com os Estados visando à prevenção e repressão do tráfico ilícito e do uso indevido de drogas.", '');
             paragrafo = paragrafo.replace(`    * ""`,'');
-            console.log(paragrafo)
+            paragrafo = paragrafo.replace(");         ", ')');
+            paragrafo = paragrafo.replace("), ", ')');
+            paragrafo = paragrafo.replace("),", ')');
+            paragrafo = paragrafo.replace(").", ')');
+            paragrafo = paragrafo.replace(").", ')');
+            paragrafo = paragrafo.replace(").", ')');
+            paragrafo = paragrafo.replace("):", ')');
+            paragrafo = paragrafo.replace(");", ')');
+            //console.log(paragrafo)
 
             if (paragrafo.startsWith('Art')) {
               // Remover o ponto (.) antes de adicionar "Artigo"
@@ -202,21 +210,48 @@ export class LeiDrogasComponent implements OnInit {
   }
 
   formatarParagrafo(paragrafo: string): string {
-    let shouldBreakLine = false;
     let resultado = '';
-    paragrafo.split(/([.;:])/).forEach((frase, index, array) => {
-      if (/[.;:]$/.test(frase.trim())) {
-        resultado += frase.trim();
-        shouldBreakLine = true;
-      } else {
-        if (shouldBreakLine && !frase.trim().match(/^Lei nº|\d+/i)) {
-          resultado += '<br>';
+    const regex = /([.;:]|\§\d+|Artigo\s+\d+\.)/g;
+    let numeroParagrafo = '';
+    let novoParagrafo = true;
+
+    paragrafo.split(regex).forEach((frase, index, array) => {
+        frase = frase.trim().replace(/\(NR\)\s*-\s*/, ''); // Remove "(NR) -"
+
+        if (/^§\d+$/.test(frase)) { // Se for um parágrafo iniciado com "§" mantém a numeração original
+            numeroParagrafo = frase;
+            novoParagrafo = true;
+        } else if (/[;:]$/.test(frase) || /^Artigo\s+\d+\.$/.test(frase)) { // Verifica se é o final de uma frase ou "Artigo [número]."
+            resultado += frase + `<br>`;
+            if (/[;:]$/.test(frase) && array[index + 1] && array[index + 1].trim() !== '') {
+                resultado += '<br>';
+            }
+        } else if (frase.length > 0) { // Adiciona o texto se não estiver vazio
+            if (novoParagrafo) {
+                resultado += `${numeroParagrafo} ${frase}`;
+                novoParagrafo = false;
+            } else {
+                resultado += ` ${frase}`;
+            }
+            numeroParagrafo = ''; // Limpa o número do parágrafo depois de usá-lo
         }
-        resultado += frase.trim();
-        shouldBreakLine = false;
-      }
     });
-    resultado = resultado.replace(/(LEI Nº 11.343, DE 23 DE AGOSTO DE 2006)/g, '<h6 class="leiClass">$1</h6></br>');
+
+    // Ajustar textos dentro de parênteses
+    resultado = resultado.replace(/\(\s*([^)]*)\s*\)/g, (match, p1) => {
+      return `(${p1.replace(/\s*\n\s*/g, ' ').replace(/\s+/g, ' ')})`;
+    });
+
+    // Adicionar quebra de linha após "Artigo [número]."
+    resultado = resultado.replace(/(Artigo\s+\d+\.)\s*/g, '$1<br>');
+
+    // Adicionar quebra de linha após ponto final, ponto de exclamação e ponto de interrogação seguidos de letra maiúscula
+    resultado = resultado.replace(/([.!?])\s*(?=[A-Z])/g, "$1<br>");
+
+    // Adicionar quebra de linha após qualquer texto dentro de parênteses
+    resultado = resultado.replace(/\(([^);]+)\)\s*/g, '($1)<br><br>');
+
+    resultado = resultado.replace(/(LEI Nº 11 . 343, DE 23 DE AGOSTO DE 2006)/g, '<h6 class="leiClass">$1</h6></br>');
     resultado = resultado.replace(/(TÍTULO I  DISPOSIÇÕES PRELIMINARES)/g, '</br><h6 class="leiClass">$1</h6>');
     resultado = resultado.replace(/(TÍTULO II  DO SIS TEMA NACIONAL DE POLÍTICAS PÚBLICAS SOBRE DROGAS)/g, '</br><h6 class="leiClass">$1</h6>');
     resultado = resultado.replace(/(CAPÍTULO I  DOS PRINCÍPIOS E DOS OBJETIVOS DO SIS TEMA NACIONAL DE POLÍTICAS PÚBLICAS SOBRE DROGAS)/g, '</br></br><h6 class="leiClass">$1</h6>');
