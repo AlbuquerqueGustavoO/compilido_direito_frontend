@@ -35,7 +35,7 @@ export class CivilCodigoProcessoComponent implements OnInit {
       this.analyticsService.trackEvent('Processo civil','Processo civil into view');
       this.loading = true;
       this.apiService.getCodigoCivil().subscribe((data: any) => {
-        console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
+        //console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
         if (data !== undefined && typeof data === 'object') {
           if (data.hasOwnProperty('text') && typeof data.text === 'string') {
             let paragrafosComArt: string[] = data.text.split(/(?=Art)/);
@@ -101,8 +101,21 @@ export class CivilCodigoProcessoComponent implements OnInit {
               paragrafo = paragrafo.replace("    ...................................................................................", '');
               paragrafo = paragrafo.replace(".    ...................................................................................", '.');
               paragrafo = paragrafo.replace("...........", '');
-              // paragrafo = paragrafo.replace("", '');
-              console.log(paragrafo)
+              paragrafo = paragrafo.replace("), ", ')');
+              paragrafo = paragrafo.replace("),", ')');
+              paragrafo = paragrafo.replace(").", ')');
+              paragrafo = paragrafo.replace(") . ", ')');
+              paragrafo = paragrafo.replace("):", ')');
+              paragrafo = paragrafo.replace(");", ')');
+              paragrafo = paragrafo.replace(") ;", ')');
+              paragrafo = paragrafo.replace(") ; ", ')');
+              paragrafo = paragrafo.replace(");                    ", ')');
+              paragrafo = paragrafo.replace(");                ", ')');
+              paragrafo = paragrafo.replace(");                     ", ')');
+              paragrafo = paragrafo.replace(");                    ", ')');
+              paragrafo = paragrafo.replace(");                   ", ')');
+              paragrafo = paragrafo.replace(");                   ", ')');
+              //console.log(paragrafo)
   
               if (paragrafo.startsWith('Art')) {
                 // Remover o ponto (.) antes de adicionar "Artigo"
@@ -218,21 +231,48 @@ export class CivilCodigoProcessoComponent implements OnInit {
     }
   
     formatarParagrafo(paragrafo: string): string {
-      let shouldBreakLine = false;
       let resultado = '';
-      paragrafo.split(/([.;:])/).forEach((frase, index, array) => {
-        if (/[.;:]$/.test(frase.trim())) {
-          resultado += frase.trim();
-          shouldBreakLine = true;
-        } else {
-          if (shouldBreakLine && !frase.trim().match(/^Lei nº|\d+/i)) {
-            resultado += '<br>';
+      const regex = /([.;:]|\§\d+|Artigo\s+\d+\.)/g;
+      let numeroParagrafo = '';
+      let novoParagrafo = true;
+  
+      paragrafo.split(regex).forEach((frase, index, array) => {
+          frase = frase.trim().replace(/\(NR\)\s*-\s*/, ''); // Remove "(NR) -"
+  
+          if (/^§\d+$/.test(frase)) { // Se for um parágrafo iniciado com "§" mantém a numeração original
+              numeroParagrafo = frase;
+              novoParagrafo = true;
+          } else if (/[;:]$/.test(frase) || /^Artigo\s+\d+\.$/.test(frase)) { // Verifica se é o final de uma frase ou "Artigo [número]."
+              resultado += frase + `<br>`;
+              if (/[;:]$/.test(frase) && array[index + 1] && array[index + 1].trim() !== '') {
+                  resultado += '<br>';
+              }
+          } else if (frase.length > 0) { // Adiciona o texto se não estiver vazio
+              if (novoParagrafo) {
+                  resultado += `${numeroParagrafo} ${frase}`;
+                  novoParagrafo = false;
+              } else {
+                  resultado += ` ${frase}`;
+              }
+              numeroParagrafo = ''; // Limpa o número do parágrafo depois de usá-lo
           }
-          resultado += frase.trim();
-          shouldBreakLine = false;
-        }
       });
-      resultado = resultado.replace(/(LEI Nº 13.105, DE 16 DE MARÇO DE 2015.)/g, '<h6 class="leiClass">$1</h6>');
+  
+      // Ajustar textos dentro de parênteses
+      resultado = resultado.replace(/\(\s*([^)]*)\s*\)/g, (match, p1) => {
+        return `(${p1.replace(/\s*\n\s*/g, ' ').replace(/\s+/g, ' ')})`;
+      });
+  
+      // Adicionar quebra de linha após "Artigo [número]."
+      resultado = resultado.replace(/(Artigo\s+\d+\.)\s*/g, '$1<br>');
+  
+      // Adicionar quebra de linha após ponto final, ponto de exclamação e ponto de interrogação seguidos de letra maiúscula
+      resultado = resultado.replace(/([.!?])\s*(?=[A-Z])/g, "$1<br>");
+  
+      // Adicionar quebra de linha após qualquer texto dentro de parênteses
+      resultado = resultado.replace(/\(([^):]+)\)\s*/g, '($1)<br><br>');
+
+      resultado = resultado.replace(/(LEI Nº 13 . 105, DE 16 DE MARÇO DE 2015 .)/g, '<h6 class="leiClass">$1</h6>');
       resultado = resultado.replace(/(PARTE GERAL    LIVRO I    DAS NORMAS PROCESSUAIS CIVIS)/g, '</br><h6 class="leiClass">$1</h6>');
       resultado = resultado.replace(/(TÍTULO ÚNICO    DAS NORMAS FUNDAMENTAIS E DA APLICAÇÃO DAS NORMAS PROCESSUAIS)/g, '<h6 class="leiClass">$1</h6>');
       resultado = resultado.replace(/(CAPÍTULO I    DAS NORMAS FUNDAMENTAIS DO PROCESSO CIVIL)/g, '<h6 class="leiClass">$1</h6>');
