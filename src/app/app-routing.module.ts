@@ -23,12 +23,12 @@ import { ErrorComponent } from './error/error.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full'},//{ path: '', component: HomeComponent, canActivate: [AuthGuard]}
-  // { 
-  //   path: 'admin', 
-  //   loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
-  //   // canLoad: [AuthGuard],
-  //   data: {roles: ['admin']}
-  // },
+  { 
+    path: 'admin', 
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+    // canLoad: [AuthGuard],
+    // data: {roles: ['admin']}
+  },
   { 
     path: 'quemsomos',
     loadChildren: () => import("./quemsomos/quemsomos.module").then(m => m.QuemSomosModule),

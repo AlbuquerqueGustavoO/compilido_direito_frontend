@@ -1,0 +1,31 @@
+<section class="section-form">
+  <!-- <img class="u-expanded-width u-image u-image-default u-image-1"
+    src="//images01.nicepagecdn.com/c461c07a441a5d220e8feb1a/9732688bbb5f538aaa439d44/gh4.jpg" alt=""
+    data-image-width="1440" data-image-height="1080"> -->
+  <!-- <h2 class="u-align-center u-text u-text-default u-text-1"> Iniciar</h2> -->
+
+  <div class="form-contato-body">
+    <form class="form-group form-contato" (ngSubmit)="sendEmail()">
+      <h4 class="form-contato-titulo">Contate-nos</h4>
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome</label>
+        <input type="text" placeholder="Digite o seu nome" id="nome" class="form-control" [(ngModel)]="name" name="name" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" placeholder="Digite o seu email" id="email" class="form-control" [(ngModel)]="email" name="email" required>
+      </div>
+      <div class="mb-3">
+        <label for="mensagem" class="form-label">Mensagem</label>
+        <textarea placeholder="Digite a sua mensagem" rows="4" cols="50" id="mensagem" class="form-control" [(ngModel)]="message" name="message" required></textarea>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <button type="submit" class="btn u-btn-1">Enviar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</section>

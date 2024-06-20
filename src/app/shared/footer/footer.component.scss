@@ -16,7 +16,7 @@ $font-family_1: cursive;
             text-transform: uppercase;
             font-weight: 600;
             margin-bottom: 7px;
-            font-size: 12.4px;
+            font-size: 14.4px;
             font-family: $font-family_1;
         }
         li {
@@ -27,7 +27,7 @@ $font-family_1: cursive;
         a {
             color: $color_1;
             opacity: 0.9;
-            font-size: 12.4px;
+            font-size: 14.4px;
             text-decoration: none;
             line-height: 1.5rem;
             text-transform: uppercase;
@@ -52,6 +52,15 @@ $font-family_1: cursive;
     > div {
         &:not(:first-child) {
             border-top: 1px solid #ecedf1;
+        }
+    }
+
+    .li-instagram{
+        i{
+            font-size: 25px;
+            margin-left: 20px;
+            margin-top: 10px;
+            color: red;
         }
     }
 

@@ -1,74 +1,4 @@
-<!-- <footer id="new_footer" class="new_footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-2">
-                <ul>
-                    <p>Quem somos</p>
-                    <li><a href="paginas/Quem_somos.html">APRESENTAÇÃO</a></li>
-                    <li><a href="paginas/CertificadosLicencas.html">CERTIFICADOS E LICENÇAS</a></li>
-                    <li><a href="paginas/PlataformaTecnologia.html">PLATAFORMA TECNOLOGIA</a></li>
-                    <li><a href="paginas/PremiosReconhecimento.html">PRÊMIOS E RECONHECIMENTOS</a></li>
-                    <li><a href="paginas/NossasUnidades.html">NOSSAS UNIDADES</a></li>
-                    <li><a href="paginas/LGPD.html">LGPD</a></li>
-                    <li><a href="paginas/PoliticaPrivacidade.html">POLÍTICA DE PRIVACIDADE</a></li>
-                </ul>
-            </div>
-            <div class="col-sm-2">
-                <ul>
-                    <p>Nosso serviços</p>
-                    <li><a href="paginas/Armazenagem.html">ARMAZENAGEM</a></li>
-                    <li><a href="paginas/Refurbishment.html">REFURBISHMENT</a></li>
-                    <li><a href="paginas/GestaoTransporte.html">GESTÃO DE TRANSPORTE</a></li>
-                    <li><a href="paginas/Inventario.html">INVENTÁRIO</a></li>
-                    <li><a href="paginas/InspecaoMateriais.html">INSPEÇÃO DE MATERIAIS</a></li>
-                </ul>
-            </div>
-            <div class="col-sm-2">
-                <ul>
-                    <p>Sustentabilidade</p>
-                    <li><a href="paginas/CompromissoSustentavel.html">COMPROMISSO SUSTENTÁVEL</a></li>
-                    <li><a href="paginas/PoliticasAmbientaleQualidade.html">POLITICAS AMBIENTAL E QUALIDADE</a></li>
-                    <li><a href="paginas/Reciclagem.html">RECICLAGEM</a></li>
-                    <li><a href="paginas/LogisiticaReversa.html">LOGISTICA REVERSA</a></li>
-                    <li><a href="paginas/DesenvolvimentoAmbiental.html">DESENVOLVIMENTO AMBIENTAL</a></li>
-                </ul>
-            </div>
-            <div class="col-sm-2">
-                <ul>
-                    <p>Ações Sociais</p>
-                    <li><a href="paginas/AcaoSocial2021.html">Ação Social</a></li>
-                </ul>
-            </div>
-            <div class="col-sm-2">
-                <ul>
-                    <p>Contato</p>
-                    <li><a href="paginas/Faleconosco.html">FALE CONOSCO</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-sm-3">
-                <ul>
-                    <p>Trabalhe conosco</p>
-                    <li><a href="paginas/CadastrarCurriculo.html">CADASTRE SEU CURRÍCULO</a></li>
-                    <li><a href="paginas/VagasDisponiveis.html">VAGAS DISPONÍVEIS</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div>
-                    <h3>© Copyright TGestiona Transportes e Logística 2001-2020</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer> -->
-
-
-<footer class="Footer" style="display: none;">
+<footer class="Footer">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <div class="row" id="">
@@ -77,53 +7,73 @@
                         <div class="col-xs-2 col-sm-3 mb-3"><!--offset-lg-1 -->
                             <ul>
                                 <p>Quem somos</p>
-                                <li><a href="paginas/Quem_somos.html">APRESENTAÇÃO</a></li>
-                                <li><a href="paginas/CertificadosLicencas.html">CERTIFICADOS E LICENÇAS</a></li>
-                                <li><a href="paginas/PlataformaTecnologia.html">PLATAFORMA TECNOLOGIA</a></li>
-                                <li><a href="paginas/PremiosReconhecimento.html">PRÊMIOS E RECONHECIMENTOS</a></li>
-                                <li><a href="paginas/NossasUnidades.html">NOSSAS UNIDADES</a></li>
-                                <li><a href="paginas/LGPD.html">LGPD</a></li>
-                                <li><a href="paginas/PoliticaPrivacidade.html">POLÍTICA DE PRIVACIDADE</a></li>
+                                <li><a [routerLink]="['/quemsomos/apresentacao']">Apresentação</a></li>
+                                <li><a [routerLink]="['/quemsomos/referencias']">Referências</a></li>
                             </ul>
                         </div>
                         <div class="col-xs-2 col-sm-3 mb-3">
                             <ul>
-                                <p>Nossos serviços</p>
-                                <li><a href="paginas/Armazenagem.html">ARMAZENAGEM</a></li>
-                                <li><a href="paginas/Refurbishment.html">REFURBISHMENT</a></li>
-                                <li><a href="paginas/GestaoTransporte.html">GESTÃO DE TRANSPORTE</a></li>
-                                <li><a href="paginas/Inventario.html">INVENTÁRIO</a></li>
-                                <li><a href="paginas/InspecaoMateriais.html">INSPEÇÃO DE MATERIAIS</a></li>
+                                <p>Constitucional</p>
+                                <li><a [routerLink]="['/constitucional']">Constitucional</a></li>
+                                <li><a [routerLink]="['/constitucional/constitucional-estado-sp']">Constitucional Estado SP</a></li>
                             </ul>
                         </div>
                         <div class="col-xs-2 col-sm-3 mb-3">
                             <ul>
-                                <p>Sustentabilidade</p>
-                                <li><a href="paginas/CompromissoSustentavel.html">COMPROMISSO SUSTENTÁVEL</a></li>
-                                <li><a href="paginas/PoliticasAmbientaleQualidade.html">POLITICAS AMBIENTAL E QUALIDADE</a>
-                                </li>
-                                <li><a href="paginas/Reciclagem.html">RECICLAGEM</a></li>
-                                <li><a href="paginas/LogisiticaReversa.html">LOGISTICA REVERSA</a></li>
-                                <li><a href="paginas/DesenvolvimentoAmbiental.html">DESENVOLVIMENTO AMBIENTAL</a></li>
+                                <p>Administrativo</p>
+                                <li><a [routerLink]="['/administrativo']">Administrativo</a></li>
+                                <li><a [routerLink]="['/administrativo/administrativo-improbidade']">Improbidade Administrativo</a></li>
+                                <li><a [routerLink]="['/administrativo/administrativo-servicosPublicos']">Serviços Públicos</a></li>
+                                <li><a [routerLink]="['/administrativo/administrativo-processo']">Processo Administrativo</a></li>
+                                <li><a [routerLink]="['/administrativo/administrativo-servidoresPublicos']">Servidores Públicos</a></li>
+                                <li><a [routerLink]="['/administrativo/administrativo-parceriaPublico']">Parceria Públicos</a></li>
                             </ul>
                         </div>
                         <div class="col-xs-2 col-sm-3 mb-3">
                             <ul>
-                                <p>Ações Sociais</p>
-                                <li><a href="paginas/AcaoSocial2021.html">Ação Social</a></li>
+                                <p>Tributário</p>
+                                <li><a [routerLink]="['/tributario']">Tributário</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-2 col-sm-3 mb-3">
+                            <ul>
+                                <p>Penal</p>
+                                <li><a [routerLink]="['/penal']">Penal</a></li>
+                                <li><a [routerLink]="['/penal/processo-penal']">Código Processo Penal</a></li>
+                                <li><a [routerLink]="['/penal/crimes-hediondos']">Crimes hediondos</a></li>
+                                <li><a [routerLink]="['/penal/lei-maria-penha']">Lei Maria da Penha</a></li>
+                                <li><a [routerLink]="['/penal/lei-de-drogas']">Lei De Drogas</a></li>
+                                <li><a [routerLink]="['/penal/lei-organizacao-criminosa']">Organização Criminosa</a></li>
+                                <li><a [routerLink]="['/penal/lei-ocultacao-bens']">Ocultação Bens</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-2 col-sm-3 mb-3">
+                            <ul>
+                                <p>Civil</p>
+                                <li><a [routerLink]="['/civil']">Civil</a></li>
+                                <li><a [routerLink]="['/civil/civil-codigo-processo']">Código Processo Civil</a></li>
+                                <li><a [routerLink]="['/civil/civil-normas-direito-brasileiro']">LINDB</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-2 col-sm-3 mb-3" style="display: none;">
+                            <ul>
+                                <p>Trabalho</p>
+                                <li><a [routerLink]="['/pcp']">Processo Civil</a></li>
+                                <li><a [routerLink]="['/pcp']">Trabalho</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-2 col-sm-3 mb-3" style="display: none;">
+                            <ul>
+                                <p>Ética</p>
+                                <li><a [routerLink]="['/pcp']">Processo Civil</a></li>
+                                <li><a [routerLink]="['/pcp']">Trabalho</a></li>
                             </ul>
                         </div>
                         <div class="col-xs-2 col-sm-3 mb-3">
                             <ul>
                                 <p>Contato</p>
-                                <li><a href="paginas/Faleconosco.html">FALE CONOSCO</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-2 col-sm-3 mb-3">
-                            <ul>
-                                <p>Trabalhe conosco</p>
-                                <li><a href="paginas/CadastrarCurriculo.html">CADASTRE SEU CURRÍCULO</a></li>
-                                <li><a href="paginas/VagasDisponiveis.html">VAGAS DISPONÍVEIS</a></li>
+                                <li><a [routerLink]="['/admin/']">Contato</a></li>
+                                <li class="li-instagram"><a href="https://www.instagram.com/compiladodeleis_/" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -135,7 +85,7 @@
         <div class="row">
             <div class="col">
                 <div>
-                    <h3>© Copyright TGestiona Transportes e Logística 2001-2020</h3>
+                    <h3>©Copyright Compilado De Leis 2024</h3>
                 </div>
             </div>
         </div>
