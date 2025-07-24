@@ -32,3 +32,14 @@ jobs:
       - name: Build do projeto
         run: npm run build
         working-directory: src
+
+      - name: Deploy para VPS via SCP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: "src/dist/adv/**"
+          target: "/var/www/compilado_direito_frontend_build"
+          rm: true
