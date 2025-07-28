@@ -25,19 +25,17 @@ export class ImprobidadeAdministrativaComponent implements OnInit {
 
 
   onTermoPesquisaChange(termo: string) {
-    this.termoPesquisaSubject.next(termo); // Envie o termo de pesquisa para o subject
+    this.termoPesquisaSubject.next(termo);
   }
   
   ngOnInit(): void {
     this.analyticsService.trackEvent('Administrativo-Improbidade','Administrativo-Improbidade into view');
     this.loading = true;
     this.apiService.getAdminImprobidade().subscribe((data: any) => {
-      //console.log('Dados recebidos da API:', data); // Verifica o objeto retornado pela API
       if (data !== undefined && typeof data === 'object') {
         if (data.hasOwnProperty('text') && typeof data.text === 'string') {
           let paragrafosComArt: string[] = data.text.split(/(?=Art)/);
 
-          // Remover os 3 primeiros caracteres do primeiro parágrafo
           if (paragrafosComArt.length > 0) {
             paragrafosComArt[0] = paragrafosComArt[0].substring(6);
           }
@@ -123,7 +121,6 @@ export class ImprobidadeAdministrativaComponent implements OnInit {
             //console.log(paragrafo)
             
             if (paragrafo.startsWith('Art')) {
-              // Remover o ponto (.) antes de adicionar "Artigo"
               let formattedParagrafo = this.formatarParagrafo(paragrafo.replace(/^Art\s*/, '')).replace('.', '');
               return 'Artigo ' + formattedParagrafo.replace('<br>', '');
             } else {
@@ -145,7 +142,6 @@ export class ImprobidadeAdministrativaComponent implements OnInit {
       }
     });
 
-    // Aplicar debounce à função highlightWord
     this.termoPesquisaDebounced.pipe(
       debounceTime(300),
     ).subscribe(termo => {
@@ -153,7 +149,6 @@ export class ImprobidadeAdministrativaComponent implements OnInit {
       this.atualizarOcorrencias();
     });
 
-    // Aplicar debounceTime, distinctUntilChanged e filter ao termo de pesquisa
     this.termoPesquisaSubject.pipe(
       debounceTime(300),
       filter(termo => termo.trim() !== ''),
@@ -176,7 +171,7 @@ export class ImprobidadeAdministrativaComponent implements OnInit {
         searchContainer.classList.add('slide-out-left');
         setTimeout(() => {
           searchContainer.classList.add('hidden');
-        }, 500); // O tempo deve ser o mesmo que a duração da animação em milissegundos
+        }, 500);
       }
     }
   }
@@ -215,7 +210,7 @@ export class ImprobidadeAdministrativaComponent implements OnInit {
 
   highlightWord(paragrafo: string, termo: string): string {
     if (!termo || termo.trim() === '' || termo.length <= 5) {
-      return paragrafo; // Não destaca a palavra se o termo não atender aos critérios do filtro
+      return paragrafo;
     }
   
     const regex = new RegExp('(' + termo + ')', 'gi');

@@ -26,7 +26,7 @@ jobs:
         working-directory: src
 
       - name: Rodar testes
-        run: npx ng test --watch=false --browsers=ChromeHeadless || true
+        run: npx ng test --watch=false --browsers=ChromeHeadless
         working-directory: src
 
       - name: Build do projeto
