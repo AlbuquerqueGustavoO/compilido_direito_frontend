@@ -59,7 +59,7 @@ describe('ContatoComponent', () => {
     
     component.sendEmail();
 
-    const req = httpMock.expectOne('http://localhost:3001/contato/send-email');
+    const req = httpMock.expectOne('https://compiladodeleis.com.br:3001/contato/send-email');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual({
       name: 'Gustavo',
