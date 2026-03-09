@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CivilCodigoProcessoComponent } from './civil-codigo-processo/civil-codigo-processo.component';
 import { CivilNormasDireitoBrasileiroComponent } from './civil-normas-direito-brasileiro/civil-normas-direito-brasileiro.component';
+import { SharedModule } from '../shared/shared-module/shared-module';
 
 
 
@@ -21,6 +22,7 @@ import { CivilNormasDireitoBrasileiroComponent } from './civil-normas-direito-br
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule,
   ]
 })
 export class CivilModule { }

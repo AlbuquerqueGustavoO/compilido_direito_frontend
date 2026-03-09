@@ -4,6 +4,8 @@ import { MenuComponent } from '../menu/menu.component';
 import { FooterComponent } from '../footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { ButtontotopComponent } from '../buttontotop/buttontotop.component';
+import { SearchFilterComponent } from '../search-filter/search-filter.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -13,15 +15,18 @@ import { ButtontotopComponent } from '../buttontotop/buttontotop.component';
         MenuComponent,
         FooterComponent,
         ButtontotopComponent,
+        SearchFilterComponent,
       ],
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
   ],
   exports: [
     MenuComponent,
     FooterComponent,
     ButtontotopComponent,
+    SearchFilterComponent,
   ],
 })
 export class SharedModule { }

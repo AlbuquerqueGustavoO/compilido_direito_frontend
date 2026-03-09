@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConstitucionalRoutingModule } from './constitucional-routing.module';
 import { ConstituicaoComponent } from './constituicao/constituicao.component';
 import { ConstitucionalEstadoSpComponent } from './constitucional-estado-sp/constitucional-estado-sp.component';
+import { SharedModule } from '../shared/shared-module/shared-module';
 
 
 
@@ -18,7 +19,8 @@ import { ConstitucionalEstadoSpComponent } from './constitucional-estado-sp/cons
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    ConstitucionalRoutingModule
+    ConstitucionalRoutingModule,
+    SharedModule
   ]
 })
 export class ConstitucionalModule { }

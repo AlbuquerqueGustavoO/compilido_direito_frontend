@@ -1,0 +1,141 @@
+.search-filter-container {
+  width: 100%;
+}
+
+.search-container-parent {
+  position: fixed;
+  margin-top: 80px;
+  z-index: 1000;
+  margin-top: 45px;
+
+  .search-container-body {
+    display: flex;
+  }
+
+  .toggle-search-button {
+    background-color: #00aeef;
+    color: white;
+    border-radius: 30px;
+    height: 42px;
+    width: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-left: 10px;
+    margin-top: 6px;
+
+    &:hover {
+      background-color: #0088cc;
+    }
+  }
+}
+
+.containerFind {
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  left: 0;
+  top: 80px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.search-container {
+  display: none;
+  align-items: center;
+  animation-duration: 0.5s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+  width: -webkit-fill-available;
+  gap: 5px;
+  background-color: #f8f9fa;
+  padding: 8px;
+  border-radius: 5px;
+
+  .search-input {
+    margin-left: 3px;
+    flex: 1;
+    min-width: 200px;
+  }
+}
+
+.search-button {
+  padding: 4px 8px;
+  min-width: 40px;
+  border: 1px solid #ddd;
+  background-color: white;
+  color: #333;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #e9ecef;
+    border-color: #99a;
+  }
+
+  i {
+    font-size: 14px;
+  }
+}
+
+.visible {
+  display: flex;
+  animation-name: slideInRight;
+}
+
+.hidden {
+  display: none;
+}
+
+.form-control {
+  &:focus {
+    box-shadow: 0 0 0 0.1rem rgba(13, 110, 253, 0.25);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.search-container-alt {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  margin-bottom: 20px;
+
+  .search-input {
+    flex: 1;
+  }
+
+  .search-button {
+    white-space: nowrap;
+  }
+}
+
+.search-info {
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  margin: 8px 0;
+}
+
+.highlight {
+  background-color: yellow;
+  font-weight: bold;
+  padding: 2px 4px;
+  border-radius: 2px;
+}
