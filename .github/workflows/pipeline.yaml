@@ -33,6 +33,9 @@ jobs:
         run: npm run build
         working-directory: src
 
+      - name: Gerar sitemap
+        run: node scripts/generate-sitemap.js
+
       - name: Deploy para VPS via SCP
         uses: appleboy/scp-action@master
         with:
