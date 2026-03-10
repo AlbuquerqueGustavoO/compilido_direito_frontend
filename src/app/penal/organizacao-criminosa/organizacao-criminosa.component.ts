@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AnalyticsService } from 'src/app/service/analytics.service';
 import { PenalService } from 'src/app/service/penal.service';
+import { SeoService } from 'src/app/service/seo.service';
 
 @Component({
   selector: 'app-organizacao-criminosa',
   templateUrl: './organizacao-criminosa.component.html',
   styleUrls: ['./organizacao-criminosa.component.scss'],
 })
-
 export class OrganizacaoCriminosaComponent implements OnInit {
   paragrafos: string[] = [];
   termoPesquisa: string = '';
@@ -19,6 +19,7 @@ export class OrganizacaoCriminosaComponent implements OnInit {
     private apiService: PenalService,
     private elementRef: ElementRef,
     private analyticsService: AnalyticsService,
+    private seo: SeoService,
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +29,7 @@ export class OrganizacaoCriminosaComponent implements OnInit {
     );
 
     this.loading = true;
-
+    this.updateSeo();
     this.apiService.getOrganizacaoCriminosa().subscribe((data: any) => {
       if (data && data.text) {
         let paragrafos = data.text.split(/(?=Art)/);
@@ -78,5 +79,14 @@ export class OrganizacaoCriminosaComponent implements OnInit {
 
     const regex = new RegExp(`(${termoEscapado})`, 'gi');
     return paragrafo.replace(regex, '<span class="highlight">$1</span>');
+  }
+
+  updateSeo() {
+    this.seo.updateSeo({
+      title:
+        'Lei de Organização Criminosa (Lei 12.850/2013) - Texto Completo | Compilado de Leis',
+      description:
+        'Consulte a Lei de Organização Criminosa (Lei 12.850/2013) atualizada, com artigos organizados para estudo, concursos públicos e consulta jurídica.',
+    });
   }
 }

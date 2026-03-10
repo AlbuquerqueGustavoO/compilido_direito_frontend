@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AnalyticsService } from 'src/app/service/analytics.service';
 import { PenalService } from 'src/app/service/penal.service';
+import { SeoService } from 'src/app/service/seo.service';
 
 @Component({
   selector: 'app-ocultacao-bens',
@@ -19,6 +20,7 @@ export class OcultacaoBensComponent implements OnInit {
     private apiService: PenalService,
     private elementRef: ElementRef,
     private analyticsService: AnalyticsService,
+    private seo: SeoService,
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +30,7 @@ export class OcultacaoBensComponent implements OnInit {
     );
 
     this.loading = true;
-
+    this.updateSeo();
     this.apiService.getOcultacaoBens().subscribe((data: any) => {
       if (data && data.text) {
         let paragrafos = data.text.split(/(?=Art)/);
@@ -78,5 +80,14 @@ export class OcultacaoBensComponent implements OnInit {
     const termoEscapado = termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${termoEscapado})`, 'gi');
     return paragrafo.replace(regex, '<span class="highlight">$1</span>');
+  }
+
+  updateSeo() {
+    this.seo.updateSeo({
+      title:
+        'Lei de Lavagem de Dinheiro (Lei 9.613/1998) - Ocultação de Bens | Compilado de Leis',
+      description:
+        'Consulte a Lei de Lavagem de Dinheiro (Lei 9.613/1998), que trata da ocultação de bens, direitos e valores, com artigos organizados para estudo e consulta jurídica.',
+    });
   }
 }

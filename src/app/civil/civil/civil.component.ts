@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AnalyticsService } from 'src/app/service/analytics.service';
 import { CivilService } from 'src/app/service/civil.service';
+import { SeoService } from 'src/app/service/seo.service';
 
 @Component({
   selector: 'app-civil',
   templateUrl: './civil.component.html',
   styleUrls: ['./civil.component.scss'],
 })
-
 export class CivilComponent implements OnInit {
   paragrafos: string[] = [];
   termoPesquisa: string = '';
@@ -19,13 +19,14 @@ export class CivilComponent implements OnInit {
     private apiService: CivilService,
     private elementRef: ElementRef,
     private analyticsService: AnalyticsService,
+    private seo: SeoService,
   ) {}
 
   ngOnInit(): void {
     this.analyticsService.trackEvent('Página civil', 'civil into view');
 
     this.loading = true;
-
+    this.updateSeo();
     this.apiService.getTexto().subscribe((data: any) => {
       if (data && data.text) {
         let paragrafos = data.text.split(/(?=Art)/);
@@ -75,5 +76,14 @@ export class CivilComponent implements OnInit {
     const termoEscapado = termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${termoEscapado})`, 'gi');
     return paragrafo.replace(regex, '<span class="highlight">$1</span>');
+  }
+
+  updateSeo() {
+    this.seo.updateSeo({
+      title:
+        'Código Civil Brasileiro (Lei 10.406/2002) - Texto Completo | Compilado de Leis',
+      description:
+        'Consulte o Código Civil Brasileiro (Lei 10.406/2002) atualizado, com artigos organizados para estudo, concursos públicos e consulta jurídica.',
+    });
   }
 }

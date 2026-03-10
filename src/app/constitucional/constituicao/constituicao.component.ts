@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AnalyticsService } from 'src/app/service/analytics.service';
 import { ConstituicaoService } from 'src/app/service/constituicao.service';
+import { SeoService } from 'src/app/service/seo.service';
 
 @Component({
   selector: 'app-constituicao',
   templateUrl: './constituicao.component.html',
   styleUrls: ['./constituicao.component.scss'],
 })
-
 export class ConstituicaoComponent implements OnInit {
   paragrafos: string[] = [];
   termoPesquisa: string = '';
@@ -19,16 +19,17 @@ export class ConstituicaoComponent implements OnInit {
     private apiService: ConstituicaoService,
     private elementRef: ElementRef,
     private analyticsService: AnalyticsService,
+    private seo: SeoService,
   ) {}
 
   ngOnInit(): void {
-    this.loading = true;
-
     this.analyticsService.trackEvent(
       'Constitucional',
       'Constitucional into view',
     );
 
+    this.loading = true;
+    this.updateSeo();
     this.apiService.getConstituicao().subscribe((data: any) => {
       if (data && data.text) {
         let paragrafos = data.text.split(/(?=Art)/);
@@ -78,5 +79,14 @@ export class ConstituicaoComponent implements OnInit {
     const regex = new RegExp('(' + termo + ')', 'gi');
 
     return paragrafo.replace(regex, '<span class="highlight">$1</span>');
+  }
+
+  updateSeo() {
+    this.seo.updateSeo({
+      title:
+        'Direito Constitucional - Constituição e Leis Constitucionais | Compilado de Leis',
+      description:
+        'Consulte conteúdos de Direito Constitucional, incluindo Constituição Federal, constituições estaduais e artigos organizados para estudo e consulta jurídica.',
+    });
   }
 }

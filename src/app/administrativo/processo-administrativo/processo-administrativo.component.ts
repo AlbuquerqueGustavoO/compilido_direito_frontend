@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AdministrativoService } from 'src/app/service/administrativo.service';
 import { AnalyticsService } from 'src/app/service/analytics.service';
+import { SeoService } from 'src/app/service/seo.service';
 
 @Component({
   selector: 'app-processo-administrativo',
   templateUrl: './processo-administrativo.component.html',
   styleUrls: ['./processo-administrativo.component.scss'],
 })
-
 export class ProcessoAdministrativoComponent implements OnInit {
   paragrafos: string[] = [];
   termoPesquisa: string = '';
@@ -19,6 +19,7 @@ export class ProcessoAdministrativoComponent implements OnInit {
     private apiService: AdministrativoService,
     private elementRef: ElementRef,
     private analyticsService: AnalyticsService,
+    private seo: SeoService,
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +29,7 @@ export class ProcessoAdministrativoComponent implements OnInit {
     );
 
     this.loading = true;
-
+    this.updateSeo();
     this.apiService.getAdminProcesso().subscribe((data: any) => {
       if (data && data.text) {
         let paragrafos = data.text.split(/(?=Art)/);
@@ -78,5 +79,14 @@ export class ProcessoAdministrativoComponent implements OnInit {
     const termoEscapado = termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${termoEscapado})`, 'gi');
     return paragrafo.replace(regex, '<span class="highlight">$1</span>');
+  }
+
+  updateSeo() {
+    this.seo.updateSeo({
+      title:
+        'Processo Administrativo - Lei 9.784/1999 e Procedimentos Administrativos | Compilado de Leis',
+      description:
+        'Consulte conteúdos sobre Processo Administrativo no Direito Administrativo, incluindo a Lei 9.784/1999, princípios e procedimentos para estudo e consulta jurídica.',
+    });
   }
 }

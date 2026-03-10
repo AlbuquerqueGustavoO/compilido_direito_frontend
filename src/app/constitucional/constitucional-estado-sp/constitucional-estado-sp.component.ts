@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AnalyticsService } from 'src/app/service/analytics.service';
 import { ConstituicaoService } from 'src/app/service/constituicao.service';
+import { SeoService } from 'src/app/service/seo.service';
 
 @Component({
   selector: 'app-constitucional-estado-sp',
@@ -18,6 +19,7 @@ export class ConstitucionalEstadoSpComponent implements OnInit {
     private apiService: ConstituicaoService,
     private elementRef: ElementRef,
     private analyticsService: AnalyticsService,
+    private seo: SeoService,
   ) {}
 
   ngOnInit(): void {
@@ -27,7 +29,7 @@ export class ConstitucionalEstadoSpComponent implements OnInit {
     );
 
     this.loading = true;
-
+    this.updateSeo();
     this.apiService.getConstituicaoEstadoSP().subscribe((data: any) => {
       if (data && data.text) {
         let paragrafos = data.text.split(/(?=Art)/);
@@ -76,5 +78,14 @@ export class ConstitucionalEstadoSpComponent implements OnInit {
     const termoEscapado = termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${termoEscapado})`, 'gi');
     return paragrafo.replace(regex, '<span class="highlight">$1</span>');
+  }
+
+  updateSeo() {
+    this.seo.updateSeo({
+      title:
+        'Constituição do Estado de São Paulo (SP) - Texto Completo | Compilado de Leis',
+      description:
+        'Leia a Constituição do Estado de São Paulo atualizada, organizada por artigos para estudo, concursos e consulta jurídica rápida.',
+    });
   }
 }

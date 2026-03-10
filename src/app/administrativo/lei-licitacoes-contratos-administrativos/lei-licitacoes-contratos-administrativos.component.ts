@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AdministrativoService } from 'src/app/service/administrativo.service';
 import { AnalyticsService } from 'src/app/service/analytics.service';
+import { SeoService } from 'src/app/service/seo.service';
 
 @Component({
   selector: 'app-lei-licitacoes-contratos-administrativos',
   templateUrl: './lei-licitacoes-contratos-administrativos.component.html',
   styleUrls: ['./lei-licitacoes-contratos-administrativos.component.scss'],
 })
-
 export class LeiLicitacoesContratosAdministrativosComponent implements OnInit {
   paragrafos: string[] = [];
   termoPesquisa: string = '';
@@ -19,6 +19,7 @@ export class LeiLicitacoesContratosAdministrativosComponent implements OnInit {
     private apiService: AdministrativoService,
     private elementRef: ElementRef,
     private analyticsService: AnalyticsService,
+    private seo: SeoService,
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +29,7 @@ export class LeiLicitacoesContratosAdministrativosComponent implements OnInit {
     );
 
     this.loading = true;
-
+    this.updateSeo();
     this.apiService.getAdminContratos().subscribe((data: any) => {
       if (data && data.text) {
         let paragrafos = data.text.split(/(?=Art)/);
@@ -77,5 +78,14 @@ export class LeiLicitacoesContratosAdministrativosComponent implements OnInit {
     const termoEscapado = termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${termoEscapado})`, 'gi');
     return paragrafo.replace(regex, '<span class="highlight">$1</span>');
+  }
+
+  updateSeo() {
+    this.seo.updateSeo({
+      title:
+        'Lei de Licitações e Contratos Administrativos (Lei 14.133) | Compilado de Leis',
+      description:
+        'Consulte a Lei de Licitações e Contratos Administrativos (Lei 14.133/2021) atualizada, com artigos organizados para estudo, concursos públicos e consulta jurídica.',
+    });
   }
 }

@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AnalyticsService } from 'src/app/service/analytics.service';
 import { PenalService } from 'src/app/service/penal.service';
+import { SeoService } from 'src/app/service/seo.service';
 
 @Component({
   selector: 'app-codigo-processo-penal',
   templateUrl: './codigo-processo-penal.component.html',
   styleUrls: ['./codigo-processo-penal.component.scss'],
 })
-
 export class CodigoProcessoPenalComponent implements OnInit {
   paragrafos: string[] = [];
   termoPesquisa: string = '';
@@ -19,6 +19,7 @@ export class CodigoProcessoPenalComponent implements OnInit {
     private apiService: PenalService,
     private elementRef: ElementRef,
     private analyticsService: AnalyticsService,
+    private seo: SeoService,
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +29,7 @@ export class CodigoProcessoPenalComponent implements OnInit {
     );
 
     this.loading = true;
-
+    this.updateSeo();
     this.apiService.getCodigoProcessoPenal().subscribe((data: any) => {
       if (data && data.text) {
         let paragrafos = data.text.split(/(?=Art)/);
@@ -78,5 +79,14 @@ export class CodigoProcessoPenalComponent implements OnInit {
     const termoEscapado = termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${termoEscapado})`, 'gi');
     return paragrafo.replace(regex, '<span class="highlight">$1</span>');
+  }
+  
+  updateSeo() {
+    this.seo.updateSeo({
+      title:
+        'Código de Processo Penal (Decreto-Lei 3.689/1941) - Texto Completo | Compilado de Leis',
+      description:
+        'Consulte o Código de Processo Penal Brasileiro (Decreto-Lei 3.689/1941) atualizado, com artigos organizados para estudo, concursos públicos e consulta jurídica.',
+    });
   }
 }

@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AnalyticsService } from 'src/app/service/analytics.service';
+import { SeoService } from 'src/app/service/seo.service';
 import { TributarioService } from 'src/app/service/tributario.service';
 
 @Component({
@@ -19,6 +20,7 @@ export class CodigoTributarioComponent implements OnInit {
     private apiService: TributarioService,
     private elementRef: ElementRef,
     private analyticsService: AnalyticsService,
+    private seo: SeoService,
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +30,7 @@ export class CodigoTributarioComponent implements OnInit {
     );
 
     this.loading = true;
-
+    this.updateSeo();
     this.apiService.getCodigoTributario().subscribe((data: any) => {
       if (data && data.text) {
         let paragrafos = data.text.split(/(?=Art)/);
@@ -78,5 +80,14 @@ export class CodigoTributarioComponent implements OnInit {
     const termoEscapado = termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${termoEscapado})`, 'gi');
     return paragrafo.replace(regex, '<span class="highlight">$1</span>');
+  }
+
+  updateSeo() {
+    this.seo.updateSeo({
+      title:
+        'Direito Tributário - Impostos, Leis e Legislação Tributária | Compilado de Leis',
+      description:
+        'Consulte conteúdos de Direito Tributário, incluindo impostos, princípios e legislação tributária organizados para estudo, concursos públicos e consulta jurídica.',
+    });
   }
 }

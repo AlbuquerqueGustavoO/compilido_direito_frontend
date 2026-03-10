@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AnalyticsService } from 'src/app/service/analytics.service';
 import { PenalService } from 'src/app/service/penal.service';
+import { SeoService } from 'src/app/service/seo.service';
 
 @Component({
   selector: 'app-codigo-processo-penal',
   templateUrl: './codigo-penal.component.html',
   styleUrls: ['./codigo-penal.component.scss'],
 })
-
 export class CodigoPenalComponent implements OnInit {
   paragrafos: string[] = [];
   termoPesquisa: string = '';
@@ -19,10 +19,12 @@ export class CodigoPenalComponent implements OnInit {
     private apiService: PenalService,
     private elementRef: ElementRef,
     private analyticsService: AnalyticsService,
+    private seo: SeoService,
   ) {}
 
   ngOnInit(): void {
     this.analyticsService.trackEvent('CodigoPenal', 'CodigoPenal into view');
+    this.updateSeo();
 
     this.loading = true;
 
@@ -79,5 +81,14 @@ export class CodigoPenalComponent implements OnInit {
     const termoEscapado = termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${termoEscapado})`, 'gi');
     return paragrafo.replace(regex, '<span class="highlight">$1</span>');
+  }
+
+  updateSeo() {
+    this.seo.updateSeo({
+      title:
+        'Código Penal Brasileiro (Decreto-Lei 2.848/1940) - Texto Completo | Compilado de Leis',
+      description:
+        'Consulte o Código Penal Brasileiro (Decreto-Lei 2.848/1940) atualizado, com artigos organizados para estudo, concursos públicos e consulta jurídica.',
+    });
   }
 }

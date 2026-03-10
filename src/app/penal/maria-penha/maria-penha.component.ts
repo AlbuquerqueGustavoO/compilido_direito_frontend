@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AnalyticsService } from 'src/app/service/analytics.service';
 import { PenalService } from 'src/app/service/penal.service';
+import { SeoService } from 'src/app/service/seo.service';
 
 @Component({
   selector: 'app-maria-penha',
   templateUrl: './maria-penha.component.html',
   styleUrls: ['./maria-penha.component.scss'],
 })
-
 export class MariaPenhaComponent implements OnInit {
   paragrafos: string[] = [];
   termoPesquisa: string = '';
@@ -19,6 +19,7 @@ export class MariaPenhaComponent implements OnInit {
     private apiService: PenalService,
     private elementRef: ElementRef,
     private analyticsService: AnalyticsService,
+    private seo: SeoService,
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +29,7 @@ export class MariaPenhaComponent implements OnInit {
     );
 
     this.loading = true;
-
+    this.updateSeo();
     this.apiService.getMariaPenha().subscribe((data: any) => {
       if (data && data.text) {
         let paragrafos = data.text.split(/(?=Art)/);
@@ -78,5 +79,14 @@ export class MariaPenhaComponent implements OnInit {
     const termoEscapado = termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${termoEscapado})`, 'gi');
     return paragrafo.replace(regex, '<span class="highlight">$1</span>');
+  }
+  
+  updateSeo() {
+    this.seo.updateSeo({
+      title:
+        'Lei Maria da Penha (Lei 11.340/2006) - Texto Completo e Atualizado | Compilado de Leis',
+      description:
+        'Consulte a Lei Maria da Penha (Lei 11.340/2006) atualizada, com artigos organizados para estudo, concursos públicos e consulta jurídica.',
+    });
   }
 }

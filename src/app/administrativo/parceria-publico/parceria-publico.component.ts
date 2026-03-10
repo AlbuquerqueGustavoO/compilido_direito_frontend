@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AdministrativoService } from 'src/app/service/administrativo.service';
 import { AnalyticsService } from 'src/app/service/analytics.service';
+import { SeoService } from 'src/app/service/seo.service';
 
 @Component({
   selector: 'app-parceria-publico',
   templateUrl: './parceria-publico.component.html',
   styleUrls: ['./parceria-publico.component.scss'],
 })
-
 export class ParceriaPublicoComponent implements OnInit {
   paragrafos: string[] = [];
   termoPesquisa: string = '';
@@ -19,6 +19,7 @@ export class ParceriaPublicoComponent implements OnInit {
     private apiService: AdministrativoService,
     private elementRef: ElementRef,
     private analyticsService: AnalyticsService,
+    private seo: SeoService,
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +29,7 @@ export class ParceriaPublicoComponent implements OnInit {
     );
 
     this.loading = true;
-
+    this.updateSeo();
     this.apiService.getAdminParceriaPublica().subscribe((data: any) => {
       if (data && data.text) {
         let paragrafos = data.text.split(/(?=Art)/);
@@ -78,5 +79,14 @@ export class ParceriaPublicoComponent implements OnInit {
     const termoEscapado = termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${termoEscapado})`, 'gi');
     return paragrafo.replace(regex, '<span class="highlight">$1</span>');
+  }
+
+  updateSeo() {
+    this.seo.updateSeo({
+      title:
+        'Parcerias Público-Privadas (PPP) - Lei 11.079/2004 | Compilado de Leis',
+      description:
+        'Consulte conteúdos sobre Parcerias Público-Privadas (PPP) no Direito Administrativo, incluindo a Lei 11.079/2004, princípios e normas para estudo e consulta jurídica.',
+    });
   }
 }

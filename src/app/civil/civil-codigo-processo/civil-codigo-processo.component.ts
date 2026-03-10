@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AnalyticsService } from 'src/app/service/analytics.service';
 import { CivilService } from 'src/app/service/civil.service';
+import { SeoService } from 'src/app/service/seo.service';
 
 @Component({
   selector: 'app-civil-codigo-processo',
   templateUrl: './civil-codigo-processo.component.html',
   styleUrls: ['./civil-codigo-processo.component.scss'],
 })
-
 export class CivilCodigoProcessoComponent implements OnInit {
   paragrafos: string[] = [];
   termoPesquisa: string = '';
@@ -19,6 +19,7 @@ export class CivilCodigoProcessoComponent implements OnInit {
     private apiService: CivilService,
     private elementRef: ElementRef,
     private analyticsService: AnalyticsService,
+    private seo: SeoService,
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +29,7 @@ export class CivilCodigoProcessoComponent implements OnInit {
     );
 
     this.loading = true;
-
+    this.updateSeo();
     this.apiService.getCodigoCivil().subscribe((data: any) => {
       if (data && data.text) {
         let paragrafos = data.text.split(/(?=Art)/);
@@ -78,5 +79,14 @@ export class CivilCodigoProcessoComponent implements OnInit {
     const termoEscapado = termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${termoEscapado})`, 'gi');
     return paragrafo.replace(regex, '<span class="highlight">$1</span>');
+  }
+
+  updateSeo() {
+    this.seo.updateSeo({
+      title:
+        'Código de Processo Civil (Lei 13.105/2015) - Texto Completo | Compilado de Leis',
+      description:
+        'Consulte o Código de Processo Civil (Lei 13.105/2015) atualizado, com artigos organizados para estudo, concursos públicos e consulta jurídica.',
+    });
   }
 }

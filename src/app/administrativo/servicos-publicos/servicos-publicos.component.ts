@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AdministrativoService } from 'src/app/service/administrativo.service';
 import { AnalyticsService } from 'src/app/service/analytics.service';
+import { SeoService } from 'src/app/service/seo.service';
 
 @Component({
   selector: 'app-servicos-publicos',
@@ -19,6 +20,7 @@ export class ServicosPublicosComponent implements OnInit {
     private apiService: AdministrativoService,
     private elementRef: ElementRef,
     private analyticsService: AnalyticsService,
+    private seo: SeoService,
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +30,7 @@ export class ServicosPublicosComponent implements OnInit {
     );
 
     this.loading = true;
-
+    this.updateSeo();
     this.apiService.getAdminServicosPublico().subscribe((data: any) => {
       if (data && data.text) {
         let paragrafos = data.text.split(/(?=Art)/);
@@ -78,5 +80,14 @@ export class ServicosPublicosComponent implements OnInit {
     const termoEscapado = termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${termoEscapado})`, 'gi');
     return paragrafo.replace(regex, '<span class="highlight">$1</span>');
+  }
+
+  updateSeo() {
+    this.seo.updateSeo({
+      title:
+        'Serviços Públicos no Direito Administrativo - Conceitos e Legislação | Compilado de Leis',
+      description:
+        'Consulte conteúdos sobre Serviços Públicos no Direito Administrativo, incluindo conceitos, princípios e legislação organizada para estudo e consulta jurídica.',
+    });
   }
 }

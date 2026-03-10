@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AdministrativoService } from 'src/app/service/administrativo.service';
 import { AnalyticsService } from 'src/app/service/analytics.service';
+import { SeoService } from 'src/app/service/seo.service';
 
 @Component({
   selector: 'app-servidores-publicos',
   templateUrl: './servidores-publicos.component.html',
   styleUrls: ['./servidores-publicos.component.scss'],
 })
-
 export class ServidoresPublicosComponent implements OnInit {
   paragrafos: string[] = [];
   termoPesquisa: string = '';
@@ -19,6 +19,7 @@ export class ServidoresPublicosComponent implements OnInit {
     private apiService: AdministrativoService,
     private elementRef: ElementRef,
     private analyticsService: AnalyticsService,
+    private seo: SeoService,
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +29,7 @@ export class ServidoresPublicosComponent implements OnInit {
     );
 
     this.loading = true;
-
+    this.updateSeo();
     this.apiService.getAdminServidoresPublico().subscribe((data: any) => {
       if (data && data.text) {
         let paragrafos = data.text.split(/(?=Art)/);
@@ -77,5 +78,14 @@ export class ServidoresPublicosComponent implements OnInit {
     const termoEscapado = termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${termoEscapado})`, 'gi');
     return paragrafo.replace(regex, '<span class="highlight">$1</span>');
+  }
+
+  updateSeo() {
+    this.seo.updateSeo({
+      title:
+        'Servidores Públicos - Direitos, Deveres e Lei 8.112 | Compilado de Leis',
+      description:
+        'Consulte conteúdos sobre Servidores Públicos no Direito Administrativo, incluindo direitos, deveres e normas da Lei 8.112 organizadas para estudo e consulta jurídica.',
+    });
   }
 }
