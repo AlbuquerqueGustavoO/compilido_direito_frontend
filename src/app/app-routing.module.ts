@@ -1,28 +1,15 @@
-// import { NgModule } from '@angular/core';
-// import { RouterModule, Routes } from '@angular/router';
-
-// const routes: Routes = [];
-
-// @NgModule({
-//   imports: [RouterModule.forRoot(routes)],
-//   exports: [RouterModule]
-// })
-// export class AppRoutingModule { }
-
-
-
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 // import { AuthGuard } from './auth/auth.guard';
 
-import { HomeComponent } from './home/home.component';
 import { ErrorComponent } from './error/error.component';
+import { ApresentacaoComponent } from './quemsomos/apresentacao/apresentacao.component';
 
 
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, pathMatch: 'full'},//{ path: '', component: HomeComponent, canActivate: [AuthGuard]}
+  { path: '', component: ApresentacaoComponent, pathMatch: 'full'},
   { 
     path: 'admin', 
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
