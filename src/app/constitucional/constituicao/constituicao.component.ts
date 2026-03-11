@@ -31,21 +31,7 @@ export class ConstituicaoComponent implements OnInit {
     this.loading = true;
     this.updateSeo();
     this.apiService.getConstituicao().subscribe((data: any) => {
-      if (data && data.text) {
-        let paragrafos = data.text.split(/(?=Art)/);
-
-        if (paragrafos.length > 0) {
-          paragrafos[0] = paragrafos[0].substring(3);
-        }
-
-        paragrafos = paragrafos
-          .map((paragrafo: string) =>
-            paragrafo.replace(/\n+/g, ' ').replace(/\s+/g, ' ').trim(),
-          )
-          .filter((paragrafo: string) => paragrafo !== '');
-
-        this.paragrafos = paragrafos;
-      }
+      this.paragrafos = data?.text ? [data.text] : [];
       this.loading = false;
     });
   }

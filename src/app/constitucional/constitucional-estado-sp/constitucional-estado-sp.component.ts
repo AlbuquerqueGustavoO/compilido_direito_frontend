@@ -31,20 +31,7 @@ export class ConstitucionalEstadoSpComponent implements OnInit {
     this.loading = true;
     this.updateSeo();
     this.apiService.getConstituicaoEstadoSP().subscribe((data: any) => {
-      if (data && data.text) {
-        let paragrafos = data.text.split(/(?=Art)/);
-
-        if (paragrafos.length > 0) {
-          paragrafos[0] = paragrafos[0].substring(3);
-        }
-
-        paragrafos = paragrafos
-          .map((paragrafo: string) =>
-            paragrafo.replace(/\\n+/g, ' ').replace(/ +/g, ' ').trim(),
-          )
-          .filter((p: any) => p !== '');
-        this.paragrafos = paragrafos;
-      }
+      this.paragrafos = data?.text ? [data.text] : [];
       this.loading = false;
     });
   }
