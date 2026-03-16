@@ -1,276 +1,177 @@
-.hero-home{
-  position: relative;
-}
+// ============================
+// Variáveis
+// ============================
 
-.hero-image {
+$primary-color: #0d6efd;
+$text-dark: #2c2c2c;
+$text-muted: #6c757d;
+
+$card-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+$card-shadow-hover: 0 14px 30px rgba(0, 0, 0, 0.15);
+
+// ============================
+// Hero
+// ============================
+
+.hero-home {
+  position: relative;
+
+  .hero-image {
     width: 100%;
     height: 800px;
-    /* object-fit: cover; */
     padding-top: 60px;
     object-fit: cover;
+  }
 }
 
-.hero-overlay{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  color:black;
-  text-align:center;
+// ============================
+// Cards de Referência
+// ============================
+
+.ref-card {
+  border: none;
+  border-radius: 14px;
+  overflow: hidden;
+  background: white;
+  transition: all .3s ease;
+  box-shadow: $card-shadow;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: $card-shadow-hover;
+  }
+
+  .ref-card-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 24px;
+  }
+
+  .ref-title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: $text-dark;
+  }
+
+  .ref-text {
+    font-size: 14px;
+    color: $text-muted;
+    margin-top: 10px;
+    text-align: center;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .btn-ref {
+    margin-top: auto;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid $primary-color;
+    color: $primary-color;
+    transition: all .25s;
+
+    &:hover {
+      background: $primary-color;
+      color: white;
+    }
+  }
 }
 
-// .component-quemsomos {
-//     position: relative;
-//     .component-quemsomos-body {
-//         @media only screen and (max-width: 768px) {
-//             margin-top: 90px;
-//         }
-//         &::before {
-//             content: "";
-//             background: rgba(0, 0, 0, 0.5);
-//             opacity: 0.3;
-//             min-width: 100%;
-//             min-height: 100%;
-//             position: absolute;
-//             right: 0;
-//             left: 0;
-//             margin: auto;
-//             border-radius: 5px;
-//             filter: blur(5px);
-//             z-index: 100;
-//         }
-//         img {
-//             max-height: 550px;
-//             object-fit: cover;
-//             position: relative;
-//         }
-//         .sub-div {
-//             position: absolute;
-//             bottom: 7%;
-//             z-index: 101;
-//             @media only screen and (max-width: 768px) {
-//                 width: 93%;
-//             }
-//             h1 {
-//                 color: white;
-//                 font-weight: 700;
-//                 font-size: 2.6rem;
-//                 line-height: 2.9rem;
-//                 letter-spacing: -0.025em;
-//                 @media only screen and (max-width: 768px) {
-//                     font-size: 1.7rem;
-//                     text-align: center;
-//                 }
-//             }
-//         }
-//     }
-// }
 
-// .sessao-telefonica {
-//     background-image: url(../../../assets/imagens/tour-bg.png);
-//     background-color: #fbfafa;
-//     background-repeat: repeat-x;
-//     height: 130px;
-//     background-position: center;
-//     display: table;
-//     position: static;
-//     width: 100%;
-//     margin-top: 50px;
-//     .vertical-center{
-//         display: table-cell;
-//         vertical-align: middle;
-//         width: 100%;
-//         .action{
-//             h1{
-//                 font-family: 'Ubuntu', sans-serif;
-//                 color: #404040;
-//                 font-weight: 300;
-//             }
-//             p{
-//                 font-family: -webkit-pictograph;
-//                 font-size: 18px;
-//                 margin-bottom: 0;
-//                 font-weight: 300;
-//             }
-//         }
-//     }
-// }
+.section-header {
+  margin-bottom: 40px;
 
+  h2 {
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
 
+  .section-lead {
+    font-size: 18px;
+    color: #6c757d;
+  }
+}
 
+.presentation {
+  padding: 80px 0;
 
+  p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #555;
+  }
+}
 
+.info-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
 
-// $background-color_1: #004995;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .08);
+  transition: .3s;
 
+  h4 {
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
 
-// .highlight {
-//     background-color: red !important;
-// }
+  p {
+    color: #666;
+    font-size: 15px;
+  }
 
-// #carouselExampleIndicators {
-//     img {
-//         object-fit: cover;
-//         object-position: center;
-//         min-height: 350px;
-//     }
-//     .carousel-inner {
-//         max-height: 630px;
-//     }
-// }
-// #carouselIndicatorsProjeto {
-//     img {
-//         object-fit: cover;
-//         object-position: center;
-//         min-height: 350px;
-//     }
-//     .imgSocial2 {
-//         margin-top: 0 !important;
-//         margin-top: -210px;
-//     }
-//     .imgSocial3 {
-//         margin-top: 0 !important;
-//         margin-top: -90px;
-//     }
-//     .carousel-inner {
-//         max-height: 630px;
-//     }
-// }
-// .action {
-//     height: 255px;
-//     // background-image: url(../../assets/imagens/tour-bg.png);
-//     background-color: #fbfafa;
-//     background-repeat: repeat;
-//     height: 157px;
-//     background-position: center;
-//     display: table;
-//     position: static;
-//     width: 100%;
-//     padding-top: 40px;
-//     span{
-//         color: #00aeef;
-//         // font-weight: 700;
-//         font-size: 2.7rem;
-//         line-height: 2.6rem;
-//         letter-spacing: -0.025em;
-//     }
-//     h3{
-//         margin-top: 5px;
-//         font-size: 18px;
-//     }
-// }
-// .carosousel-home {
-//     img{
-//         min-height: 550px !important;
-//         object-fit: cover;
-//         object-position: center;
-//     }
-//     .carousel-inner {
-//         max-height: 580px;
-//     }
-// }
-// .carousel-indicators {
-//     button {
-//         width: 15px !important;
-//         height: 15px !important;
-//         border-radius: 50%;
-//     }
-//     .active {
-//         background-color: $background-color_1;
-//     }
-// }
-// .carousel-control-prev-icon {
-//     background-color: $background-color_1;
-//     border-radius: 15px;
-//     background-size: 70%;
-//     background-position: 45%;
-// }
-// .carousel-control-next-icon {
-//     background-color: $background-color_1;
-//     border-radius: 15px;
-//     background-size: 70%;
-//     background-position: 45%;
-// }
-// // .variacao-desktop {
-// //     display: block;
-// //     .img-apresentacao {
-// //         margin-top: -180px;
-// //     }
-// // }
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .15);
+  }
+}
 
-// // .variacao-mobile {
-// //     display: none;
-// // }
+.areas {
+  background: #f8f9fa;
+  padding: 80px 0;
+}
 
-// /*VERAO DESK SEM MEDIAQUERY*/
-// .carosousel-home .carousel-inner {
-//     max-height: 580px;
-// }
+.area-card {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
 
-// .carousel-indicators button {
-//     width: 15px !important;
-//     height: 15px !important;
-//     border-radius: 50%;
-// }
+  border-left: 4px solid #0d6efd;
 
-// .carousel-indicators .active {
-//     background-color: #004995; /*#e3f2fd*/
-// }
+  transition: .3s;
 
-// .carousel-control-prev-icon {
-//     background-color: #004995;
-//     border-radius: 15px;
-//     background-size: 70%;
-//     background-position: 45%;
-// }
+  h5 {
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
 
-// .carousel-control-next-icon {
-//     background-color: #004995;
-//     border-radius: 15px;
-//     background-size: 70%;
-//     background-position: 45%;
-// }
+  p {
+    font-size: 14px;
+    color: #666;
+  }
 
-// // .variacao-desktop {
-// //     display: block;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .1);
+  }
+}
 
-// //     .img-apresentacao {
-// //         margin-top: -180px;
-// //     }
-// // }
+.about-law {
+  padding: 100px 0;
 
-// // .variacao-mobile {
-// //     display: none;
-// // }
+  h2 {
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
 
-// @media only screen and (max-width: 768px) {
-//     .carosousel-home img {
-//         min-height: 300px !important;
-//         max-height: 300px;
-//         object-fit: cover;
-//         object-position: bottom;
-//     }
-
-//     // .variacao-mobile {
-//     //     display: block !important;
-//     // }
-
-//     // .variacao-desktop {
-//     //     display: none !important;
-//     // }
-// }
-
-
-// .componentSection {
-//     padding-top: 150px;
-//     h3 {
-//         font-family: sans-serif;
-//         opacity: 0.8;
-//         color: #00aeef;
-//         font-weight: 700;
-//         font-size: 22px;
-//         line-height: 2.6rem;
-//         letter-spacing: -0.025em;
-//         margin-top: 5px;
-//     }
-// }
+  p {
+    color: #555;
+    line-height: 1.7;
+  }
+}
