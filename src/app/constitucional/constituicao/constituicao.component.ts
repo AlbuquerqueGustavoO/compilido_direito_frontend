@@ -31,9 +31,23 @@ export class ConstituicaoComponent implements OnInit {
     this.loading = true;
     this.updateSeo();
     this.apiService.getConstituicao().subscribe((data: any) => {
-      this.paragrafos = data?.text ? [data.text] : [];
+      if (data?.text) {
+        this.paragrafos = this.parseParagrafos(data.text);
+      }
       this.loading = false;
     });
+  }
+
+  private parseParagrafos(texto?: string): string[] {
+    if (!texto) {
+      return [];
+    }
+
+    return texto
+      .replace(/\r\n/g, '\n')
+      .split(/\n{2,}/)
+      .map((bloco) => bloco.trim())
+      .filter((bloco) => bloco.length > 0);
   }
 
   onSearch(event: any) {
@@ -62,8 +76,8 @@ export class ConstituicaoComponent implements OnInit {
       return paragrafo;
     }
 
-    const regex = new RegExp('(' + termo + ')', 'gi');
-
+    const termoEscapado = termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${termoEscapado})`, 'gi');
     return paragrafo.replace(regex, '<span class="highlight">$1</span>');
   }
 

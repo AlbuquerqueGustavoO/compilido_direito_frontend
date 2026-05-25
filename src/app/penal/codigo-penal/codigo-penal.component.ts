@@ -25,32 +25,26 @@ export class CodigoPenalComponent implements OnInit {
   ngOnInit(): void {
     this.analyticsService.trackEvent('CodigoPenal', 'CodigoPenal into view');
     this.updateSeo();
-
     this.loading = true;
-
     this.apiService.getCodigoPenal().subscribe((data: any) => {
-      if (data && data.text) {
-        let paragrafos = data.text.split(/(?=Art)/);
-
-        if (paragrafos.length > 0) {
-          paragrafos[0] = paragrafos[0].substring(6);
-        }
-
-        paragrafos = paragrafos
-          .map((paragrafo: string) =>
-            paragrafo
-              .replace(/\\n+/g, ' ')
-              .replace(/ +/g, ' ')
-              .replace(/\\+/g, ' ')
-              .trim(),
-          )
-          .filter((p: string) => p !== '');
-
-        this.paragrafos = paragrafos;
+      if (data?.text) {
+        this.paragrafos = this.parseParagrafos(data.text);
       }
       this.loading = false;
     });
   }
+
+  private parseParagrafos(texto?: string): string[] {
+    if (!texto) {
+      return [];
+    }
+
+    return texto
+      .replace(/\r\n/g, '\n')
+      .split(/\n{2,}/)
+      .map((bloco) => bloco.trim())
+      .filter((bloco) => bloco.length > 0);
+  } 
 
   onSearch(event: any) {
     this.termoPesquisa = event.termo;
