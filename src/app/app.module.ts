@@ -11,7 +11,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AnalyticsService } from './service/analytics.service';
 import { CommonModule } from '@angular/common';
-
+import { initializeDatadog } from './core/datadog/datadog.config';
+import { GlobalErrorHandler } from './core/datadog/global-error-handler';
+import { ErrorHandler } from '@angular/core';
 
 
 @NgModule({
@@ -27,7 +29,17 @@ import { CommonModule } from '@angular/common';
     SharedModule,
     CommonModule
   ],
-  providers: [AnalyticsService],
+  providers: [AnalyticsService,
+  {
+    provide: ErrorHandler,
+    useClass: GlobalErrorHandler
+  }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+    constructor() {
+      console.log('AppModule carregado');
+        initializeDatadog();
+    }
+}
