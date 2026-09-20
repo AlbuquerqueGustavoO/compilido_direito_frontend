@@ -1,9 +1,15 @@
-<app-menu></app-menu>
+<div class="app-shell" [class.app-shell--collapsed]="!sidebarOpen">
+  <app-sidebar [open]="sidebarOpen" (closeMobile)="sidebarOpen = false"></app-sidebar>
 
-  <main>
-    <router-outlet></router-outlet>
-  </main>
+  <div class="app-shell__content">
+    <app-topbar (toggleSidebar)="toggleSidebar()"></app-topbar>
 
-  <app-buttontotop></app-buttontotop>
-  
-<app-footer></app-footer>
+    <main class="app-shell__main">
+      <router-outlet></router-outlet>
+    </main>
+
+    <app-footer></app-footer>
+  </div>
+</div>
+
+<app-buttontotop></app-buttontotop>

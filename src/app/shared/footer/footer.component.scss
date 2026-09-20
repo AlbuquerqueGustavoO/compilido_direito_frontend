@@ -1,67 +1,26 @@
 $color_1: #1d2231;
-$color_2: #00aeef;
-$font-family_1: cursive;
 
 .Footer {
     background: #f4f5f9;
-    font-size: 12px;
-    line-height: 20px;
-    font-weight: 500;
     color: $color_1;
-    letter-spacing: 0.015em;
-    border-top: 2px solid rgba(227, 228, 233, 0.5);
-    ul {
-        padding-left: 0;
-        p {
-            text-transform: uppercase;
-            font-weight: 600;
-            margin-bottom: 7px;
-            font-size: 14.4px;
-            font-family: $font-family_1;
-        }
-        li {
-            list-style: none;
-            margin-left: 10px;
-            margin-right: 10px;
-        }
-        a {
-            color: $color_1;
-            opacity: 0.9;
-            font-size: 14.4px;
-            text-decoration: none;
-            line-height: 1.5rem;
-            text-transform: uppercase;
-            &:hover {
-                color: $color_2;
-            }
-        }
+    border-top: 1px solid var(--system-color-border);
+
+    .container {
+        padding-top: 20px;
+        padding-bottom: 20px;
     }
 
     h3 {
         color: $color_1;
         opacity: 0.9;
         font-size: 14px;
-    }
-    .container {
-        padding-top: 40px;
-        padding-bottom: 40px;
-    }
-    .container-fluid{
-        justify-content: center;
-    }
-    > div {
-        &:not(:first-child) {
-            border-top: 1px solid #ecedf1;
-        }
+        margin: 0;
     }
 
-    .li-instagram{
-        i{
-            font-size: 25px;
-            margin-left: 20px;
-            margin-top: 10px;
-            color: red;
+    .li-instagram {
+        i {
+            font-size: 22px;
+            color: #d6249f;
         }
     }
-
 }

@@ -1,0 +1,52 @@
+<div class="spinner-container" *ngIf="loading">
+    <div class="spinner-border text-light" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+<section class="artigo-page">
+    <div class="container">
+
+        <div class="artigo-toolbar">
+            <div class="artigo-toolbar__tabs">
+                <button type="button" class="artigo-toolbar__tab" [class.is-active]="abaAtiva === 'todos'"
+                    (click)="selecionarAba('todos')">Todos</button>
+                <button type="button" class="artigo-toolbar__tab" [class.is-active]="abaAtiva === 'incidencia'"
+                    (click)="selecionarAba('incidencia')">Com Incidência</button>
+                <button type="button" class="artigo-toolbar__tab" [class.is-active]="abaAtiva === 'novidades'"
+                    (click)="selecionarAba('novidades')">Novidades</button>
+            </div>
+            <div class="artigo-toolbar__search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" [ngModel]="termoBusca" (ngModelChange)="onBuscaChange($event)"
+                    placeholder="Buscar no texto ou por artigo (ex.: art. 121)">
+            </div>
+        </div>
+
+        <div *ngFor="let secao of secoesFiltradas" class="artigo-secao">
+            <header *ngIf="secao.cabecalho" class="artigo-secao__header"
+                [class.artigo-secao__header--sub]="secao.cabecalho.nivel === 'subsecao'">
+                <span *ngIf="secao.cabecalho.titulo" class="artigo-secao__rotulo">{{ secao.cabecalho.rotulo }}</span>
+                <h2 class="artigo-secao__titulo">{{ secao.cabecalho.titulo || secao.cabecalho.rotulo }}</h2>
+            </header>
+
+            <p *ngFor="let texto of secao.textos" class="artigo-secao__texto">{{ texto }}</p>
+
+            <article *ngFor="let artigo of secao.artigos" class="artigo-card" [id]="'artigo-' + artigo.numero">
+                <p *ngFor="let linha of artigo.linhas" class="artigo-card__linha"
+                    [ngClass]="'artigo-card__linha--' + linha.tipo">
+                    <strong *ngIf="linha.prefixo">{{ linha.prefixo }}</strong>{{ linha.resto }}
+                </p>
+                <footer class="artigo-card__footer">
+                    <span><i class="fa-regular fa-comment"></i> Comentários (0)</span>
+                    <span><i class="fa-regular fa-file-lines"></i> Observações (0)</span>
+                </footer>
+            </article>
+        </div>
+
+        <p *ngIf="!loading && secoesFiltradas.length === 0" class="artigo-secao__vazio">
+            Nenhum resultado encontrado.
+        </p>
+
+    </div>
+</section>

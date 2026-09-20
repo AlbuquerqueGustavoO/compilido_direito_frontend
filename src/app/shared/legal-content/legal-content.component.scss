@@ -1,0 +1,179 @@
+.artigo-page {
+    padding-top: var(--system-space-24);
+    padding-bottom: var(--system-space-32);
+}
+
+.artigo-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--system-space-16);
+    flex-wrap: wrap;
+    margin-bottom: var(--system-space-32);
+}
+
+.artigo-toolbar__tabs {
+    display: flex;
+    gap: var(--system-space-8);
+}
+
+.artigo-toolbar__tab {
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: 1px solid var(--system-color-border);
+    background: var(--system-color-surface);
+    color: var(--system-color-muted);
+    font-family: "Roboto", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+
+    &:hover:not(.is-active) {
+        background: var(--system-color-bg);
+    }
+
+    &.is-active {
+        background: var(--system-color-primary);
+        border-color: var(--system-color-primary);
+        color: #fff;
+    }
+}
+
+.artigo-toolbar__search {
+    display: flex;
+    align-items: center;
+    gap: var(--system-space-8);
+    background: var(--system-color-surface);
+    border: 1px solid var(--system-color-border);
+    border-radius: var(--system-radius-md);
+    padding: 8px 16px;
+    flex: 1;
+    max-width: 420px;
+
+    i {
+        color: var(--system-color-muted);
+    }
+
+    input {
+        border: none;
+        outline: none;
+        flex: 1;
+        min-width: 0;
+        background: transparent;
+        font-family: "Roboto", sans-serif;
+        font-size: 14px;
+        color: var(--system-color-text);
+    }
+}
+
+.artigo-secao {
+    margin-bottom: var(--system-space-32);
+}
+
+.artigo-secao__header {
+    text-align: center;
+    margin-bottom: var(--system-space-24);
+
+    &--sub {
+        margin-bottom: var(--system-space-16);
+
+        .artigo-secao__titulo {
+            font-size: 15px;
+            border-bottom-width: 1px;
+        }
+    }
+}
+
+.artigo-secao__rotulo {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--system-color-primary-dark);
+    margin-bottom: 4px;
+}
+
+.artigo-secao__titulo {
+    display: inline-block;
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--system-color-text);
+    margin: 0;
+    padding-bottom: var(--system-space-8);
+    border-bottom: 2px solid var(--system-color-primary);
+}
+
+.artigo-secao__texto {
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--system-color-text);
+    margin-bottom: var(--system-space-16);
+}
+
+.artigo-card {
+    background: var(--system-color-surface);
+    border: 1px solid var(--system-color-border);
+    border-radius: var(--system-radius-md);
+    box-shadow: var(--system-shadow-sm);
+    padding: var(--system-space-16) var(--system-space-24);
+    margin-bottom: var(--system-space-16);
+}
+
+.artigo-card__linha {
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--system-color-text);
+    margin: 0 0 var(--system-space-8) 0;
+
+    strong {
+        font-weight: 700;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.artigo-card__linha--inciso,
+.artigo-card__linha--alinea {
+    padding-left: var(--system-space-16);
+    color: var(--system-color-muted);
+    font-size: 14px;
+}
+
+.artigo-card__footer {
+    display: flex;
+    gap: var(--system-space-24);
+    margin-top: var(--system-space-12);
+    padding-top: var(--system-space-12);
+    border-top: 1px solid var(--system-color-border);
+    font-size: 13px;
+    color: var(--system-color-muted);
+
+    span {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+}
+
+.artigo-secao__vazio {
+    text-align: center;
+    color: var(--system-color-muted);
+    padding: var(--system-space-32) 0;
+}
+
+@media (max-width: 600px) {
+    .artigo-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .artigo-toolbar__search {
+        max-width: none;
+    }
+}

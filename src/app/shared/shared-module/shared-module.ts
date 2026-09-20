@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MenuComponent } from '../menu/menu.component';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { TopbarComponent } from '../topbar/topbar.component';
 import { FooterComponent } from '../footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { ButtontotopComponent } from '../buttontotop/buttontotop.component';
-import { SearchFilterComponent } from '../search-filter/search-filter.component';
+import { LegalContentComponent } from '../legal-content/legal-content.component';
 import { FormsModule } from '@angular/forms';
 
 
@@ -12,10 +13,11 @@ import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-        MenuComponent,
+        SidebarComponent,
+        TopbarComponent,
         FooterComponent,
         ButtontotopComponent,
-        SearchFilterComponent,
+        LegalContentComponent,
       ],
   imports: [
     CommonModule,
@@ -23,10 +25,11 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
   ],
   exports: [
-    MenuComponent,
+    SidebarComponent,
+    TopbarComponent,
     FooterComponent,
     ButtontotopComponent,
-    SearchFilterComponent,
+    LegalContentComponent,
   ],
 })
 export class SharedModule { }

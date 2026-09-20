@@ -1,0 +1,38 @@
+<aside class="sidebar" [class.sidebar--open]="open">
+  <div class="sidebar__brand" routerLink="/quemsomos/apresentacao">
+    <img src="assets/imagens/logo-marca-2.png" alt="Compilado de Leis" class="sidebar__logo" />
+    <span class="sidebar__title">Compilado de Leis</span>
+  </div>
+
+  <nav class="sidebar__nav">
+    <ul>
+      <li class="sidebar__item" *ngFor="let item of navItems">
+
+        <a *ngIf="!item.children" class="sidebar__link" [routerLink]="item.path"
+          routerLinkActive="is-active" [routerLinkActiveOptions]="{exact: true}" (click)="onLinkClick()">
+          <i class="sidebar__icon" [class]="item.icon"></i>
+          <span class="sidebar__label">{{ item.label }}</span>
+        </a>
+
+        <ng-container *ngIf="item.children">
+          <button type="button" class="sidebar__link sidebar__group-toggle" [class.is-active]="isGroupActive(item)"
+            (click)="toggleGroup(item)">
+            <i class="sidebar__icon" [class]="item.icon"></i>
+            <span class="sidebar__label">{{ item.label }}</span>
+            <i class="fa-solid fa-chevron-down sidebar__chevron" [class.sidebar__chevron--open]="isGroupOpen(item)"></i>
+          </button>
+
+          <ul class="sidebar__subnav" *ngIf="isGroupOpen(item)">
+            <li *ngFor="let child of item.children">
+              <a class="sidebar__sublink" [routerLink]="child.path" routerLinkActive="is-active"
+                [routerLinkActiveOptions]="{exact: true}" (click)="onLinkClick()">{{ child.label }}</a>
+            </li>
+          </ul>
+        </ng-container>
+
+      </li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="sidebar__backdrop" *ngIf="open" (click)="onLinkClick()"></div>
