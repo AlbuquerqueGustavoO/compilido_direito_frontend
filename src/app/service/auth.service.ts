@@ -41,8 +41,11 @@ export class AuthService {
     return this.http.post<LoginResponse>(this.apiUrl + '/login', { email, senha }).pipe(
       tap((resposta) => {
         if (!resposta.error && resposta.token && resposta.usuario) {
-          localStorage.setItem(TOKEN_KEY, resposta.token);
-          localStorage.setItem(USUARIO_KEY, JSON.stringify(resposta.usuario));
+          // sessionStorage (não localStorage): o token não fica salvo entre
+          // sessões do navegador, reduzindo a janela de exposição caso o
+          // dispositivo seja comprometido — cada aba/sessão exige novo login.
+          sessionStorage.setItem(TOKEN_KEY, resposta.token);
+          sessionStorage.setItem(USUARIO_KEY, JSON.stringify(resposta.usuario));
           this.usuarioAtualSubject.next(resposta.usuario);
         }
       }),
@@ -54,18 +57,18 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USUARIO_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(USUARIO_KEY);
     this.usuarioAtualSubject.next(null);
     this.router.navigateByUrl('/auth/login');
   }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem(TOKEN_KEY);
+    return !!sessionStorage.getItem(TOKEN_KEY);
   }
 
   private lerUsuarioSalvo(): Usuario | null {
-    const bruto = localStorage.getItem(USUARIO_KEY);
+    const bruto = sessionStorage.getItem(USUARIO_KEY);
     if (!bruto) {
       return null;
     }
