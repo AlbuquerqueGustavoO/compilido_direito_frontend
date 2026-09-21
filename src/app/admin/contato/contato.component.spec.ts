@@ -3,6 +3,7 @@ import { ContatoComponent } from './contato.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment';
 
 describe('ContatoComponent', () => {
   let component: ContatoComponent;
@@ -59,7 +60,7 @@ describe('ContatoComponent', () => {
     
     component.sendEmail();
 
-    const req = httpMock.expectOne('https://compiladodeleis.com.br:3001/contato/send-email');
+    const req = httpMock.expectOne(environment.apiLink + 'contato/send-email');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual({
       name: 'Gustavo',
