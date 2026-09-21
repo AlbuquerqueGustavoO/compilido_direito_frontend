@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { AnalyticsService } from './service/analytics.service';
+import { AuthService } from './service/auth.service';
 
 const DESKTOP_BREAKPOINT = 993;
 
@@ -19,9 +20,19 @@ export class AppComponent implements OnInit {
 
   // Rotas marcadas com `data: { standalone: true }` (login/cadastro) não
   // mostram sidebar/topbar — ainda não existe um usuário logado nelas.
-  isStandalone = false;
+  // Como toda rota fora de /auth exige login, dá pra saber de cara (antes do
+  // router resolver a navegação) se o shell deve aparecer ou não — sem isso,
+  // o valor inicial ficava em `false` e o shell inteiro (sidebar com todos os
+  // links) piscava na tela até o guard redirecionar quem não está logado.
+  isStandalone: boolean;
 
-  constructor(private analyticsService: AnalyticsService, private router: Router) { }
+  constructor(
+    private analyticsService: AnalyticsService,
+    private router: Router,
+    private authService: AuthService,
+  ) {
+    this.isStandalone = !this.authService.isAuthenticated();
+  }
 
   ngOnInit(): void {
     this.analyticsService.trackEvent('Página inicial', 'Pagina inicial into view');
