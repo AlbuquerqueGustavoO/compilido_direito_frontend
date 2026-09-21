@@ -5,6 +5,20 @@
 
   <div class="topbar__spacer"></div>
 
-  <!-- Placeholder visual até existir autenticação/usuário real -->
-  <div class="topbar__avatar" title="Usuário">CL</div>
+  <div class="topbar__user">
+    <button type="button" class="topbar__avatar" [attr.title]="(usuarioAtual$ | async)?.nome"
+      (click)="toggleMenu()">{{ iniciais$ | async }}</button>
+
+    <div class="topbar__menu" *ngIf="menuAberto">
+      <div class="topbar__menu-info">
+        <strong>{{ (usuarioAtual$ | async)?.nome }}</strong>
+        <span>{{ (usuarioAtual$ | async)?.email }}</span>
+      </div>
+      <button type="button" class="topbar__menu-sair" (click)="sair()">
+        <i class="fa-solid fa-right-from-bracket"></i> Sair
+      </button>
+    </div>
+  </div>
 </header>
+
+<div class="topbar__backdrop" *ngIf="menuAberto" (click)="fecharMenu()"></div>

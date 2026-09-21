@@ -33,6 +33,10 @@
     flex: 1;
 }
 
+.topbar__user {
+    position: relative;
+}
+
 .topbar__avatar {
     display: flex;
     align-items: center;
@@ -40,10 +44,70 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
+    border: none;
     background: var(--system-color-primary);
     color: #fff;
     font-family: "Roboto", sans-serif;
     font-weight: 700;
     font-size: 13px;
     flex-shrink: 0;
+    cursor: pointer;
+}
+
+.topbar__menu {
+    position: absolute;
+    top: calc(100% + var(--system-space-8));
+    right: 0;
+    min-width: 220px;
+    background: var(--system-color-surface);
+    border: 1px solid var(--system-color-border);
+    border-radius: var(--system-radius-md);
+    box-shadow: var(--system-shadow-md);
+    z-index: 1060;
+    overflow: hidden;
+}
+
+.topbar__menu-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--system-space-12) var(--system-space-16);
+    border-bottom: 1px solid var(--system-color-border);
+    font-family: "Roboto", sans-serif;
+
+    strong {
+        font-size: 14px;
+        color: var(--system-color-text);
+    }
+
+    span {
+        font-size: 12px;
+        color: var(--system-color-muted);
+    }
+}
+
+.topbar__menu-sair {
+    display: flex;
+    align-items: center;
+    gap: var(--system-space-8);
+    width: 100%;
+    padding: var(--system-space-12) var(--system-space-16);
+    border: none;
+    background: none;
+    color: var(--system-color-error);
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+
+    &:hover {
+        background: var(--system-color-bg);
+    }
+}
+
+.topbar__backdrop {
+    position: fixed;
+    inset: 0;
+    // Precisa ficar abaixo do stacking context do .topbar (z-index: 1030) para
+    // não tampar cliques no menu, que só tem prioridade dentro desse contexto.
+    z-index: 1020;
 }

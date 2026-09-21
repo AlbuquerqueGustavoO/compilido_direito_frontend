@@ -17,6 +17,10 @@ export class AppComponent implements OnInit {
   // fechada (comporta-se como uma gaveta aberta pelo botão da topbar).
   sidebarOpen = window.innerWidth >= DESKTOP_BREAKPOINT;
 
+  // Rotas marcadas com `data: { standalone: true }` (login/cadastro) não
+  // mostram sidebar/topbar — ainda não existe um usuário logado nelas.
+  isStandalone = false;
+
   constructor(private analyticsService: AnalyticsService, private router: Router) { }
 
   ngOnInit(): void {
@@ -28,7 +32,22 @@ export class AppComponent implements OnInit {
         if (window.innerWidth < DESKTOP_BREAKPOINT) {
           this.sidebarOpen = false;
         }
+        this.isStandalone = this.rotaAtualEhStandalone();
       });
+  }
+
+  private rotaAtualEhStandalone(): boolean {
+    let route = this.router.routerState.snapshot.root;
+    while (route) {
+      if (route.data['standalone']) {
+        return true;
+      }
+      if (!route.firstChild) {
+        break;
+      }
+      route = route.firstChild;
+    }
+    return false;
   }
 
   toggleSidebar(): void {

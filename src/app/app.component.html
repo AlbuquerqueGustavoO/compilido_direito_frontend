@@ -1,15 +1,21 @@
-<div class="app-shell" [class.app-shell--collapsed]="!sidebarOpen">
-  <app-sidebar [open]="sidebarOpen" (closeMobile)="sidebarOpen = false"></app-sidebar>
+<ng-container *ngIf="!isStandalone; else standaloneContent">
+  <div class="app-shell" [class.app-shell--collapsed]="!sidebarOpen">
+    <app-sidebar [open]="sidebarOpen" (closeMobile)="sidebarOpen = false"></app-sidebar>
 
-  <div class="app-shell__content">
-    <app-topbar (toggleSidebar)="toggleSidebar()"></app-topbar>
+    <div class="app-shell__content">
+      <app-topbar (toggleSidebar)="toggleSidebar()"></app-topbar>
 
-    <main class="app-shell__main">
-      <router-outlet></router-outlet>
-    </main>
+      <main class="app-shell__main">
+        <router-outlet></router-outlet>
+      </main>
 
-    <app-footer></app-footer>
+      <app-footer></app-footer>
+    </div>
   </div>
-</div>
 
-<app-buttontotop></app-buttontotop>
+  <app-buttontotop></app-buttontotop>
+</ng-container>
+
+<ng-template #standaloneContent>
+  <router-outlet></router-outlet>
+</ng-template>
