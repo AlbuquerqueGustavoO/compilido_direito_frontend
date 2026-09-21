@@ -59,7 +59,13 @@ export class LoginComponent implements OnInit {
       },
       error: (err) => {
         this.enviando = false;
-        this.erro = err?.error?.mensagem || 'Não foi possível entrar. Tente novamente.';
+        // Só 401 (credenciais inválidas) é uma mensagem pensada para o
+        // usuário; qualquer outro status é falha inesperada do servidor —
+        // não faz sentido mostrar a exceção crua (ex.: erro de configuração
+        // do backend) na tela de login.
+        this.erro = err?.status === 401 && err?.error?.mensagem
+          ? err.error.mensagem
+          : 'Não foi possível entrar. Tente novamente mais tarde.';
       },
     });
   }

@@ -73,7 +73,11 @@ export class CadastroComponent {
       },
       error: (err) => {
         this.enviando = false;
-        this.erro = err?.error?.mensagem || 'Não foi possível concluir o cadastro. Tente novamente.';
+        // 400 aqui normalmente é uma mensagem pensada pro usuário (e-mail já
+        // cadastrado); qualquer outro status é falha inesperada do servidor.
+        this.erro = err?.status === 400 && err?.error?.mensagem
+          ? err.error.mensagem
+          : 'Não foi possível concluir o cadastro. Tente novamente mais tarde.';
       },
     });
   }
