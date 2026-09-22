@@ -1,6 +1,6 @@
 <ng-container *ngIf="!isStandalone; else standaloneContent">
   <div class="app-shell" [class.app-shell--collapsed]="!sidebarOpen">
-    <app-sidebar [open]="sidebarOpen" (closeMobile)="sidebarOpen = false"></app-sidebar>
+    <app-sidebar [open]="sidebarOpen" (closeMobile)="onSidebarCloseMobile()" (toggleCollapse)="toggleSidebar()"></app-sidebar>
 
     <div class="app-shell__content">
       <app-topbar (toggleSidebar)="toggleSidebar()"></app-topbar>

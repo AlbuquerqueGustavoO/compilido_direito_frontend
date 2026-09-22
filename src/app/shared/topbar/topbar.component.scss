@@ -111,3 +111,14 @@
     // não tampar cliques no menu, que só tem prioridade dentro desse contexto.
     z-index: 1020;
 }
+
+// Mesmo breakpoint do .sidebar__collapse-toggle (sidebar.component.scss):
+// os dois botões controlam a mesma coisa, então só um deve aparecer por vez.
+// Abaixo de 993px o collapse-toggle fica oculto (sidebar vira gaveta
+// off-canvas) e é este hambúrguer que assume; a partir de 993px o
+// collapse-toggle flutuante já cobre a função.
+@media (min-width: 993px) {
+    .topbar__toggle {
+        display: none;
+    }
+}

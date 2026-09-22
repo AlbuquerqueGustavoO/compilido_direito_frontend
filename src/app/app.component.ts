@@ -64,4 +64,13 @@ export class AppComponent implements OnInit {
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
   }
+
+  // Vem do clique num link ou no backdrop da sidebar. Só deve fechar a
+  // gaveta no mobile — no desktop isso não pode recolher a sidebar toda vez
+  // que o usuário clica num link.
+  onSidebarCloseMobile(): void {
+    if (window.innerWidth < DESKTOP_BREAKPOINT) {
+      this.sidebarOpen = false;
+    }
+  }
 }

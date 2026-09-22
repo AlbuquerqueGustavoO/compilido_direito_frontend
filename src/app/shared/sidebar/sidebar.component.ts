@@ -23,6 +23,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   @Input() open = true;
   @Output() closeMobile = new EventEmitter<void>();
+  @Output() toggleCollapse = new EventEmitter<void>();
 
   navItems: NavItem[] = [
     { label: 'Apresentação', icon: 'fa-solid fa-house', path: '/quemsomos/apresentacao' },
@@ -33,7 +34,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       ]
     },
     {
-      label: 'Administrativo', icon: 'fa-solid fa-building-columns', path: '/administrativo',
+      label: 'Administrativo', icon: 'fa-solid fa-stamp', path: '/administrativo',
       children: [
         { label: 'LLICA', path: '/administrativo' },
         { label: 'Improbidade Administrativa', path: '/administrativo/administrativo-improbidade' },

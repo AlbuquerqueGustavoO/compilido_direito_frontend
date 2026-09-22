@@ -46,7 +46,8 @@
 .sidebar__nav {
     flex: 1;
     overflow-y: auto;
-    padding: var(--system-space-12) var(--system-space-8);
+    overflow-x: hidden;
+    padding: var(--system-space-16) var(--system-space-12);
 
     ul {
         list-style: none;
@@ -55,48 +56,101 @@
     }
 }
 
+.sidebar__section-label {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: "Roboto", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--system-color-muted);
+    padding: 0 var(--system-space-12);
+    margin-bottom: var(--system-space-12);
+    white-space: nowrap;
+}
+
+.sidebar__item {
+    margin-bottom: 2px;
+}
+
 .sidebar__link {
     display: flex;
     align-items: center;
     gap: var(--system-space-12);
     width: 100%;
-    padding: var(--system-space-12);
+    padding: 10px var(--system-space-12);
     border: none;
     background: none;
     border-radius: var(--system-radius-md);
     color: var(--system-color-muted);
     font-family: "Roboto", sans-serif;
-    font-size: 14px;
+    font-size: 14.5px;
     font-weight: 500;
     text-decoration: none;
+    text-align: left;
     cursor: pointer;
     white-space: nowrap;
+    transition: background-color 0.15s ease, color 0.15s ease;
 
     &:hover {
-        background: var(--system-color-bg);
+        background: rgba(20, 184, 166, 0.06);
         color: var(--system-color-text);
     }
 
     &.is-active {
-        background: rgba(20, 184, 166, 0.1);
+        background: rgba(20, 184, 166, 0.12);
         color: var(--system-color-primary-dark);
+        font-weight: 700;
+
+        .sidebar__icon {
+            color: var(--system-color-primary);
+        }
+
+        &:hover {
+            background: rgba(20, 184, 166, 0.16);
+        }
+    }
+
+    // O botão de grupo fica ativo junto com o filho ativo (mesma condição:
+    // "a rota atual está dentro deste grupo"). Se os dois usassem o mesmo
+    // pill preenchido, ficariam colados um no outro e virariam um bloco
+    // verde único. Aqui o grupo só ganha texto/ícone coloridos — o pill
+    // preenchido de verdade fica reservado pro item folha (a página atual).
+    &.sidebar__group-toggle.is-active {
+        background: none;
+        color: var(--system-color-primary-dark);
+
+        &:hover {
+            background: rgba(20, 184, 166, 0.06);
+        }
     }
 }
 
 .sidebar__icon {
-    width: 18px;
-    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    font-size: 16px;
     flex-shrink: 0;
+    color: inherit;
+
+    i {
+        line-height: 1;
+    }
 }
 
 .sidebar__label {
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding-top: 3px;
 }
 
 .sidebar__chevron {
     font-size: 11px;
+    color: var(--system-color-muted);
     transition: transform 0.15s ease;
     flex-shrink: 0;
 
@@ -106,28 +160,69 @@
 }
 
 .sidebar__subnav {
-    padding-left: var(--system-space-32) !important;
+    padding-left: 34px !important;
+    margin-top: 2px;
 
     .sidebar__sublink {
         display: block;
-        padding: var(--system-space-8) var(--system-space-12);
+        padding: 8px var(--system-space-12);
         border-radius: var(--system-radius-md);
         color: var(--system-color-muted);
         font-family: "Roboto", sans-serif;
-        font-size: 13px;
+        font-size: 13.5px;
         text-decoration: none;
         white-space: nowrap;
+        transition: background-color 0.15s ease, color 0.15s ease;
 
         &:hover {
-            background: var(--system-color-bg);
+            background: rgba(20, 184, 166, 0.06);
             color: var(--system-color-text);
         }
 
         &.is-active {
+            background: rgba(20, 184, 166, 0.12);
             color: var(--system-color-primary-dark);
             font-weight: 600;
+
+            &:hover {
+                background: rgba(20, 184, 166, 0.16);
+            }
         }
     }
+}
+
+.sidebar__collapse-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // position: fixed (não absolute) de propósito: `.sidebar` tem
+    // overflow-x: hidden (pra não criar scroll horizontal durante a
+    // transição de largura), e isso recorta qualquer filho `absolute` que
+    // vaze pra fora da caixa. `fixed` se posiciona contra a viewport e
+    // escapa desse corte, desde que nenhum ancestral tenha transform ativo
+    // (no desktop não tem; no mobile o botão fica oculto de qualquer jeito).
+    position: fixed;
+    top: 76px;
+    left: calc(var(--system-sidebar-width) - 13px);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--system-color-border);
+    background: var(--system-color-primary);
+    color: #fff;
+    font-size: 11px;
+    cursor: pointer;
+    box-shadow: var(--system-shadow-sm);
+    z-index: 1051;
+    transition: left 0.2s ease;
+
+    &:hover {
+        background: var(--system-color-primary-dark);
+    }
+}
+
+.sidebar__collapse-toggle-icon--flipped {
+    transform: rotate(180deg);
 }
 
 .sidebar__backdrop {
@@ -152,12 +247,17 @@
     .sidebar__backdrop {
         display: block;
     }
+
+    .sidebar__collapse-toggle {
+        display: none;
+    }
 }
 
 @media (min-width: 993px) {
     .sidebar:not(.sidebar--open) {
         width: var(--system-sidebar-width-collapsed);
 
+        .sidebar__section-label,
         .sidebar__title,
         .sidebar__label,
         .sidebar__chevron,
@@ -167,6 +267,10 @@
 
         .sidebar__link {
             justify-content: center;
+        }
+
+        .sidebar__collapse-toggle {
+            left: calc(var(--system-sidebar-width-collapsed) - 13px);
         }
     }
 }
