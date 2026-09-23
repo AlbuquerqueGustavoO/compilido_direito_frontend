@@ -58,3 +58,31 @@
 
     </div>
 </section>
+
+<div class="modal-artigos__backdrop" *ngIf="modalAberto" (click)="fecharModal()"></div>
+
+<div class="modal-artigos" *ngIf="modalAberto" role="dialog" aria-modal="true">
+    <header class="modal-artigos__header">
+        <h3>Filtrar por artigos</h3>
+        <button type="button" class="modal-artigos__fechar" (click)="fecharModal()" aria-label="Fechar">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </header>
+
+    <div class="modal-artigos__legenda">
+        <span class="modal-artigos__legenda-ponto"></span>
+        Artigos disponíveis para filtragem
+    </div>
+
+    <div class="modal-artigos__grid">
+        <button type="button" *ngFor="let numero of numerosArtigos; trackBy: trackByNumero"
+            class="modal-artigos__chip" [class.is-selected]="artigosSelecionadosRascunho.has(numero)"
+            (click)="toggleSelecaoArtigo(numero)">{{ numero }}</button>
+    </div>
+
+    <footer class="modal-artigos__footer">
+        <span class="modal-artigos__contagem">{{ artigosSelecionadosRascunho.size }} selecionado(s)</span>
+        <button type="button" class="modal-artigos__limpar" (click)="limparSelecaoRascunho()">Limpar</button>
+        <button type="button" class="modal-artigos__filtrar" (click)="aplicarFiltroArtigos()">Filtrar</button>
+    </footer>
+</div>

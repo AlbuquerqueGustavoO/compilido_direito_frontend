@@ -28,12 +28,22 @@ export class LegalContentComponent implements OnInit, OnChanges, OnDestroy {
   @Input() erro: string | null = null;
   @Output() tentarNovamente = new EventEmitter<void>();
 
-  // Alterna só a aparência do botão selecionado: "Por Artigos" ainda não
-  // filtra nada de verdade — é um mock, a funcionalidade vem depois.
   abaAtiva: AbaFiltro = 'todos';
 
   termoBusca = '';
   secoesFiltradas: Secao[] = [];
+
+  // Números "curtos" (sem o "Art." na frente) de todos os artigos da lei
+  // atual, na ordem em que aparecem — alimenta a grade do modal "Por
+  // Artigos".
+  numerosArtigos: string[] = [];
+
+  modalAberto = false;
+  // Seleção em edição dentro do modal; só vira filtro de verdade quando o
+  // usuário clica em "Filtrar" (ver aplicarFiltroArtigos). Cancelar o modal
+  // não deve descartar um filtro que já estava aplicado antes de reabri-lo.
+  artigosSelecionadosRascunho = new Set<string>();
+  private artigosSelecionadosAplicados = new Set<string>();
 
   private secoesTodas: Secao[] = [];
   private termoBuscaSubject = new Subject<string>();
@@ -45,6 +55,7 @@ export class LegalContentComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['entradas']) {
       this.secoesTodas = this.agruparEmSecoes(this.entradas);
+      this.numerosArtigos = this.extrairNumerosArtigos(this.secoesTodas);
       this.aplicarFiltro();
     }
   }
@@ -55,6 +66,49 @@ export class LegalContentComponent implements OnInit, OnChanges, OnDestroy {
 
   selecionarAba(aba: AbaFiltro): void {
     this.abaAtiva = aba;
+
+    if (aba === 'todos') {
+      this.artigosSelecionadosAplicados.clear();
+      this.modalAberto = false;
+      this.aplicarFiltro();
+      return;
+    }
+
+    // Abre o modal sempre com uma cópia do que já estava aplicado, pra
+    // permitir ajustar a seleção sem perder o filtro atual se cancelar.
+    this.artigosSelecionadosRascunho = new Set(this.artigosSelecionadosAplicados);
+    this.modalAberto = true;
+  }
+
+  toggleSelecaoArtigo(numero: string): void {
+    if (this.artigosSelecionadosRascunho.has(numero)) {
+      this.artigosSelecionadosRascunho.delete(numero);
+    } else {
+      this.artigosSelecionadosRascunho.add(numero);
+    }
+  }
+
+  limparSelecaoRascunho(): void {
+    this.artigosSelecionadosRascunho.clear();
+  }
+
+  fecharModal(): void {
+    this.modalAberto = false;
+    // Fechou sem nunca ter aplicado um filtro de artigos: não faz sentido
+    // deixar a aba "Por Artigos" marcada como ativa sem filtro nenhum.
+    if (this.artigosSelecionadosAplicados.size === 0) {
+      this.abaAtiva = 'todos';
+    }
+  }
+
+  aplicarFiltroArtigos(): void {
+    this.artigosSelecionadosAplicados = new Set(this.artigosSelecionadosRascunho);
+    this.modalAberto = false;
+    this.aplicarFiltro();
+  }
+
+  trackByNumero(_index: number, numero: string): string {
+    return numero;
   }
 
   onBuscaChange(termo: string): void {
@@ -87,24 +141,53 @@ export class LegalContentComponent implements OnInit, OnChanges, OnDestroy {
     return secoes;
   }
 
+  private extrairNumerosArtigos(secoes: Secao[]): string[] {
+    const vistos = new Set<string>();
+    const numeros: string[] = [];
+    for (const secao of secoes) {
+      for (const artigo of secao.artigos) {
+        const curto = this.numeroCurto(artigo.numero);
+        if (!vistos.has(curto)) {
+          vistos.add(curto);
+          numeros.push(curto);
+        }
+      }
+    }
+    return numeros;
+  }
+
+  private numeroCurto(numero: string): string {
+    return numero.replace(/^Art(igo)?\.?\s*/i, '').replace(/[ºo°]$/i, '').trim();
+  }
+
   private aplicarFiltro(): void {
     const termo = this.termoBusca.trim().toLowerCase();
-    if (termo === '') {
+    const temSelecaoArtigos = this.artigosSelecionadosAplicados.size > 0;
+
+    if (termo === '' && !temSelecaoArtigos) {
       this.secoesFiltradas = this.secoesTodas;
       return;
     }
 
-    const numeroBuscado = this.extrairNumeroArtigo(termo);
+    const numeroBuscado = termo ? this.extrairNumeroArtigo(termo) : null;
 
     this.secoesFiltradas = this.secoesTodas
       .map((secao) => ({
         cabecalho: secao.cabecalho,
-        textos: secao.textos.filter((texto) => texto.toLowerCase().includes(termo)),
-        artigos: secao.artigos.filter((artigo) =>
-          numeroBuscado
+        // Com uma seleção de artigos aplicada, os blocos de texto solto
+        // (preâmbulo, avisos) saem de cena — o usuário pediu só artigos.
+        textos: temSelecaoArtigos ? [] : secao.textos.filter((texto) => texto.toLowerCase().includes(termo)),
+        artigos: secao.artigos.filter((artigo) => {
+          if (temSelecaoArtigos && !this.artigosSelecionadosAplicados.has(this.numeroCurto(artigo.numero))) {
+            return false;
+          }
+          if (termo === '') {
+            return true;
+          }
+          return numeroBuscado
             ? artigo.numero.replace(/\D/g, '') === numeroBuscado
-            : this.artigoContemTexto(artigo, termo),
-        ),
+            : this.artigoContemTexto(artigo, termo);
+        }),
       }))
       .filter((secao) => secao.textos.length > 0 || secao.artigos.length > 0);
   }
