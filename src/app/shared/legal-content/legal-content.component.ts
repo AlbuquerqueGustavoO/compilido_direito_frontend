@@ -9,7 +9,7 @@ export interface Secao {
   artigos: Artigo[];
 }
 
-export type AbaFiltro = 'todos' | 'incidencia' | 'novidades';
+export type AbaFiltro = 'todos' | 'porArtigos';
 
 /**
  * Apresentação padrão de um texto de lei já estruturado pelo
@@ -28,9 +28,8 @@ export class LegalContentComponent implements OnInit, OnChanges, OnDestroy {
   @Input() erro: string | null = null;
   @Output() tentarNovamente = new EventEmitter<void>();
 
-  // Alterna só a aparência do botão selecionado: ainda não existe dado real
-  // de "incidência em prova" nem de "novidades" vindo do backend, então
-  // nenhuma das duas abas filtra o conteúdo por enquanto.
+  // Alterna só a aparência do botão selecionado: "Por Artigos" ainda não
+  // filtra nada de verdade — é um mock, a funcionalidade vem depois.
   abaAtiva: AbaFiltro = 'todos';
 
   termoBusca = '';
