@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AnalyticsService } from 'src/app/service/analytics.service';
 import { AdministrativoService } from 'src/app/service/administrativo.service';
 import { SeoService } from 'src/app/service/seo.service';
-import { EntradaLei, parseTextoLei } from '../../shared/legal-content/legal-text-parser';
+import { carregarTextoLei } from '../../shared/legal-content/legal-content-loader';
+import { EntradaLei } from '../../shared/legal-content/legal-text-parser';
 
 @Component({
   selector: 'app-servidores-publicos',
@@ -12,6 +13,7 @@ import { EntradaLei, parseTextoLei } from '../../shared/legal-content/legal-text
 export class ServidoresPublicosComponent implements OnInit {
   loading = false;
   entradas: EntradaLei[] = [];
+  erro: string | null = null;
 
   constructor(
     private apiService: AdministrativoService,
@@ -24,14 +26,15 @@ export class ServidoresPublicosComponent implements OnInit {
       'Administrativo-Servidores-Publico',
       'Administrativo-Servidores-Publico into view',
     );
-
-    this.loading = true;
     this.updateSeo();
-    this.apiService.getAdminServidoresPublico().subscribe((data: any) => {
-      if (data?.text) {
-        this.entradas = parseTextoLei(data.text);
-      }
-      this.loading = false;
+    this.carregar();
+  }
+
+  carregar(): void {
+    carregarTextoLei(this.apiService.getAdminServidoresPublico(), {
+      onEntradas: (entradas) => this.entradas = entradas,
+      onLoadingChange: (loading) => this.loading = loading,
+      onErro: (erro) => this.erro = erro,
     });
   }
 

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AnalyticsService } from 'src/app/service/analytics.service';
 import { PenalService } from 'src/app/service/penal.service';
 import { SeoService } from 'src/app/service/seo.service';
-import { EntradaLei, parseTextoLei } from '../../shared/legal-content/legal-text-parser';
+import { carregarTextoLei } from '../../shared/legal-content/legal-content-loader';
+import { EntradaLei } from '../../shared/legal-content/legal-text-parser';
 
 @Component({
   selector: 'app-codigo-processo-penal',
@@ -12,6 +13,7 @@ import { EntradaLei, parseTextoLei } from '../../shared/legal-content/legal-text
 export class CodigoPenalComponent implements OnInit {
   loading = false;
   entradas: EntradaLei[] = [];
+  erro: string | null = null;
 
   constructor(
     private apiService: PenalService,
@@ -22,12 +24,14 @@ export class CodigoPenalComponent implements OnInit {
   ngOnInit(): void {
     this.analyticsService.trackEvent('CodigoPenal', 'CodigoPenal into view');
     this.updateSeo();
-    this.loading = true;
-    this.apiService.getCodigoPenal().subscribe((data: any) => {
-      if (data?.text) {
-        this.entradas = parseTextoLei(data.text);
-      }
-      this.loading = false;
+    this.carregar();
+  }
+
+  carregar(): void {
+    carregarTextoLei(this.apiService.getCodigoPenal(), {
+      onEntradas: (entradas) => this.entradas = entradas,
+      onLoadingChange: (loading) => this.loading = loading,
+      onErro: (erro) => this.erro = erro,
     });
   }
 

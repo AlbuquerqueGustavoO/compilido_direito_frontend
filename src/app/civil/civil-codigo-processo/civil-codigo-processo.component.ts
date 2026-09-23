@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AnalyticsService } from 'src/app/service/analytics.service';
 import { CivilService } from 'src/app/service/civil.service';
 import { SeoService } from 'src/app/service/seo.service';
-import { EntradaLei, parseTextoLei } from '../../shared/legal-content/legal-text-parser';
+import { carregarTextoLei } from '../../shared/legal-content/legal-content-loader';
+import { EntradaLei } from '../../shared/legal-content/legal-text-parser';
 
 @Component({
   selector: 'app-civil-codigo-processo',
@@ -12,6 +13,7 @@ import { EntradaLei, parseTextoLei } from '../../shared/legal-content/legal-text
 export class CivilCodigoProcessoComponent implements OnInit {
   loading = false;
   entradas: EntradaLei[] = [];
+  erro: string | null = null;
 
   constructor(
     private apiService: CivilService,
@@ -24,14 +26,15 @@ export class CivilCodigoProcessoComponent implements OnInit {
       'Processo civil',
       'Processo civil into view',
     );
-
-    this.loading = true;
     this.updateSeo();
-    this.apiService.getCodigoCivil().subscribe((data: any) => {
-      if (data?.text) {
-        this.entradas = parseTextoLei(data.text);
-      }
-      this.loading = false;
+    this.carregar();
+  }
+
+  carregar(): void {
+    carregarTextoLei(this.apiService.getCodigoCivil(), {
+      onEntradas: (entradas) => this.entradas = entradas,
+      onLoadingChange: (loading) => this.loading = loading,
+      onErro: (erro) => this.erro = erro,
     });
   }
 

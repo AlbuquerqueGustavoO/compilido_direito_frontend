@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AnalyticsService } from 'src/app/service/analytics.service';
 import { ConstituicaoService } from 'src/app/service/constituicao.service';
 import { SeoService } from 'src/app/service/seo.service';
-import { EntradaLei, parseTextoLei } from '../../shared/legal-content/legal-text-parser';
+import { carregarTextoLei } from '../../shared/legal-content/legal-content-loader';
+import { EntradaLei } from '../../shared/legal-content/legal-text-parser';
 
 @Component({
   selector: 'app-constitucional-estado-sp',
@@ -12,6 +13,7 @@ import { EntradaLei, parseTextoLei } from '../../shared/legal-content/legal-text
 export class ConstitucionalEstadoSpComponent implements OnInit {
   loading = false;
   entradas: EntradaLei[] = [];
+  erro: string | null = null;
 
   constructor(
     private apiService: ConstituicaoService,
@@ -24,14 +26,15 @@ export class ConstitucionalEstadoSpComponent implements OnInit {
       'Constitucional-Estado-SP',
       'Constitucional-Estado-SP into view',
     );
-
-    this.loading = true;
     this.updateSeo();
-    this.apiService.getConstituicaoEstadoSP().subscribe((data: any) => {
-      if (data?.text) {
-        this.entradas = parseTextoLei(data.text);
-      }
-      this.loading = false;
+    this.carregar();
+  }
+
+  carregar(): void {
+    carregarTextoLei(this.apiService.getConstituicaoEstadoSP(), {
+      onEntradas: (entradas) => this.entradas = entradas,
+      onLoadingChange: (loading) => this.loading = loading,
+      onErro: (erro) => this.erro = erro,
     });
   }
 

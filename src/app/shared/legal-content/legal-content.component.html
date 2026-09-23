@@ -4,7 +4,17 @@
     </div>
 </div>
 
-<section class="artigo-page">
+<section class="artigo-page" *ngIf="erro">
+    <div class="container">
+        <div class="artigo-erro">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <p>{{ erro }}</p>
+            <button type="button" class="artigo-erro__botao" (click)="tentarNovamente.emit()">Tentar novamente</button>
+        </div>
+    </div>
+</section>
+
+<section class="artigo-page" *ngIf="!erro">
     <div class="container">
 
         <div class="artigo-toolbar">

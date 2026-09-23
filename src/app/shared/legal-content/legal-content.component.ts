@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Artigo, Cabecalho, EntradaLei } from './legal-text-parser';
@@ -25,6 +25,8 @@ export type AbaFiltro = 'todos' | 'incidencia' | 'novidades';
 export class LegalContentComponent implements OnInit, OnChanges, OnDestroy {
   @Input() entradas: EntradaLei[] = [];
   @Input() loading = false;
+  @Input() erro: string | null = null;
+  @Output() tentarNovamente = new EventEmitter<void>();
 
   // Alterna só a aparência do botão selecionado: ainda não existe dado real
   // de "incidência em prova" nem de "novidades" vindo do backend, então

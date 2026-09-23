@@ -30,6 +30,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     {
       label: 'Constitucional', icon: 'fa-solid fa-landmark', path: '/constitucional',
       children: [
+        { label: 'Constituição Federal', path: '/constitucional' },
         { label: 'Constitucional Estado SP', path: '/constitucional/constitucional-estado-sp' },
       ]
     },
@@ -60,6 +61,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     {
       label: 'Civil', icon: 'fa-solid fa-scale-balanced', path: '/civil',
       children: [
+        { label: 'Código Civil', path: '/civil' },
         { label: 'Código Processo Civil', path: '/civil/civil-codigo-processo' },
         { label: 'LINDB', path: '/civil/civil-normas-direito-brasileiro' },
       ]

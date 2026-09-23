@@ -20,28 +20,37 @@
 .sidebar__brand {
     display: flex;
     align-items: center;
-    gap: var(--system-space-12);
+    justify-content: center;
     padding: var(--system-space-16);
-    height: var(--system-topbar-height);
-    border-bottom: 1px solid var(--system-color-border);
+    // Não amarrado mais em var(--system-topbar-height): o logo real
+    // (617×404px, bem mais largo que alto) precisa de uma faixa mais alta
+    // pra aparecer grande sem estourar — vira uma "zona de marca" própria,
+    // separada da altura do topbar do conteúdo.
+    height: 96px;
+    // border-bottom: 1px solid var(--system-color-border);
     cursor: pointer;
     flex-shrink: 0;
 }
 
 .sidebar__logo {
-    height: 32px;
-    width: 32px;
+    // Só a altura é fixa; a largura fica em auto pra sempre respeitar a
+    // proporção real da imagem (617×404 — bem mais larga que alta). Fixar
+    // largura e altura iguais (um quadrado) espremia/distorcia o logo.
+    // 90px é o tamanho padrão (sidebar aberta e mobile); no desktop
+    // recolhido cai pra 81px (ver o media query min-width: 993px abaixo).
+    height: 90px;
+    width: auto;
     object-fit: contain;
     flex-shrink: 0;
 }
 
-.sidebar__title {
-    font-family: "Roboto", sans-serif;
-    font-weight: 700;
-    font-size: 16px;
-    color: var(--system-color-text);
-    white-space: nowrap;
-}
+// .sidebar__title {
+//     font-family: "Roboto", sans-serif;
+//     font-weight: 700;
+//     font-size: 16px;
+//     color: var(--system-color-text);
+//     white-space: nowrap;
+// }
 
 .sidebar__nav {
     flex: 1;
@@ -267,6 +276,10 @@
 
         .sidebar__link {
             justify-content: center;
+        }
+
+        .sidebar__logo {
+            height: 81px;
         }
 
         .sidebar__collapse-toggle {

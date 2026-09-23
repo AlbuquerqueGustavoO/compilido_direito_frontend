@@ -17,6 +17,10 @@
 
 .app-shell__main {
     flex: 1;
+    // position: relative é a âncora do .spinner-container (position:
+    // absolute, definido globalmente em styles.scss) — sem isso ele voltaria
+    // a se posicionar contra o body/viewport inteiro.
+    position: relative;
 }
 
 @media (max-width: 992px) {
