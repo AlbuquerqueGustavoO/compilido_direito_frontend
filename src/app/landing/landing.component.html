@@ -1,0 +1,166 @@
+<header class="landing-header">
+  <div class="landing-header__inner">
+    <a routerLink="/" class="marca">
+      <span class="marca__selo">CL</span>
+      <span class="marca__texto">Compilado <strong>de Leis</strong></span>
+    </a>
+
+    <nav class="landing-header__nav">
+      <a href="#cobertura">Cobertura</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#duvidas">Dúvidas</a>
+    </nav>
+
+    <div class="landing-header__actions">
+      <a routerLink="/auth/login" class="botao botao--fantasma">Entrar</a>
+      <a routerLink="/auth/cadastro" class="botao botao--primario">Criar conta</a>
+    </div>
+  </div>
+</header>
+
+<main class="landing">
+
+  <section class="hero">
+    <div class="hero__inner">
+      <div class="hero__texto">
+        <h1>19 leis organizadas, buscáveis e filtráveis por artigo.</h1>
+        <p>Pra quem não tem tempo de garimpar artigo por artigo em texto solto.</p>
+        <div class="hero__cta">
+          <a routerLink="/auth/cadastro" class="botao botao--primario botao--grande">Criar conta grátis</a>
+        </div>
+      </div>
+
+      <div class="hero__preview" aria-hidden="true">
+        <span class="hero__preview-rotulo">Capítulo II · Dos Direitos Sociais</span>
+        <div class="hero__preview-pilha">
+          <article class="preview-card preview-card--atras">
+            <p><strong>Art. 5º </strong>Todos são iguais perante a lei, sem distinção de qualquer natureza...</p>
+          </article>
+          <article class="preview-card">
+            <p><strong>Art. 6º </strong>São direitos sociais a educação, a saúde, a alimentação, o trabalho, a moradia, o transporte, o lazer, a segurança, a previdência social, a proteção à maternidade e à infância, a assistência aos desamparados, na forma desta Constituição.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="problema">
+    <div class="secao__inner">
+      <h2>A lei é livre. Achar o artigo certo, sem se perder, não é.</h2>
+      <div class="problema__lista">
+        <div class="problema__item">
+          <h3><i class="fa-solid fa-magnifying-glass"></i> Busca por artigo</h3>
+          <p>Digite "art. 121" ou só o número e vá direto ao texto.</p>
+        </div>
+        <div class="problema__item">
+          <h3><i class="fa-solid fa-layer-group"></i> Leitura sem ruído</h3>
+          <p>Cada artigo em seu próprio card, sem redação revogada misturada no meio.</p>
+        </div>
+        <div class="problema__item">
+          <h3><i class="fa-solid fa-filter"></i> Recorte sob medida</h3>
+          <p>Selecione só os artigos que importam pro seu edital ou seu caso.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cobertura" id="cobertura">
+    <div class="secao__inner">
+      <h2>19 leis e códigos, cinco áreas, uma experiência só</h2>
+      <div class="cobertura__grade">
+        <a routerLink="/auth/cadastro" class="area-card" *ngFor="let area of areas; trackBy: trackByNome">
+          <span class="area-card__seta"><i class="fa-solid fa-arrow-right"></i></span>
+          <span class="area-card__selo"><i [class]="area.icone"></i></span>
+          <h3>{{ area.nome }}</h3>
+          <p>{{ area.descricao }}</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="como-funciona" id="como-funciona">
+    <div class="secao__inner">
+      <h2>Como funciona</h2>
+      <ol class="passos">
+        <li>
+          <span class="passos__numero">1</span>
+          <div>
+            <h3>Crie sua conta grátis</h3>
+            <p>Só e-mail e senha — leva menos de um minuto, sem cartão.</p>
+          </div>
+        </li>
+        <li>
+          <span class="passos__numero">2</span>
+          <div>
+            <h3>Escolha sua área</h3>
+            <p>Constitucional, Civil, Administrativo, Tributário ou Penal — 19 leis na barra lateral.</p>
+          </div>
+        </li>
+        <li>
+          <span class="passos__numero">3</span>
+          <div>
+            <h3>Abra e comece a ler</h3>
+            <p>A lei já chega organizada por título e capítulo, pronta pra buscar ou filtrar.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="destaque">
+    <div class="secao__inner destaque__inner">
+      <div class="destaque__texto">
+        <h2>Filtro por artigos</h2>
+        <p>Selecione só os artigos que importam pra sua prova, seu caso ou seu estudo — o resto some da tela.</p>
+      </div>
+      <div class="destaque__preview" aria-hidden="true">
+        <div class="preview-chips">
+          <span class="preview-chip" *ngFor="let n of artigosExemplo; let i = index; trackBy: trackByArtigo" [class.is-selecionado]="i === 1 || i === 4 || i === 7">{{ n }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="personas">
+    <div class="secao__inner">
+      <h2>Pra quem lida com a lei no dia a dia</h2>
+      <div class="personas__grade">
+        <article class="persona-card" *ngFor="let persona of personas; trackBy: trackByNome">
+          <span class="persona-card__nome">{{ persona.nome }}</span>
+          <h3>{{ persona.headline }}</h3>
+          <p>{{ persona.descricao }}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="duvidas" id="duvidas">
+    <div class="secao__inner">
+      <h2>Dúvidas frequentes</h2>
+      <div class="faq">
+        <details class="faq__item" *ngFor="let item of perguntas; trackBy: trackByPergunta">
+          <summary>{{ item.pergunta }}</summary>
+          <p>{{ item.resposta }}</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-final">
+    <div class="secao__inner cta-final__inner">
+      <h2>Pare de garimpar artigo solto.</h2>
+      <a routerLink="/auth/cadastro" class="botao botao--primario botao--grande">Criar conta grátis</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="landing-footer">
+  <div class="landing-footer__inner">
+    <a routerLink="/" class="marca marca--clara">
+      <span class="marca__selo">CL</span>
+      <span class="marca__texto">Compilado <strong>de Leis</strong></span>
+    </a>
+    <p class="landing-footer__copy">&copy; {{ anoAtual }} Compilado de Leis</p>
+  </div>
+</footer>

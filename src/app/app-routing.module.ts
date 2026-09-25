@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './auth/auth.guard';
 
 import { ErrorComponent } from './error/error.component';
-import { ApresentacaoComponent } from './quemsomos/apresentacao/apresentacao.component';
 
 
 
@@ -13,7 +12,10 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
   },
-  { path: '', component: ApresentacaoComponent, pathMatch: 'full', canActivate: [authGuard] },
+  {
+    path: '',
+    loadChildren: () => import('./landing/landing.module').then(m => m.LandingModule),
+  },
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
