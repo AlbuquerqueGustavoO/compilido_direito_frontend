@@ -67,6 +67,10 @@ export class AuthService {
     return !!sessionStorage.getItem(TOKEN_KEY);
   }
 
+  getToken(): string | null {
+    return sessionStorage.getItem(TOKEN_KEY);
+  }
+
   private lerUsuarioSalvo(): Usuario | null {
     const bruto = sessionStorage.getItem(USUARIO_KEY);
     if (!bruto) {
