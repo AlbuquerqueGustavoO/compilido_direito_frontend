@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 
@@ -20,6 +20,17 @@ export class AuthInterceptor implements HttpInterceptor {
       setHeaders: { Authorization: `Bearer ${token}` }
     });
 
-    return next.handle(reqComToken);
+    return next.handle(reqComToken).pipe(
+      catchError((erro: HttpErrorResponse) => {
+        // Login/cadastro nunca chegam aqui (não têm token pra anexar), então
+        // um 401 numa chamada que já mandou token só pode ser sessão
+        // expirada ou inválida — não é erro de credencial pro componente
+        // tratar, é hora de deslogar e voltar pro login.
+        if (erro.status === 401) {
+          this.authService.logout();
+        }
+        return throwError(() => erro);
+      }),
+    );
   }
 }
