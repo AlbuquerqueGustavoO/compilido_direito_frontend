@@ -4,11 +4,14 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
+export type Perfil = 'estudante' | 'advogado' | 'admin';
+
 export interface Usuario {
   id: number;
   nome: string;
   sobre?: string;
   email: string;
+  perfil: Perfil;
 }
 
 interface LoginResponse {
@@ -21,6 +24,12 @@ interface LoginResponse {
 interface CadastroResponse {
   error: boolean;
   mensagem: string;
+}
+
+interface AtualizarPerfilResponse {
+  error: boolean;
+  mensagem: string;
+  usuario?: Usuario;
 }
 
 const TOKEN_KEY = 'cdl_token';
@@ -54,6 +63,39 @@ export class AuthService {
 
   cadastrar(nome: string, sobre: string | null, email: string, senha: string): Observable<CadastroResponse> {
     return this.http.post<CadastroResponse>(this.apiUrl + '/cadastrar', { nome, sobre, email, senha });
+  }
+
+  atualizarPerfil(
+    id: number,
+    dados: { nome: string; sobre: string; email: string; senha?: string },
+  ): Observable<AtualizarPerfilResponse> {
+    return this.http.put<AtualizarPerfilResponse>(`${this.apiUrl}/${id}`, dados).pipe(
+      tap((resposta) => {
+        if (resposta.error) {
+          return;
+        }
+        const atual = this.usuarioAtualSubject.value;
+        if (!atual) {
+          return;
+        }
+        // O backend pode ou não devolver o usuário atualizado no corpo da
+        // resposta — nos dois casos o cache local reflete o que acabou de
+        // ser salvo, sem esperar um novo login pra refletir o nome novo etc.
+        const atualizado: Usuario = {
+          ...atual,
+          nome: dados.nome,
+          sobre: dados.sobre,
+          email: dados.email,
+          ...resposta.usuario,
+        };
+        sessionStorage.setItem(USUARIO_KEY, JSON.stringify(atualizado));
+        this.usuarioAtualSubject.next(atualizado);
+      }),
+    );
+  }
+
+  getUsuarioAtual(): Usuario | null {
+    return this.usuarioAtualSubject.value;
   }
 
   logout(): void {

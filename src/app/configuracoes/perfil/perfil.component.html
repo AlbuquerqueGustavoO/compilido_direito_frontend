@@ -1,0 +1,48 @@
+<section class="perfil-page">
+  <div class="container">
+    <h1 class="perfil-titulo">Configurações</h1>
+    <p class="perfil-subtitulo">Atualize seus dados de conta.</p>
+
+    <div class="perfil-card">
+      <p class="perfil-alert perfil-alert--success" *ngIf="sucesso">Dados atualizados com sucesso.</p>
+      <p class="perfil-alert perfil-alert--error" *ngIf="erro">{{ erro }}</p>
+
+      <form [formGroup]="form" (ngSubmit)="salvar()" novalidate>
+        <div class="perfil-campo">
+          <label for="nome">Nome</label>
+          <input id="nome" type="text" formControlName="nome" autocomplete="name">
+          <small class="perfil-campo__erro" *ngIf="nome?.invalid && nome?.touched">
+            <span *ngIf="nome?.errors?.['required']">Informe seu nome.</span>
+            <span *ngIf="nome?.errors?.['minlength']">O nome deve ter ao menos 3 caracteres.</span>
+          </small>
+        </div>
+
+        <div class="perfil-campo">
+          <label for="sobre">Sobre</label>
+          <textarea id="sobre" formControlName="sobre" rows="3" placeholder="Uma breve descrição sobre você (opcional)"></textarea>
+        </div>
+
+        <div class="perfil-campo">
+          <label for="email">E-mail</label>
+          <input id="email" type="email" formControlName="email" autocomplete="email">
+          <small class="perfil-campo__erro" *ngIf="email?.invalid && email?.touched">
+            <span *ngIf="email?.errors?.['required']">Informe seu e-mail.</span>
+            <span *ngIf="email?.errors?.['email']">E-mail inválido.</span>
+          </small>
+        </div>
+
+        <div class="perfil-campo">
+          <label for="senha">Nova senha</label>
+          <input id="senha" type="password" formControlName="senha" autocomplete="new-password" placeholder="Deixe em branco pra manter a atual">
+          <small class="perfil-campo__erro" *ngIf="senha?.invalid && senha?.touched">
+            <span *ngIf="senha?.errors?.['minlength']">A senha deve ter ao menos 6 caracteres.</span>
+          </small>
+        </div>
+
+        <button type="submit" class="perfil-submit" [disabled]="salvando">
+          {{ salvando ? 'Salvando...' : 'Salvar alterações' }}
+        </button>
+      </form>
+    </div>
+  </div>
+</section>

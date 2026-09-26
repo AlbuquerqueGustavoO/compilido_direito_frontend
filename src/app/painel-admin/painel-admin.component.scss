@@ -1,0 +1,42 @@
+.admin-page {
+    padding-top: var(--system-space-24);
+    padding-bottom: var(--system-space-32);
+}
+
+.admin-titulo {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--system-color-text);
+    margin: 0 0 4px;
+}
+
+.admin-subtitulo {
+    color: var(--system-color-muted);
+    font-size: 14px;
+    margin: 0 0 var(--system-space-24);
+}
+
+.admin-card {
+    display: flex;
+    align-items: center;
+    gap: var(--system-space-16);
+    background: var(--system-color-surface);
+    border: 1px solid var(--system-color-border);
+    border-radius: var(--system-radius-md);
+    box-shadow: var(--system-shadow-sm);
+    padding: var(--system-space-24);
+    color: var(--system-color-muted);
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+
+    i {
+        font-size: 22px;
+        color: var(--system-color-primary);
+        flex-shrink: 0;
+    }
+
+    p {
+        margin: 0;
+    }
+}

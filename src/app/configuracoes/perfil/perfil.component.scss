@@ -1,0 +1,106 @@
+.perfil-page {
+    padding-top: var(--system-space-24);
+    padding-bottom: var(--system-space-32);
+}
+
+.perfil-titulo {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--system-color-text);
+    margin: 0 0 4px;
+}
+
+.perfil-subtitulo {
+    color: var(--system-color-muted);
+    font-size: 14px;
+    margin: 0 0 var(--system-space-24);
+}
+
+.perfil-card {
+    max-width: 480px;
+    background: var(--system-color-surface);
+    border: 1px solid var(--system-color-border);
+    border-radius: var(--system-radius-md);
+    box-shadow: var(--system-shadow-sm);
+    padding: var(--system-space-24);
+}
+
+.perfil-alert {
+    padding: 10px 14px;
+    border-radius: var(--system-radius-md);
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    margin: 0 0 var(--system-space-16);
+
+    &--success {
+        background: rgba(16, 185, 129, 0.12);
+        color: #047857;
+    }
+
+    &--error {
+        background: rgba(239, 68, 68, 0.12);
+        color: #B91C1C;
+    }
+}
+
+.perfil-campo {
+    margin-bottom: var(--system-space-16);
+
+    label {
+        display: block;
+        font-family: "Roboto", sans-serif;
+        font-weight: 600;
+        font-size: 13px;
+        color: var(--system-color-text);
+        margin-bottom: 6px;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid var(--system-color-border);
+        border-radius: var(--system-radius-md);
+        font-family: "Roboto", sans-serif;
+        font-size: 14px;
+        color: var(--system-color-text);
+        background: var(--system-color-bg);
+
+        &:focus {
+            outline: none;
+            border-color: var(--system-color-primary);
+        }
+    }
+
+    textarea {
+        resize: vertical;
+    }
+
+    &__erro {
+        display: block;
+        color: var(--system-color-error);
+        font-size: 12px;
+        margin-top: 4px;
+    }
+}
+
+.perfil-submit {
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--system-radius-md);
+    background: var(--system-color-primary);
+    color: #fff;
+    font-family: "Roboto", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+        background: var(--system-color-primary-dark);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}

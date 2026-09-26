@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './auth/auth.guard';
+import { adminGuard } from './auth/admin.guard';
 
 import { ErrorComponent } from './error/error.component';
 
@@ -50,6 +51,16 @@ const routes: Routes = [
     path: 'penal',
     loadChildren: () => import("./penal/penal.module").then(m => m.PenalModule),
     canActivate: [authGuard],
+  },
+  {
+    path: 'configuracoes',
+    loadChildren: () => import('./configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'painel-admin',
+    loadChildren: () => import('./painel-admin/painel-admin.module').then(m => m.PainelAdminModule),
+    canActivate: [authGuard, adminGuard],
   },
   { path: '**', component: ErrorComponent}
 

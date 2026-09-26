@@ -76,6 +76,10 @@
     padding: 0 var(--system-space-12);
     margin-bottom: var(--system-space-12);
     white-space: nowrap;
+
+    &--conta {
+        margin-top: var(--system-space-24);
+    }
 }
 
 .sidebar__item {

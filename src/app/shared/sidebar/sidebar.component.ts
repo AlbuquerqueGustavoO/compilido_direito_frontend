@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
+import { AuthService } from '../../service/auth.service';
 
 interface NavChild {
   label: string;
@@ -12,6 +13,7 @@ interface NavItem {
   icon: string;
   path?: string;
   children?: NavChild[];
+  soAdmin?: boolean;
 }
 
 @Component({
@@ -69,21 +71,36 @@ export class SidebarComponent implements OnInit, OnDestroy {
     { label: 'Contato', icon: 'fa-solid fa-envelope', path: '/admin/contato' },
   ];
 
+  private contaItemsTodos: NavItem[] = [
+    { label: 'Configurações', icon: 'fa-solid fa-gear', path: '/configuracoes' },
+    { label: 'Admin', icon: 'fa-solid fa-user-shield', path: '/painel-admin', soAdmin: true },
+  ];
+
+  isAdmin = false;
   openGroups = new Set<string>();
   private activeUrl = '';
   private routerSub?: Subscription;
+  private usuarioSub?: Subscription;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
+
+  get contaItems(): NavItem[] {
+    return this.contaItemsTodos.filter(item => !item.soAdmin || this.isAdmin);
+  }
 
   ngOnInit(): void {
     this.syncOpenGroupWithUrl(this.router.url);
     this.routerSub = this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe(event => this.syncOpenGroupWithUrl(event.urlAfterRedirects));
+
+    this.usuarioSub = this.authService.usuarioAtual$
+      .subscribe(usuario => this.isAdmin = usuario?.perfil === 'admin');
   }
 
   ngOnDestroy(): void {
     this.routerSub?.unsubscribe();
+    this.usuarioSub?.unsubscribe();
   }
 
   toggleGroup(item: NavItem): void {
