@@ -1,11 +1,37 @@
 <section class="admin-page">
   <div class="container">
     <h1 class="admin-titulo">Painel Admin</h1>
-    <p class="admin-subtitulo">Área restrita a administradores.</p>
+    <p class="admin-subtitulo">Todos os usuários cadastrados no sistema.</p>
 
-    <div class="admin-card">
-      <i class="fa-solid fa-users-gear"></i>
-      <p>Gestão de usuários (listar, trocar perfil, remover conta) chega aqui em breve.</p>
+    <div class="admin-card" *ngIf="carregando">
+      <p>Carregando usuários...</p>
+    </div>
+
+    <div class="admin-card admin-card--erro" *ngIf="erro && !carregando">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <p>{{ erro }}</p>
+      <button type="button" class="admin-tentar-novamente" (click)="carregar()">Tentar novamente</button>
+    </div>
+
+    <div class="admin-tabela-wrap" *ngIf="!carregando && !erro">
+      <table class="admin-tabela" *ngIf="usuarios.length > 0">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Perfil</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let usuario of usuarios; trackBy: trackById">
+            <td>{{ usuario.nome }}</td>
+            <td>{{ usuario.email }}</td>
+            <td><span class="admin-badge" [ngClass]="'admin-badge--' + usuario.perfil">{{ usuario.perfil }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="admin-vazio" *ngIf="usuarios.length === 0">Nenhum usuário encontrado.</p>
     </div>
   </div>
 </section>

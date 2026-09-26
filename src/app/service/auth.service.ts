@@ -61,8 +61,14 @@ export class AuthService {
     );
   }
 
-  cadastrar(nome: string, sobre: string | null, email: string, senha: string): Observable<CadastroResponse> {
-    return this.http.post<CadastroResponse>(this.apiUrl + '/cadastrar', { nome, sobre, email, senha });
+  cadastrar(
+    nome: string,
+    sobre: string | null,
+    email: string,
+    senha: string,
+    perfil: Exclude<Perfil, 'admin'>,
+  ): Observable<CadastroResponse> {
+    return this.http.post<CadastroResponse>(this.apiUrl + '/cadastrar', { nome, sobre, email, senha, perfil });
   }
 
   atualizarPerfil(
@@ -96,6 +102,10 @@ export class AuthService {
 
   getUsuarioAtual(): Usuario | null {
     return this.usuarioAtualSubject.value;
+  }
+
+  listarUsuarios(): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(this.apiUrl);
   }
 
   logout(): void {

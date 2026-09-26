@@ -35,6 +35,18 @@
       </div>
 
       <div class="auth-field">
+        <label for="perfil">Você é</label>
+        <select id="perfil" formControlName="perfil">
+          <option value="" disabled>Selecione...</option>
+          <option value="estudante">Estudante</option>
+          <option value="advogado">Advogado(a)</option>
+        </select>
+        <small class="auth-field__error" *ngIf="perfil?.invalid && perfil?.touched">
+          <span *ngIf="perfil?.errors?.['required']">Selecione uma opção.</span>
+        </small>
+      </div>
+
+      <div class="auth-field">
         <label for="senha">Senha</label>
         <input id="senha" type="password" formControlName="senha" autocomplete="new-password" placeholder="••••••">
         <small class="auth-field__error" *ngIf="senha?.invalid && senha?.touched">

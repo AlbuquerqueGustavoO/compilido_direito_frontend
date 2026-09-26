@@ -29,6 +29,7 @@ export class CadastroComponent {
         nome: ['', [Validators.required, Validators.minLength(3)]],
         sobre: [''],
         email: ['', [Validators.required, Validators.email]],
+        perfil: ['', [Validators.required]],
         senha: ['', [Validators.required, Validators.minLength(6)]],
         confirmarSenha: ['', [Validators.required]],
       },
@@ -42,6 +43,10 @@ export class CadastroComponent {
 
   get email() {
     return this.form.get('email');
+  }
+
+  get perfil() {
+    return this.form.get('perfil');
   }
 
   get senha() {
@@ -61,8 +66,8 @@ export class CadastroComponent {
     this.erro = '';
     this.enviando = true;
 
-    const { nome, sobre, email, senha } = this.form.value;
-    this.authService.cadastrar(nome, sobre || null, email, senha).subscribe({
+    const { nome, sobre, email, senha, perfil } = this.form.value;
+    this.authService.cadastrar(nome, sobre || null, email, senha, perfil).subscribe({
       next: (resposta) => {
         this.enviando = false;
         if (resposta.error) {
